@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "55142253324",
+    "project_id": "students-lab-lm",
+    "storage_bucket": "students-lab-lm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55142253324:android:b736ff7e668fcfcc447f29",
+        "android_client_info": {
+          "package_name": "hr.ferit.students_lab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55142253324-j7mce5t4vmgaii44a0raj48chi8rhnim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmC3OYpNGKjwJCbdMEdNAekHNp3sShjA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55142253324-j7mce5t4vmgaii44a0raj48chi8rhnim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
