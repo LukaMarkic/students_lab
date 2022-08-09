@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:students_lab/constants.dart';
 import 'package:students_lab/services/database/courseService.dart';
 import '../../models.dart';
-import '../../widgets/roundedButton.dart';
-import '../../widgets/roundedInput.dart';
+import '../../widgets/buttons/roundedButton.dart';
+import '../../widgets/inputs/roundedInput.dart';
 
 
 

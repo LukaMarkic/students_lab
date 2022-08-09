@@ -40,11 +40,11 @@ class _AdminFrontPageState extends State<AdminFrontPage> {
       backgroundColor: adminColorTheme,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Admin"),
+        title: const Text("Admin"),
         backgroundColor: Colors.lightBlueAccent,
         actions: [
           IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.logout,
                 color: Colors.white,
               ),
@@ -61,7 +61,7 @@ class _AdminFrontPageState extends State<AdminFrontPage> {
             children: [
               Container(
                 height: sizeHeight * 0.125,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Column(
@@ -90,9 +90,7 @@ class _AdminFrontPageState extends State<AdminFrontPage> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: sizeHeight * 0.05,
-              ),
+              SizedBox( height: sizeHeight * 0.05,),
               Container(
                 width: sizeWidth,
                 height: sizeHeight * 0.075,

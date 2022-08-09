@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/constants.dart';
-import 'package:students_lab/screens/frontpage.dart';
 import 'package:students_lab/widgets/alertWindow.dart';
 import 'package:students_lab/widgets/backgroundImageWidget.dart';
-import 'package:students_lab/widgets/roundedContainer.dart';
 import '../../../models.dart';
 import '../../../services/database/courseService.dart';
 import '../../../services/database/quizService.dart';
-import '../../../shared/sharedMethods.dart';
-import '../../../widgets/addButtonWidget.dart';
-import '../../../widgets/roundedDoubleInput.dart';
-import '../../../widgets/roundedInput.dart';
-import '../../course/courseScreen.dart';
+import '../../../shared/methods/navigationMethods.dart';
+import '../../../shared/methods/stringManipulationMethods.dart';
+import '../../../shared/methods/ungroupedSharedMethods.dart';
+import '../../../widgets/buttons/addButtonWidget.dart';
+import '../../../widgets/inputs/roundedDoubleInput.dart';
+import '../../../widgets/inputs/roundedInput.dart';
+import '../../course/courseScreen/courseScreen.dart';
 import '../quizPreview.dart';
 import 'questionForm.dart';
 
@@ -56,7 +56,7 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
        state: _index <= 2 ? StepState.editing : StepState.complete,
        isActive: _index >= 2,
       title: Text('Potvrda'),
-      content: QuizPreviewScreen(quiz: quiz, questions: getQuestionsFromQuestionForm(questions),) ,
+      content: QuizPreviewScreen(quiz: quiz, questions: QuizService().getQuestionsFromQuestionForm(questions),) ,
     ),
   ];
 
@@ -132,7 +132,7 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
 
   void finalPage(){
     if (questions.length > 0) {
-      if(!checkIfTwoQuestionAnswers(getQuestionsFromQuestionForm(questions))){
+      if(!QuizService().checkIfTwoQuestionAnswers(QuizService().getQuestionsFromQuestionForm(questions))){
         Fluttertoast.showToast(msg: 'Potrebno unijeti najmanje dva odgovora');
       }else{
         var allValid = isAllQuestionFormsValidated();

@@ -30,6 +30,9 @@ var appTheme = ThemeData(
   buttonTheme: const ButtonThemeData(),
 );
 
+
+//
+
 var calendarTheme = ThemeData(
 
   brightness: Brightness.light,
@@ -37,5 +40,17 @@ var calendarTheme = ThemeData(
 
   textTheme: const TextTheme(
     bodyText1: TextStyle(fontSize: 18, color: Colors.black38),
+  ),
+);
+
+
+//
+
+var courseListTheme = ThemeData(
+
+  brightness: Brightness.light,
+
+  textTheme: const TextTheme(
+    bodyText1: TextStyle(fontSize: 18, color: Colors.white),
   ),
 );

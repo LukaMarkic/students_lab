@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:students_lab/screens/frontpage.dart';
+import 'package:students_lab/screens/frontPages/frontpage.dart';
 import '../error.dart';
 import '../loading.dart';
 import '../services/auth.dart';

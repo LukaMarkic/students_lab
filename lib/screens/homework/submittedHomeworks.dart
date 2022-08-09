@@ -9,7 +9,8 @@ import 'package:students_lab/models.dart';
 import 'package:students_lab/screens/homework/homeworkGradingPage.dart';
 import 'package:students_lab/services/database/profileService.dart';
 import '../../services/database/gradeService.dart';
-import '../../shared/sharedMethods.dart';
+import '../../shared/methods/fileMethods.dart';
+import '../../shared/methods/ungroupedSharedMethods.dart';
 
 
 class SubmittedHomeworkPage extends StatelessWidget {

@@ -4,15 +4,18 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:students_lab/shared/sharedMethods.dart';
+import 'package:students_lab/services/database/quizService.dart';
+import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import '../../../models.dart';
 import '../../../services/auth.dart';
 import '../../../services/database/courseService.dart';
 import '../../../services/database/gradeService.dart';
 import '../../../services/notificationService.dart';
+import '../../../shared/methods/navigationMethods.dart';
 import '../../../widgets/alertWindow.dart';
 import '../../quiz/quizPreview.dart';
 import '../courseItem.dart';
+import 'futureSegmentsBuild.dart';
 
 class QuizBuild extends StatelessWidget{
 
@@ -114,12 +117,24 @@ class ProviderQuizBuild extends StatelessWidget{
                   tooltip: 'Učini vidljivog',
                 ),
 
-                isEditableState ?  IconButton(onPressed: (){
-                  showAlertWindow(context, 'Želite li izbrisati: ' + models[index].title, () async {
-                    Navigator.of(context).pop();
-                    await CourseService().removeQuizModelFromCourseSegment(course.code, segment.code, models[index]);
-                    goToPage(context: context, page: FutureSegmentsBuild(course: course));
-                  },);
+                isEditableState ?  IconButton(
+                  onPressed: (){
+                    QuizService quizService = QuizService();
+                    showAlertWindow(context, 'Želite li izbrisati: ' + models[index].title, () async {
+                      Navigator.of(context).pop();
+
+                      //Remove model
+                      await CourseService().removeQuizModelFromCourseSegment(course.code, segment.code, models[index]);
+
+                      //Delete quiz with questions
+                      await quizService.removeQuiz(models[index].quizID);
+
+                      //Delete grades of all students
+                      await quizService.deleteActivityMarkOfStudentsEnrolledInCourse(course.code, segment.code, models[index].quizID);
+
+                      goToPage(context: context, page: FutureSegmentsBuild(course: course));
+                    },
+                  );
                 },
                   icon: Icon(Icons.highlight_remove, color: Colors.lightBlueAccent,),
                   tooltip: 'Ukloni kviz',

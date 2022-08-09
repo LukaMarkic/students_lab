@@ -43,23 +43,28 @@ class GradeService {
 
 
   Future<void> deleteActivityMark(String studentID, String courseCode, String segmentCode, String activityID) async {
-    studentUsersCollectionReference.doc(studentID).collection('courseGrades').doc(courseCode).collection('segmentMarks').doc(segmentCode).collection(
-        'activityGrades').doc(activityID).delete();
 
-    double? segmentFinalMark = await getAverageActivityMark(studentID, courseCode, segmentCode);
-    var segmentMark = SegmentMark(segmentCode: segmentCode, courseCode: courseCode, mark: segmentFinalMark);
-    Map<String, dynamic> segmentMarkData = segmentMark.toJson();
-    studentUsersCollectionReference.doc(studentID).collection('courseGrades').doc(courseCode).collection('segmentMarks').doc(segmentCode).set(segmentMarkData);
+    var docRef = studentUsersCollectionReference.doc(studentID).collection('courseGrades').doc(courseCode).collection('segmentMarks').doc(segmentCode).collection(
+        'activityGrades').doc(activityID);
+    var doc = await docRef.get();
 
-    double? courseMark = await getAverageSegmentsMark(studentID, courseCode);
-    var courseGrade = CourseGrade(courseCode: courseCode, studentID: studentID, finalGrade: courseMark);
-    Map<String, dynamic> courseGradeData = courseGrade.toJson();
-    studentUsersCollectionReference.doc(studentID).collection('courseGrades').doc(courseCode).update(courseGradeData);
+    if(doc.exists){
+      docRef.delete();
+      double? segmentFinalMark = await getAverageActivityMark(studentID, courseCode, segmentCode);
+      var segmentMark = SegmentMark(segmentCode: segmentCode, courseCode: courseCode, mark: segmentFinalMark);
+      Map<String, dynamic> segmentMarkData = segmentMark.toJson();
+      studentUsersCollectionReference.doc(studentID).collection('courseGrades').doc(courseCode).collection('segmentMarks').doc(segmentCode).set(segmentMarkData);
 
-    double? studentGrade = await getAverageCoursesGrade(studentID);
-    studentUsersCollectionReference.doc(studentID).update({
-      'collectiveGrade': studentGrade,
-    });
+      double? courseMark = await getAverageSegmentsMark(studentID, courseCode);
+      var courseGrade = CourseGrade(courseCode: courseCode, studentID: studentID, finalGrade: courseMark);
+      Map<String, dynamic> courseGradeData = courseGrade.toJson();
+      studentUsersCollectionReference.doc(studentID).collection('courseGrades').doc(courseCode).update(courseGradeData);
+
+      double? studentGrade = await getAverageCoursesGrade(studentID);
+      studentUsersCollectionReference.doc(studentID).update({
+        'collectiveGrade': studentGrade,
+      });
+    }
 
   }
 
@@ -352,6 +357,9 @@ class GradeService {
 
     return segmentMarkTiles;
   }
+
+
+
 
 
 }

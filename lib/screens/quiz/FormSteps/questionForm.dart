@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/screens/quiz/FormSteps/quizFormSteps.dart';
-import 'package:students_lab/widgets/addButtonWidget.dart';
+import 'package:students_lab/widgets/buttons/addButtonWidget.dart';
 
 import '../../../models.dart';
-import '../../../shared/sharedMethods.dart';
+import '../../../shared/methods/ungroupedSharedMethods.dart';
 
 
 class QuestionForm extends StatefulWidget {

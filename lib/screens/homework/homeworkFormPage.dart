@@ -3,27 +3,26 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/constants.dart';
 import 'package:students_lab/services/auth.dart';
 import 'package:students_lab/services/database/calendarService.dart';
 import 'package:students_lab/services/database/courseService.dart';
 import 'package:students_lab/services/database/homeworkService.dart';
-import 'package:students_lab/widgets/roundedButton.dart';
+import 'package:students_lab/widgets/buttons/roundedButton.dart';
 import 'package:date_time_picker/date_time_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:students_lab/widgets/squaredButton.dart';
+import 'package:students_lab/widgets/buttons/squaredButton.dart';
 import '../../models.dart';
 import '../../services/database/storageServices.dart';
-import '../../shared/sharedMethods.dart';
+import '../../shared/methods/fileMethods.dart';
+import '../../shared/methods/navigationMethods.dart';
+import '../../shared/methods/ungroupedSharedMethods.dart';
 import '../../theme.dart';
 import '../../widgets/backgroundImageWidget.dart';
-import '../../widgets/roundedInput.dart';
-import 'package:intl/intl.dart';
-import '../../widgets/textField.dart';
+import '../../widgets/inputs/roundedInput.dart';
+import '../../widgets/containers/textFieldWrapper.dart';
 import '../../widgets/uploadStatus.dart';
-import '../course/courseScreen.dart';
-import '../frontpage.dart';
+import '../course/courseScreen/courseScreen.dart';
+
 
 
 class HomeworkForm extends StatefulWidget {
@@ -39,12 +38,11 @@ class HomeworkForm extends StatefulWidget {
 
 class _HomeworkFormState extends State<HomeworkForm> {
 
-
+  final DateTime now = DateTime.now();
   late String title;
   late String description;
   late DateTime deadline = DateTime.now().add(Duration(seconds: 1));
   DateTime defaultTime = DateTime.now();
-  final DateFormat _formatter = DateFormat('dd.MM.yyyy.');
   late String? URL = null;
   final _formKey = GlobalKey<FormState>();
 
@@ -101,7 +99,7 @@ class _HomeworkFormState extends State<HomeworkForm> {
                 SizedBox(height: 5,),
                 Container(
                   decoration: BoxDecoration(
-                    color: buttonColor.withOpacity(0.65) ?? Color(0xffD5D6D8).withOpacity(0.7),
+                    color: buttonColor.withOpacity(0.65),
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Column(
@@ -109,28 +107,26 @@ class _HomeworkFormState extends State<HomeworkForm> {
                     children: [
                       Container(margin: EdgeInsets.symmetric(vertical: 5),
                       child: Text('Unesite rok predaje', textAlign: TextAlign.start, style: TextStyle(color: Colors.white, fontSize: 16),),),
-                      TextFieldContainer(
+                      TextFieldWrapper(
                         borderRadius: 5,
                         margin: EdgeInsets.zero,
                         color: keyPrimaryColor,
                         child: DefaultTextStyle.merge(
                           style: TextStyle(color: Colors.grey[400], fontSize: 12),
                           child: DateTimePicker(
+                            autocorrect: true,
                             locale: Locale('hr'),
                             style: TextStyle(color: Colors.black54,),
                             type: DateTimePickerType.dateTimeSeparate,
                             dateMask: 'd MMM, yyyy',
-                            initialValue: DateTime.now().toString(),
-                            firstDate: DateTime.now(),
+                            initialValue: now.toString(),
+                            firstDate: now.add(Duration(minutes: 1)),
                             lastDate: DateTime(2100),
                             icon: Icon(Icons.event, color: buttonColor,),
                             dateLabelText: 'Datum',
                             timeLabelText: "Vrijeme",
                             onChanged: (val) => deadline = DateTime.parse(val),
-                            validator: (val) {
-                              deadline = DateTime.parse(val!);
-                              return null;
-                            },
+                            validator: (val) => (val != null && ( DateTime.parse(val).isBefore(now) || val == now.toString)) ? 'Neodgovarajući\ndatum' : null,
                             onSaved: (val) => deadline = DateTime.parse(val!),
                           ),
                         ),
@@ -158,6 +154,7 @@ class _HomeworkFormState extends State<HomeworkForm> {
 
                     if (homeworkID != null) {
 
+                      //Add to segment
                       HomeworkSegmentModel homeworkModel = HomeworkSegmentModel(title: homework.title, homeworkID: homework.id,);
                       CourseService().addHomeworkModelToCourseSegment(widget.courseCode, widget.segmentCode, homeworkModel);
 
@@ -166,6 +163,7 @@ class _HomeworkFormState extends State<HomeworkForm> {
                       CalendarService().addEventToUser('professorUsers', AuthService().user!.uid, event);
                       CalendarService().setEventToAllEnrolledStudents(widget.courseCode, event);
 
+                      //Go to course page
                       var segments = await CourseService().getCourseSegments(event.courseCode!);
                       var course = await CourseService().getCourseData(event.courseCode!);
                       goToPageWithLastPop(context: context, page: CourseScreen(course: course, segments: segments,));
@@ -269,9 +267,7 @@ class _HomeworkFormState extends State<HomeworkForm> {
                           onPressed: () async {
                             if (file != null) {
                               task = await firebaseStorageService.uploadFile(
-                                  file!, 'files/courses/${widget
-                                  .courseCode}/segments/${widget
-                                  .segmentCode}/files/homework/$fileName');
+                                  file!, 'files/courses/${widget.courseCode}/segments/${widget.segmentCode}/files/homework/$fileName');
                               setState(() {});
 
                               var url = await (await task)?.ref

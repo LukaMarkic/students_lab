@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
-class DoesntHaveAccount extends StatelessWidget {
+class DoesntHaveAccountWidget extends StatelessWidget {
   final VoidCallback press;
-  const DoesntHaveAccount({
+  const DoesntHaveAccountWidget({
     Key? key,
     required this.press,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class DoesntHaveAccount extends StatelessWidget {
         GestureDetector(
           onTap: press,
           child: Text(
-           "Registiriraj se",
+           "Stvorite račun",
             style: TextStyle(
               color: keyPrimaryColor,
               fontWeight: FontWeight.bold,

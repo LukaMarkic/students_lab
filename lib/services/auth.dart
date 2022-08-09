@@ -35,9 +35,9 @@ return null;
     await FirebaseAuth.instance.signOut();
   }
 
-  Future<String?> SignUpWithEmailPassword( ProfileUser profileUser, String collectionName, String email, String password) async {
+  Future<String?> SignUpWithEmailPassword( ProfileUser profileUser, String collectionName, String password) async {
     try {
-      UserCredential result  = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential result  = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: profileUser.email, password: password);
       User? usr = result.user;
       profileUser.id = usr!.uid;
       await service.addProfileData(collectionName, profileUser);

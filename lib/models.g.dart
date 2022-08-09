@@ -13,6 +13,7 @@ ProfileUser _$ProfileUserFromJson(Map<String, dynamic> json) => ProfileUser(
       token: json['token'] as String?,
       imgURL: json['imgURL'] as String?,
       id: json['id'] as String? ?? 'XXX',
+      email: json['email'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ProfileUserToJson(ProfileUser instance) =>
@@ -20,6 +21,7 @@ Map<String, dynamic> _$ProfileUserToJson(ProfileUser instance) =>
       'name': instance.name,
       'surname': instance.surname,
       'birthDate': instance.birthDate.toIso8601String(),
+      'email': instance.email,
       'token': instance.token,
       'imgURL': instance.imgURL,
       'id': instance.id,
@@ -39,6 +41,7 @@ ProfileStudent _$ProfileStudentFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const <String>[],
       collectiveGrade: (json['collectiveGrade'] as num?)?.toDouble(),
+      email: json['email'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ProfileStudentToJson(ProfileStudent instance) =>
@@ -49,6 +52,7 @@ Map<String, dynamic> _$ProfileStudentToJson(ProfileStudent instance) =>
       'surname': instance.surname,
       'id': instance.id,
       'token': instance.token,
+      'email': instance.email,
       'godinaStudija': instance.godinaStudija,
       'enrolledCoursesCodes': instance.enrolledCoursesCodes,
       'collectiveGrade': instance.collectiveGrade,
@@ -65,6 +69,7 @@ ProfileProfessor _$ProfileProfessorFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       id: json['id'] as String? ?? 'XXX',
+      email: json['email'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ProfileProfessorToJson(ProfileProfessor instance) =>
@@ -75,6 +80,7 @@ Map<String, dynamic> _$ProfileProfessorToJson(ProfileProfessor instance) =>
       'imgURL': instance.imgURL,
       'id': instance.id,
       'token': instance.token,
+      'email': instance.email,
       'assignedCoursesCodes': instance.assignedCoursesCodes,
     };
 
@@ -86,6 +92,7 @@ ProfileAdmin _$ProfileAdminFromJson(Map<String, dynamic> json) => ProfileAdmin(
       imgURL: json['imgURL'] as String?,
       token: json['token'] as String?,
       id: json['id'] as String? ?? 'XXX',
+      email: json['email'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ProfileAdminToJson(ProfileAdmin instance) =>
@@ -96,6 +103,7 @@ Map<String, dynamic> _$ProfileAdminToJson(ProfileAdmin instance) =>
       'surname': instance.surname,
       'id': instance.id,
       'token': instance.token,
+      'email': instance.email,
       'sec_key': instance.sec_key,
     };
 
@@ -353,4 +361,40 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'description': instance.description,
       'backgroundColor': instance.backgroundColor,
       'courseCode': instance.courseCode,
+    };
+
+DirectoryGroupedModel _$DirectoryGroupedModelFromJson(
+        Map<String, dynamic> json) =>
+    DirectoryGroupedModel(
+      groupingByElement: json['groupingByElement'] ?? '',
+      students: (json['students'] as List<dynamic>?)
+              ?.map((e) => ProfileStudent.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      isExtended: json['isExtended'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$DirectoryGroupedModelToJson(
+        DirectoryGroupedModel instance) =>
+    <String, dynamic>{
+      'groupingByElement': instance.groupingByElement,
+      'students': instance.students,
+      'isExtended': instance.isExtended,
+    };
+
+CourseGroupedModel _$CourseGroupedModelFromJson(Map<String, dynamic> json) =>
+    CourseGroupedModel(
+      groupingByElement: json['groupingByElement'] ?? '',
+      courses: (json['courses'] as List<dynamic>?)
+              ?.map((e) => Course.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      isExtended: json['isExtended'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$CourseGroupedModelToJson(CourseGroupedModel instance) =>
+    <String, dynamic>{
+      'groupingByElement': instance.groupingByElement,
+      'courses': instance.courses,
+      'isExtended': instance.isExtended,
     };

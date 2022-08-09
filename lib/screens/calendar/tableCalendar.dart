@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/models.dart';
 import 'package:students_lab/services/database/calendarService.dart';
-import 'package:students_lab/shared/sharedMethods.dart';
+import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import 'package:students_lab/theme.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../services/database/courseService.dart';
 import '../../shared/bottomBar.dart';
+import '../../shared/methods/navigationMethods.dart';
 import '../../widgets/alertWindow.dart';
-import '../course/courseScreen.dart';
+import '../course/courseScreen/courseScreen.dart';
 
 class TableCalendarScreen extends StatefulWidget {
 

@@ -13,15 +13,19 @@ import 'package:students_lab/services/database/gradeService.dart';
 import 'package:students_lab/services/database/homeworkService.dart';
 import 'package:students_lab/services/database/profileService.dart';
 import 'package:students_lab/widgets/alertWindow.dart';
-import 'package:students_lab/widgets/roundedButton.dart';
-import 'package:students_lab/widgets/roundedInput.dart';
+import 'package:students_lab/widgets/buttons/roundedButton.dart';
+import 'package:students_lab/widgets/inputs/roundedInput.dart';
+import 'package:students_lab/widgets/buttons/squaredButton.dart';
 import '../../constants.dart';
 import '../../error.dart';
 import '../../loading.dart';
 import '../../models.dart';
 import 'package:intl/intl.dart';
 import '../../services/database/storageServices.dart';
-import '../../shared/sharedMethods.dart';
+import '../../shared/methods/activityMarkResponseMethods.dart';
+import '../../shared/methods/fileMethods.dart';
+import '../../shared/methods/navigationMethods.dart';
+import '../../shared/methods/ungroupedSharedMethods.dart';
 import '../../widgets/uploadStatus.dart';
 
 
@@ -130,11 +134,11 @@ class HomeworkPreviewPage extends StatelessWidget {
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,),
                   onTap: (){
-                    loadingDialog(context, openFileFromURL(homework!.documentURL!, homework!.documentURL!.split(RegExp(r'(%2F)..*(%2F)'))[1].split("?alt")[0]))
+                    loadingDialog(context, openFileFromURL(homework.documentURL!, homework.documentURL!.split(RegExp(r'(%2F)..*(%2F)'))[1].split("?alt")[0]))
                     ;
                   },
                 ) : Container(),]),),
-                Text('Krajnji rok predaje: ${formatter.format(homework.deadline!.toLocal()).toString()}', style: TextStyle(color: Colors.grey[100]),),
+                Text('Krajnji rok predaje: ${formatter.format(homework.deadline.toLocal()).toString()}', style: TextStyle(color: Colors.grey[100]),),
                 const SizedBox(height: 5,),
                 const SizedBox(height: 10,),
                 RoundedButton(text: 'Pregled predanih zadaća', press: () async {
@@ -271,7 +275,7 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,),
                   onTap: (){
-                    loadingDialog(context, openFileFromURL(widget.homework!.documentURL!, widget.homework!.documentURL!.split(RegExp(r'(%2F)..*(%2F)'))[1].split("?alt")[0]));
+                    loadingDialog(context, openFileFromURL(widget.homework.documentURL!, widget.homework.documentURL!.split(RegExp(r'(%2F)..*(%2F)'))[1].split("?alt")[0]));
                   },
                 ) : Container(),
                 
@@ -302,11 +306,12 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
                       },
                   ) : Container(),
                 ],),
-                ) : DateTime.now().isAfter(widget.homework.deadline) ? Container(child: Text('Žao nam je.\nRok za predaju zadaće (${formatter.format(widget.homework.deadline!.toLocal()).toString() + ' sati'}) je istekao.'),) :
+                ) : DateTime.now().isAfter(widget.homework.deadline) ? Container(child: Text('Žao nam je.\nRok za predaju zadaće (${formatter.format(widget.homework.deadline.toLocal()).toString() + ' sati'}) je istekao.'),) :
                 
                 Column(
                   children: [
                     RoundedInputField(hintText: 'Unesite povratnu informaciju',
+                      borderRadius: 5,
                       icon: Icons.feedback,
                       onChanged: (value) {
                         setState(
@@ -314,46 +319,59 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
                         );
                       },),
 
-                    RoundedButton(text: 'Dodaj dokument', press: ()async{
-                      final result = await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                      );
-                      if(result == null){
-                        ShowScaffoldMessage(context, 'Dokument nije odabran');
-                        return;
-                      }else{
+                    SquaredButton(
+                      text: 'Dodaj dokument', press: ()async{
+                        final result = await FilePicker.platform.pickFiles(
+                          allowMultiple: false,
+                        );
+                        if(result == null){
+                          showScaffoldMessage(context: context, message: 'Dokument nije odabran');
+                          return;
+                        }else{
 
-                        var filePath = result.files.single.path!;
-                        fileName = result.files.single.name;
-                        String directoryPath = 'files/homeworks/${widget.homework.id}/submittedHomework/${studentID}';
-                        var file = File(filePath);
-                        task = await FirebaseStorageService().uploadFile(file!, "${directoryPath}/homework_${fileName}");
-                        setState(() {});
-                        var fileUrl = await (await task)?.ref.getDownloadURL();
-                        documentURL = fileUrl.toString();
-                        setState(() {});
-                      }
-                    },),
+                          var filePath = result.files.single.path!;
+                          fileName = result.files.single.name;
+                          String directoryPath = 'files/homeworks/${widget.homework.id}/submittedHomework/${studentID}';
+                          var file = File(filePath);
+                          task = await FirebaseStorageService().uploadFile(file, "${directoryPath}/homework_${fileName}");
+                          setState(() {});
+                          var fileUrl = await (await task)?.ref.getDownloadURL();
+                          documentURL = fileUrl.toString();
+                          setState(() {});
+                        }
+                      },
+                    color: buttonColor,
+                      widthRatio: 0.8,
+                    ),
                     task != null ? buildUploadStatus(task!, fileName)  : Container(),
                     const SizedBox(height: 30,),
                     Text('Krajnji rok predaje:', style: TextStyle(color: Colors.white,
                         fontWeight: FontWeight.bold, fontSize: 20),),
-                    Text('${formatter.format(widget.homework.deadline!.toLocal()).toString() + ' sati'}', style: TextStyle(color: Colors.red[400],
+                    Text('${formatter.format(widget.homework.deadline.toLocal()).toString() + ' sati'}', style: TextStyle(color: Colors.red[400],
                         fontWeight: FontWeight.bold, fontSize: 20),),
                     const SizedBox(height: 5,),
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 12,),
                     RoundedButton(text: 'Predaj zadaću', press: () async {
-                      var studentFullName = await ProfileService().getUserFullName('studentUsers', AuthService().user!.uid);
-                      showAlertWindow(context, 'Želite li predati zadaću', (){
-                        SubmittedHomework submittedHomework = SubmittedHomework(studentID: studentID, homeworkID: widget.homework.id, feedback: _feedback, documentURL: documentURL, timeOfSubmit: DateTime.now(), studentFullName: studentFullName ?? 'Unnamed student');
-                        HomeworkService().submitHomework(submittedHomework);
-                        Fluttertoast.showToast(
-                          msg: 'Zadaća predana.', fontSize: 14, backgroundColor: Colors.lightGreenAccent,);
-                      });
-                    }),
+
+                        var studentFullName = await ProfileService().getUserFullName('studentUsers', AuthService().user!.uid);
+                        showAlertWindow(context, 'Želite li predati zadaću', (){
+
+                          SubmittedHomework submittedHomework = SubmittedHomework(studentID: studentID, homeworkID: widget.homework.id, feedback: _feedback, documentURL: documentURL, timeOfSubmit: DateTime.now(), studentFullName: studentFullName ?? 'Unnamed student');
+                          HomeworkService().submitHomework(submittedHomework);
+
+                          Fluttertoast.showToast(
+                            msg: 'Zadaća predana.', fontSize: 14, backgroundColor: Colors.lightGreenAccent,);
+                          Navigator.of(context).pop();
+                          goBack(context: context);
+                        }
+                        );
+
+                      },
+                      color: lightGreenColor.withOpacity(0.9),
+                      textColor: Colors.black87,
+                    ),
                   ],
                 ),
-
               ],
             ),),),),);
           }),

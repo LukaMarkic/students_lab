@@ -23,19 +23,18 @@ class BackgroundImageWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
-            width: constraints.maxWidth,
-            height: constraints.maxHeight,
-          decoration: BoxDecoration(
+        width: constraints.maxWidth,
+        height: constraints.maxHeight,
+        decoration: BoxDecoration(
           image: DecorationImage(
           image: AssetImage(imagePath),
           fit: BoxFit.cover,
           ),
-          ),
-          child:
-            BackdropFilter(
+        ),
+        child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
             child: Container(
             padding: padding,

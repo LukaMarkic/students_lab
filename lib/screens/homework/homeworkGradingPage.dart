@@ -7,9 +7,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/constants.dart';
 import 'package:students_lab/models.dart';
 import 'package:students_lab/services/database/homeworkService.dart';
-import 'package:students_lab/widgets/roundedButton.dart';
-import 'package:students_lab/widgets/roundedDoubleInput.dart';
-import '../../shared/sharedMethods.dart';
+import 'package:students_lab/widgets/buttons/roundedButton.dart';
+import 'package:students_lab/widgets/inputs/roundedDoubleInput.dart';
+import '../../shared/methods/fileMethods.dart';
+import '../../shared/methods/stringManipulationMethods.dart';
+import '../../shared/methods/ungroupedSharedMethods.dart';
 import 'package:intl/intl.dart';
 
 
@@ -220,7 +222,8 @@ class _HomeworkGradingPageState extends State<HomeworkGradingPage> {
 
                         ],
                       ),
-                      Container(child: (maxScore != null && achievedScore != null) ? Text('${roundToSecondDecimal(achievedScore!/maxScore! * 100)} %') : Text(''),),
+                      ((achievedScore ?? 0) <= (maxScore ?? 100)) ? Container(child: (maxScore != null && achievedScore != null) ? Text('${roundToSecondDecimal(achievedScore!/maxScore! * 100)} %') : Text(''),) : Text('Ocjena ne može premašiti maksimalnu vrijednost.'),
+                      ((achievedScore ?? 0) < 0 || (maxScore ?? 100) < 0) ? Text('Unesite pozitivne vrijednosti') : Text(''),
                     ],
 
 
@@ -230,9 +233,15 @@ class _HomeworkGradingPageState extends State<HomeworkGradingPage> {
                     (maxScore != null && achievedScore != null) ? ElevatedButton(
                           child: const Text('Ocijeni'),
                           onPressed: () async {
-                            ActivityMark activityMark = ActivityMark(activityID: widget.submittedHomework.homeworkID, segmentID: widget.homework.segmentCode, maxScore: maxScore ?? 100, achievedScore: achievedScore ?? 0);
-                            HomeworkService().gradeHomework(widget.submittedHomework.studentID,  widget.homework.courseCode, activityMark);
-
+                            if((achievedScore!/maxScore! >= 0) && (achievedScore! <= maxScore!)){
+                              ActivityMark activityMark = ActivityMark(activityID: widget.submittedHomework.homeworkID, segmentID: widget.homework.segmentCode, maxScore: maxScore ?? 100, achievedScore: achievedScore ?? 0);
+                              HomeworkService().gradeHomework(widget.submittedHomework.studentID,  widget.homework.courseCode, activityMark);
+                              widget.submittedHomework.graded = true;
+                              widget.grade = achievedScore!/maxScore!;
+                              Navigator.of(context).pop();
+                            }else{
+                              Fluttertoast.showToast(msg: 'Pogrešan unos!');
+                            }
                           },
                         ) : Container(),
                       ],

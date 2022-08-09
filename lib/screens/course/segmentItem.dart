@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:students_lab/services/auth.dart';
 import 'package:students_lab/services/database/courseService.dart';
 import 'package:students_lab/services/database/gradeService.dart';
-import 'package:students_lab/widgets/roundedInput.dart';
+import 'package:students_lab/widgets/inputs/roundedInput.dart';
 import '../../constants.dart';
 import '../../models.dart';
 import '../../services/database/storageServices.dart';
-import '../../shared/sharedMethods.dart';
-import '../../widgets/addButtonWidget.dart';
+import '../../shared/methods/fileMethods.dart';
+import '../../shared/methods/ungroupedSharedMethods.dart';
+import '../../widgets/buttons/addButtonWidget.dart';
 import '../../widgets/alertWindow.dart';
 import '../../widgets/uploadStatus.dart';
 import '../homework/homeworkFormPage.dart';
 import '../quiz/FormSteps/quizFormSteps.dart';
+import 'builders/futureSegmentsBuild.dart';
 import 'builders/homeworkSegmentBuild.dart';
 import 'builders/linksSegmentBuild.dart';
 import 'builders/quizSegmentBuild.dart';
@@ -37,22 +39,17 @@ class SegmentItem extends StatefulWidget {
 class _SegmentItemState extends State<SegmentItem> {
 
   double? studentSegmentMark;
-
   @override
   void initState() {
     super.initState();
-
     init();
   }
-
-
 
   Future init() async {
     final studentSegmentMark = await GradeService().getSegmentMark(AuthService().user!.uid, widget.course.code, widget.segment.code);
     setState(() {this.studentSegmentMark = studentSegmentMark;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -67,22 +64,13 @@ class _SegmentItemState extends State<SegmentItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                    widget.segment.title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      height: 1.5,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87
-                    ),
+              Text(widget.segment.title, style: const TextStyle(fontSize: 18, height: 1.5, fontWeight: FontWeight.bold, color: Colors.black87),
                     overflow: TextOverflow.fade,
-                    softWrap: false,
-                  ),
+                    softWrap: false,),
               widget.segment.title.length > 0 ? Divider(
                 color: primaryDividerColor,
                 thickness: 1.5,
               ) : Row(),
-
               DocumentBuild(segment: widget.segment, course: widget.course, isEditableState: false),
               LinkBuild(segment: widget.segment, course: widget.course, isEditableState: false,),
               QuizBuild(segment: widget.segment,courseCode: widget.course.code,),
@@ -180,49 +168,48 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
               children: [
                 Text(
                   widget.segment.title,
-                  style: const TextStyle( fontSize: 18, height: 1.5, fontWeight: FontWeight.bold, color: Colors.black87
+                  style: const TextStyle(
+                      fontSize: 18, height: 1.5,
+                      fontWeight: FontWeight.bold, color: Colors.black87
                   ),
                   overflow: TextOverflow.fade,
                   softWrap: false,
                 ),
-                ifDefaultSegment(widget.segment.code) ? Text('') : IconButton(onPressed: (){
+                ifDefaultSegment(widget.segment.code) ? const Text('') : IconButton(onPressed: (){
                   showAlertWindow(context, 'Želite li izbrisati: ${widget.segment.title}',() async {
+
+                    //Delete segment
                     Navigator.of(context).pop();
                     await CourseService().removeSegmentFromCourse(widget.course.code, widget.segment);
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => FutureSegmentsBuild(course: widget.course)),
                           (Route<dynamic> route) => false,
-                    );
-                  },);
+                      );
+                   },
+                  );
                 }, icon: Icon(Icons.highlight_remove, color: Colors.black87), tooltip: 'Izbriši segment',),
               ],
             ),
-
-            widget.segment.title.length > 0 ? Divider(
+            widget.segment.title.isNotEmpty ? const Divider(
               color: primaryDividerColor,
               thickness: 1.5,
             ) : Row(),
-
             DocumentBuild(segment: widget.segment, course: widget.course, isEditableState: true),
             LinkBuild(segment: widget.segment, course: widget.course, isEditableState: true,),
             ProviderQuizBuild( course: widget.course, isEditableState: true, segment: widget.segment,),
             ProviderHomeworkBuild(course: widget.course, segment: widget.segment, isEditableState: true,),
-
-            Divider(
-              color: primaryDividerColor,
-              thickness: 1.5,
-            ),
-
-           AddButton(message: 'Dodaj sadržaj', onPress: (){
-              showBottom(context);
+            const Divider(color: primaryDividerColor, thickness: 1.5,),
+            AddButton(message: 'Dodaj sadržaj', onPress: (){
+              showBottomMenu(context);
            }),
           ],
-        ),),
+        ),
+      ),
     );
   }
 
-  void showBottom(BuildContext context){
+  void showBottomMenu(BuildContext context){
 
     showModalBottomSheet(
       context: context,
@@ -230,26 +217,25 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: Icon(Icons.add_link ),
-            title: Text('Dodaj poveznicu'),
+            leading: const Icon(Icons.add_link ),
+            title: const Text('Dodaj poveznicu'),
             onTap: () async {
               Navigator.pop(context);
               showLinkUploadForm();
             },
           ),
           ListTile(
-            leading: Icon(Icons.file_copy ),
-            title: Text('Dodaj dokument'),
+            leading: const Icon(Icons.file_copy ),
+            title: const Text('Dodaj dokument'),
             onTap: () async {
               Navigator.pop(context);
              var file =  await getFile();
              await showFileSelectedUploadForm(file);
-
             },
           ),
           ListTile(
-            leading: Icon(Icons.quiz),
-            title: Text('Stvori kviz'),
+            leading: const Icon(Icons.quiz),
+            title: const Text('Stvori kviz'),
             onTap: () async {
               Navigator.pop(context);
               Navigator.of(context).push(
@@ -260,8 +246,8 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.assessment),
-            title: Text('Stvori domaću zadaću'),
+            leading: const Icon(Icons.assessment),
+            title: const Text('Stvori domaću zadaću'),
             onTap: () async {
               Navigator.pop(context);
               Navigator.of(context).push(
@@ -313,7 +299,6 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children:[
-
                       task != null ? buildUploadStatus(task!, fileName) : Container(child:
                       Column(
                         children: [
@@ -323,6 +308,7 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                               overflow: TextOverflow.fade,) : Text('Dokument nije odabran.') ,
                           ),
                           task == null && file != null ? RoundedInputField(
+                            icon: Icons.edit,
                             hintText: "Unesite ime",
                             onChanged: (value) {
                               setState(

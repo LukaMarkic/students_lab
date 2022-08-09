@@ -1,5 +1,8 @@
 
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'constants.dart';
 
 part 'models.g.dart';
 
@@ -9,6 +12,7 @@ class ProfileUser{
   late String name;
   late String surname;
   late DateTime birthDate;
+  late String email;
   String? token;
   String? imgURL;
   String id;
@@ -21,6 +25,7 @@ class ProfileUser{
         this.token,
         this.imgURL,
         this.id = 'XXX',
+        this.email = '',
       }
       );
 
@@ -50,6 +55,9 @@ class ProfileStudent implements ProfileUser{
   @override
   String? token;
 
+  @override
+  String email;
+
   int godinaStudija;
   List<String> enrolledCoursesCodes;
   double? collectiveGrade;
@@ -66,6 +74,7 @@ class ProfileStudent implements ProfileUser{
         this.id = 'XXX',
         this.enrolledCoursesCodes = const <String>[],
         this.collectiveGrade,
+        this.email = '',
       }
       );
 
@@ -74,8 +83,6 @@ class ProfileStudent implements ProfileUser{
 
   @override
   Map<String, dynamic> toJson() => _$ProfileStudentToJson(this);
-
-
 
 
 }
@@ -104,6 +111,9 @@ class ProfileProfessor implements ProfileUser{
   @override
   String? token;
 
+  @override
+  String email;
+
   List<String>? assignedCoursesCodes;
 
 
@@ -116,6 +126,7 @@ class ProfileProfessor implements ProfileUser{
         this.token,
         this.assignedCoursesCodes,
         this.id = 'XXX',
+        this.email = '',
       }
       );
 
@@ -124,6 +135,8 @@ class ProfileProfessor implements ProfileUser{
 
   @override
   Map<String, dynamic> toJson() => _$ProfileProfessorToJson(this);
+
+
 
 
 }
@@ -150,6 +163,9 @@ class ProfileAdmin implements ProfileUser{
   @override
   String? token;
 
+  @override
+  String email;
+
   String sec_key;
 
   ProfileAdmin(
@@ -161,6 +177,7 @@ class ProfileAdmin implements ProfileUser{
         this.imgURL,
         this.token,
         this.id = 'XXX',
+        this.email = '',
       }
       );
 
@@ -169,6 +186,8 @@ class ProfileAdmin implements ProfileUser{
 
   @override
   Map<String, dynamic> toJson() => _$ProfileAdminToJson(this);
+
+
 
 
 }
@@ -592,5 +611,145 @@ class Event {
   @override
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
   Map<String, dynamic> toJson() => _$EventToJson(this);
+
+}
+
+
+
+@JsonSerializable()
+class DirectoryGroupedModel{
+
+  dynamic groupingByElement;
+  List<ProfileStudent> students;
+  bool isExtended;
+
+  DirectoryGroupedModel({
+    this.groupingByElement = '',
+    this.students = const [],
+    this.isExtended = false,
+  });
+
+  @override
+  factory DirectoryGroupedModel.fromJson(Map<String, dynamic> json) => _$DirectoryGroupedModelFromJson(json);
+  Map<String, dynamic> toJson() => _$DirectoryGroupedModelToJson(this);
+
+}
+
+
+@JsonSerializable()
+class CourseGroupedModel{
+
+  dynamic groupingByElement;
+  List<Course> courses;
+  bool isExtended;
+
+  CourseGroupedModel({
+    this.groupingByElement = '',
+    this.courses = const [],
+    this.isExtended = false,
+  });
+
+  @override
+  factory CourseGroupedModel.fromJson(Map<String, dynamic> json) => _$CourseGroupedModelFromJson(json);
+  Map<String, dynamic> toJson() => _$CourseGroupedModelToJson(this);
+
+}
+
+
+
+class DropdownItem {
+  String text;
+  final icon;
+  final iconCancel;
+  bool isActive;
+
+  DropdownItem({
+    required this.text,
+    required this.icon,
+    required this.iconCancel,
+    this.isActive = true,
+  });
+}
+
+
+
+
+//Student directory (Imenik)
+
+class CourseStudentDirectoryModel{
+
+  String title;
+  String studentID;
+  String courseCode;
+  double? courseGrade;
+  List<SegmentStudentDirectoryModel> segmentModels;
+
+  CourseStudentDirectoryModel({
+    required this.courseCode,
+    this.title = '',
+    this.studentID = '',
+    this.courseGrade,
+    this.segmentModels = const [],
+  });
+
+}
+
+
+class SegmentStudentDirectoryModel{
+  String segmentCode;
+  String courseCode;
+  String title;
+  double? segmentMark;
+  bool isExtended;
+  List<ActivityStudentDirectoryModel> activityModels;
+
+  SegmentStudentDirectoryModel({
+    required this.segmentCode,
+    this.courseCode = '',
+    this.segmentMark,
+    this.title = '',
+    this.isExtended = false,
+    this.activityModels = const [],
+  });
+}
+
+
+class ActivityStudentDirectoryModel{
+
+  String activityCode;
+  String title;
+  double? mark;
+  ActivityType activityType;
+  bool isSubmitted;
+
+  ActivityStudentDirectoryModel({
+    required this.activityCode,
+    this.title = '',
+    this.mark,
+    this.activityType = ActivityType.homework,
+    this.isSubmitted = false,
+  });
+}
+
+
+
+
+
+
+class ProfessorCourseAchievementModel{
+
+  String courseCode;
+  String title;
+  double averageGrade;
+  double bestGrade;
+  ProfileStudent? bestStudent;
+
+  ProfessorCourseAchievementModel({
+    required this.courseCode,
+    this.title = '',
+    this.averageGrade = 0,
+    this.bestGrade = 0,
+    this.bestStudent,
+  });
 
 }

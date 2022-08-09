@@ -1,17 +1,18 @@
 
 import 'package:flutter/material.dart';
-import 'package:students_lab/screens/frontpage.dart';
+import 'package:students_lab/constants.dart';
+import 'package:students_lab/screens/frontPages/frontpage.dart';
 import '../screens/calendar/builders/futureCalendarBuilder.dart';
 import '../screens/profile.dart';
 
 
-Widget BottomWidget(BuildContext context, int _selectedIndex, String collectionName, String userID){
+Widget BottomWidget(BuildContext context, int selectedIndex, String collectionName, String userID){
 
   return  BottomNavigationBar(
     backgroundColor: Colors.blue,
-    fixedColor: Color(0xffE3E3E3),
-    unselectedItemColor: Color(0xff484848),
-    items: <BottomNavigationBarItem>[
+    fixedColor: fixedBottomBarColor,
+    unselectedItemColor: unselectedBottomBarColor,
+    items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(
         icon: Icon(Icons.account_circle_outlined),
         label: 'Profil',
@@ -25,7 +26,7 @@ Widget BottomWidget(BuildContext context, int _selectedIndex, String collectionN
         label: 'Kalendar',
       ),
     ],
-    currentIndex: _selectedIndex,
+    currentIndex: selectedIndex,
     onTap: (int idx) {
       switch (idx) {
         case 0:

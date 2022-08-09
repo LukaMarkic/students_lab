@@ -6,6 +6,7 @@ import '../../../models.dart';
 import '../../../services/database/courseService.dart';
 import '../../../widgets/alertWindow.dart';
 import '../courseItem.dart';
+import 'futureSegmentsBuild.dart';
 
 
 class LinkBuild extends StatelessWidget{
@@ -26,7 +27,7 @@ class LinkBuild extends StatelessWidget{
     return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: links?.length ?? 0,
+        itemCount: links.length,
         itemBuilder: (_, index) {
           return ListTile(
             dense: true,

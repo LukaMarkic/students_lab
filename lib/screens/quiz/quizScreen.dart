@@ -6,12 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:students_lab/constants.dart';
 import 'package:students_lab/services/auth.dart';
 import 'package:students_lab/services/database/gradeService.dart';
-import 'package:students_lab/shared/sharedMethods.dart';
-import 'package:students_lab/widgets/roundedButton.dart';
+import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
+import 'package:students_lab/widgets/buttons/roundedButton.dart';
 import '../../models.dart';
 import '../../services/database/courseService.dart';
-import '../course/courseScreen.dart';
-import '../frontpage.dart';
+import '../../shared/methods/activityMarkResponseMethods.dart';
+import '../../shared/methods/navigationMethods.dart';
+import '../course/courseScreen/courseScreen.dart';
+
 
 
 

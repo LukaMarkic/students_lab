@@ -42,20 +42,38 @@ class CourseService{
       var documentSnapshot = await collectionReference.doc(code).get();
       Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
       return Course.fromJson(data);
+    }
+
+    Future<String> getCourseTitle(String code) async{
+
+      String title = '';
+
+      var documentSnapshot = await collectionReference.doc(code).get();
+      if(documentSnapshot.data() != null ){
+        Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
+        title = data['title'] as String;
+        return title;
+      }else{
+        return title;
+      }
 
     }
 
 
       //Student
     Future<List<Course>> getEnrolledCourses() async {
+      if(AuthService().user != null){
+        String uid = AuthService().user!.uid;
+        var codes = await getStudentEnrolledCourseCodes(uid);
+        var ref = _db.collection('courses').where('code',  whereIn: codes);
+        var snapshot = await ref.get();
+        var data = snapshot.docs.map((s) => s.data());
+        var enrolledCourses = data.map((d) => Course.fromJson(d));
+        return enrolledCourses.toList();
+      }else{
+        return [];
+      }
 
-      String uid = AuthService().user!.uid;
-      var codes = await getStudentEnrolledCourseCodes(uid);
-      var ref = _db.collection('courses').where('code',  whereIn: codes);
-      var snapshot = await ref.get();
-      var data = snapshot.docs.map((s) => s.data());
-      var enrolledCourses = data.map((d) => Course.fromJson(d));
-      return enrolledCourses.toList();
     }
 
 
@@ -89,17 +107,13 @@ class CourseService{
 
     }
     
-    
 
     Future<List<String>> getStudentEnrolledCourseCodes(String uid) async{
-
       var student = await ProfileService().getProfileDataStudent(uid);
-      return student.enrolledCoursesCodes ?? <String>[];
-
+      return student.enrolledCoursesCodes;
     }
 
     Future<List<Course>> getCourses() async {
-
       var ref = _db.collection('courses');
       var snapshot = await ref.get();
       var data = snapshot.docs.map((s) => s.data());
@@ -124,6 +138,26 @@ class CourseService{
       return assignedCourses;
 
     }
+
+
+    Future<List<ProfileProfessor>> getAllProfessAssignedToCourse(String courseCode) async{
+
+
+        List<ProfileProfessor> allAssignedProfessors = <ProfileProfessor>[];
+
+          var ref = _db.collection('professorUsers').where('assignedCoursesCodes', arrayContains: courseCode);
+          var snapshot = await ref.get();
+
+          var data = snapshot.docs.map((s) => s.data());
+          var assignedProfessors = data.map((d) => ProfileProfessor.fromJson(d)).toList();
+          allAssignedProfessors.addAll(assignedProfessors);
+
+        var seen = Set<String>();
+        List<ProfileProfessor> uniquelist = allAssignedProfessors.where((professor) => seen.add(professor.id)).toList();
+        return uniquelist;
+
+    }
+
 
 
     //Segment
@@ -308,6 +342,8 @@ class CourseService{
         'homeworkSegmentModels': data,
       });
     }
+
+
 
 
   }

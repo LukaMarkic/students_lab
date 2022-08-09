@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:students_lab/services/database/profileService.dart';
-import 'package:students_lab/shared/sharedMethods.dart';
+import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import 'package:students_lab/services/database/storageServices.dart';
 import '../services/auth.dart';
+import '../shared/methods/fileMethods.dart';
 
 
 class ProfilePhotoWidget extends StatefulWidget {
@@ -32,71 +33,36 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
     return Center(
       child: Stack(
         children: [
-          buildImage(),
+          ProfilePhotoOval(imageURL: widget.imageURL,),
           Positioned(
             bottom: 0,
             right: 4,
-            child: buildEditIcon(color),
+            child: EditIcon(color),
           ),
         ],
       ),
     );
   }
 
-  Widget buildImage() {
 
-    return ClipOval(
-      child: Material(
-        color: Colors.transparent,
-        child: widget.imageURL == null ? Image.asset('assets/images/profile.png', width: 140, height: 140,) :
-        Image.network(
-        widget.imageURL!,
-        width: 140, height: 140, fit: BoxFit.cover,
-        loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent? loadingProgress) {
-          if (loadingProgress == null) {
-            return child;
-          }
-          return Stack(children: [
-            Image.asset('assets/images/profile.png', width: 140, height: 140,),
-            Positioned(
-              top: 45,
-                left: 45,
-                child: SizedBox(
-                width: 50, height: 50,
-                child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes!
-                  : null,
-            ),),),
-          ],
-          );
-        },
-      ),
-      ),
-    );
-  }
-
-  Widget buildEditIcon(Color color) => buildCircle(
+  Widget EditIcon(Color color) => BuildOval(
     color: Colors.white,
     all: 3,
-    child: buildCircle(
+    child: BuildOval(
       color: color,
       all: 0,
       child: IconButton(
-        icon: const Icon(Icons.edit, color: Colors.white, size: 20,),
-        tooltip: 'Promijeni fotografiju',
-        onPressed: (){
-          showBottom(context);
-        }
+          icon: const Icon(Icons.edit, color: Colors.white, size: 20,),
+          tooltip: 'Promijeni fotografiju',
+          onPressed: (){
+            showBottomMenu(context);
+          }
       ),
-
-
     ),
   );
 
-  Widget buildCircle({
+
+  Widget BuildOval({
     required Widget child,
     required double all,
     required Color color,
@@ -109,7 +75,7 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
         ),
       );
 
-  void showBottom(BuildContext context){
+  void showBottomMenu(BuildContext context){
     String? userID = AuthService().user!.uid;
     FirebaseStorageService storageService = FirebaseStorageService();
     ProfileService profileService = ProfileService();
@@ -144,7 +110,6 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               });
               profileService.updateProfileImageURL(userID, widget.collectionName,imageURL);
 
-
             },
           ),
         ],
@@ -152,7 +117,55 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
     );
   }
 
-
-
 }
 
+
+
+
+
+class ProfilePhotoOval extends StatelessWidget{
+
+  String? imageURL;
+  final double width;
+  final double height;
+  ProfilePhotoOval({this.imageURL, this.width = 140, this.height = 140});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Material(
+        color: Colors.transparent,
+        child: imageURL == null ? Image.asset('assets/images/profile.png', width: width, height: height,) :
+        Image.network(
+          imageURL!,
+          width: width, height: height, fit: BoxFit.cover,
+          loadingBuilder: (BuildContext context, Widget child,
+              ImageChunkEvent? loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return Stack(children: [
+              Image.asset('assets/images/profile.png', width: width, height: height,),
+              Positioned(
+                top: 1/3*height,
+                left: 1/3*width,
+                child: SizedBox(
+                  width: width/3, height: width/3,
+
+                  //Loading
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                        : null,
+                   ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

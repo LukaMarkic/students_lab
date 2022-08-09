@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:students_lab/models.dart';
 import 'package:students_lab/services/database/gradeService.dart';
 import 'package:students_lab/services/database/profileService.dart';
+import 'package:students_lab/services/database/storageServices.dart';
 
 
 class HomeworkService{
@@ -22,16 +23,22 @@ class HomeworkService{
 
   Future<void> removeHomework(String homeworkID) async{
 
+    FirebaseStorageService firebaseStorageService = FirebaseStorageService();
+    Homework homework = await getHomeworkData(homeworkID);
+    if(homework.documentURL != null) firebaseStorageService.deleteFileWithURL(homework.documentURL!);
 
     var ref = collectionReference.doc(homeworkID).collection('submittedHomeworks');
     var snapshot = await ref.get();
     var submittedHomeworks = snapshot.docs;
+
     for(var submittedHomework in submittedHomeworks){
+      var data = submittedHomework.data();
+      SubmittedHomework submittedStudentHomework = SubmittedHomework.fromJson(data);
+      if(submittedStudentHomework.documentURL != null) firebaseStorageService.deleteFileWithURL(submittedStudentHomework.documentURL!);
       submittedHomework.reference.delete();
     }
 
     await collectionReference.doc(homeworkID).delete();
-
 
   }
 

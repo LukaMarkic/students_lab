@@ -8,12 +8,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:students_lab/constants.dart';
 import 'package:students_lab/services/database/courseService.dart';
-import 'package:students_lab/widgets/roundedDoubleInput.dart';
+import 'package:students_lab/widgets/inputs/roundedDoubleInput.dart';
 import '../../models.dart';
 import '../../services/database/storageServices.dart';
-import '../../shared/sharedMethods.dart';
-import '../../widgets/roundedButton.dart';
-import '../../widgets/roundedInput.dart';
+import '../../shared/methods/fileMethods.dart';
+import '../../shared/methods/ungroupedSharedMethods.dart';
+import '../../widgets/buttons/roundedButton.dart';
+import '../../widgets/inputs/roundedInput.dart';
+import '../course/builders/futureSegmentsBuild.dart';
 import '../course/courseItem.dart';
 
 

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/screens/administrator/adminFrontPage.dart';
 import 'package:students_lab/services/database/profileService.dart';
-import '../../widgets/roundedButton.dart';
+import '../../widgets/buttons/roundedButton.dart';
 import 'createProfessorsAccount.dart';
 
 

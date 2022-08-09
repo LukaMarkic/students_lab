@@ -1,11 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../error.dart';
-import '../../loading.dart';
+import 'package:students_lab/constants.dart';
 import '../../models.dart';
-import '../../services/database/courseService.dart';
-import 'courseScreen.dart';
+import '../../shared/methods/navigationMethods.dart';
+import '../../shared/methods/ungroupedSharedMethods.dart';
+import 'builders/futureSegmentsBuild.dart';
+
 
 
 class CourseItem extends StatelessWidget {
@@ -18,16 +19,11 @@ class CourseItem extends StatelessWidget {
       tag: course,
       child: Card(
         elevation: 5,
-        color: Color(0Xff6f95b3),
+        color: courseItemThemeColor,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () async {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) => FutureSegmentsBuild(course: course),
-              ),
-            );
-
+          onTap: () {
+            goToPage(context: context, page: FutureSegmentsBuild(course: course));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,20 +49,27 @@ class CourseItem extends StatelessWidget {
                 ),
               ),
               Flexible(
-                child: Padding(
+                child: Container(
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Text(
-                    course.title,
-                    style: const TextStyle(
-                      height: 1.25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        course.title,
+                        style: const TextStyle( height: 1.25, fontWeight: FontWeight.bold, color: Colors.white ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                      ),
+                      Text(
+                        ' ECTS: ${course.ECTS}',
+                        style: const TextStyle( height: 0.75, fontWeight: FontWeight.w500, color: Colors.white ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ],
                   ),
                 ),
               ),
-
             ],
           ),
         ),
@@ -77,37 +80,9 @@ class CourseItem extends StatelessWidget {
 
 
 
-class FutureSegmentsBuild extends StatelessWidget{
-  Course course;
 
-  FutureSegmentsBuild({required this.course,});
 
-  @override
-  Widget build(BuildContext context) {
-    return  FutureBuilder(
-        future: CourseService().getCourseSegments(course.code),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingScreen();
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: ErrorMessage(),
-            );
-          }
-          else {
-            if(snapshot.data == null){
-              return CircularProgressIndicator();
-            }
-            else{
-              List<Segment>? segments = snapshot.data;
-              return CourseScreen(course: course, segments: segments,);
-            }
-          }
-        }
-    );
-  }
 
-}
 
 
 

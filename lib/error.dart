@@ -6,7 +6,7 @@ class ErrorMessage extends StatelessWidget {
 
   final String message;
 
-  const ErrorMessage({Key? key, this.message = 'it broke'}) : super(key: key);
+  const ErrorMessage({Key? key, this.message = 'Pogreška!'}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,16 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:students_lab/services/database/profileService.dart';
 import '../../models.dart';
 import 'courseService.dart';
+import 'gradeService.dart';
 
 
 class CalendarService {
 
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+
 
 
   Future<String?> addEventToUser(String collectionName, String userID, Event event)async {
@@ -36,8 +40,13 @@ class CalendarService {
 
   Future<void> removeEvent(String collectionName, String userID, String eventID) async{
 
-    await _db.collection(collectionName).doc(userID).collection('events').doc(eventID).delete();
+    var docRef = _db.collection(collectionName).doc(userID).collection('events').doc(eventID);
+    var doc = await docRef.get();
 
+    if(doc.exists){
+      await docRef.delete();
+    }
+    
   }
 
   Future<void> setEventToAllEnrolledStudents(String courseCodes, Event event) async {
@@ -50,7 +59,7 @@ class CalendarService {
     }
   }
 
-  Future<void> removeEventToAllEnrolledStudents(String courseCodes, String eventID) async {
+  Future<void> removeEventForAllEnrolledStudents(String courseCodes, String eventID) async {
 
     List<ProfileStudent>? students = await CourseService().getAllStudentEnrolledInCourses([courseCodes]);
     if(students != null){
@@ -58,6 +67,26 @@ class CalendarService {
         removeEvent('studentUsers', student.id, eventID);
       }
     }
+  }
+
+
+
+
+
+  Future<void> removeEventForAllClients(String eventID) async{
+    
+    ProfileService profileService = ProfileService();
+    
+    List<ProfileStudent> allStudents = await profileService.getAllProfileStudents();
+    for(var student in allStudents){
+      removeEvent('studentUsers', student.id, eventID);
+    }
+    
+    List<ProfileProfessor> allProfessors = await profileService.getAllProfileProfessors();
+    for(var professor in allProfessors){
+      removeEvent('professorUsers', professor.id, eventID);
+    }
+
   }
 
 }

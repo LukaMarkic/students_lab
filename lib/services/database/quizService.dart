@@ -2,6 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:students_lab/models.dart';
+import 'package:students_lab/services/database/profileService.dart';
+
+import '../../screens/quiz/FormSteps/questionForm.dart';
+import 'gradeService.dart';
 
 
 class QuizService{
@@ -37,6 +41,8 @@ class QuizService{
     Map<String, dynamic> uploadedData = question.toJson();
     collectionReference.doc(question.quizID).collection('questions').doc(question.id).set(uploadedData);
   }
+
+
 
 
   Future<void> removeQuiz(String quizID) async{
@@ -77,6 +83,36 @@ class QuizService{
     var questions = data.map((d) => Question.fromJson(d));
     return questions.toList();
   }
+
+
+
+  Future<void> deleteActivityMarkOfStudentsEnrolledInCourse(String courseCode, String segmentCode, String activityID) async {
+    List<ProfileStudent> allStudents = await ProfileService().getAllProfileStudents();
+    for(var student in allStudents){
+      await GradeService().deleteActivityMark(student.id, courseCode, segmentCode, activityID);
+    }
+  }
+
+
+
+  List<Question> getQuestionsFromQuestionForm(List<QuestionForm> formQuestions){
+    var questions = <Question>[];
+    for(var formQuestion in formQuestions){
+      questions.add(formQuestion.question);
+    }
+    return questions;
+  }
+
+
+//Provjera jesu li najmamnje dva odgovora
+  bool checkIfTwoQuestionAnswers(List<Question> questions){
+    var allQuestionAnswerValid = true;
+    questions.forEach((element) => allQuestionAnswerValid = (allQuestionAnswerValid && (element.answers.length >= 2)));
+    return allQuestionAnswerValid;
+  }
+
+
+
 
 }
 

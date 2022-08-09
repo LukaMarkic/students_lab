@@ -6,12 +6,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/models.dart';
 import 'package:students_lab/services/database/profileService.dart';
 import 'package:students_lab/services/notificationService.dart';
-import 'package:students_lab/widgets/roundedDate.dart';
+import 'package:students_lab/widgets/inputs/roundedDate.dart';
 import '../../services/auth.dart';
 import '../../services/database/courseService.dart';
-import '../../widgets/roundedButton.dart';
-import '../../widgets/roundedInput.dart';
-import '../../widgets/roundedPassword.dart';
+import '../../widgets/buttons/roundedButton.dart';
+import '../../widgets/inputs/roundedInput.dart';
+import '../../widgets/inputs/roundedPassword.dart';
 import 'package:intl/intl.dart';
 
 
@@ -90,10 +90,7 @@ class _ProfessorSignupForm extends State< ProfessorSignupForm> with SingleTicker
                     });
                   });
                 },
-                selectedDate: selectedDate != defaultTime
-                    ? formatter.format(selectedDate.toLocal()).toString().split(
-                    ' ')[0]
-                    : 'Unesite datum rođenja',
+                selectedDate: selectedDate,
               ),
 
 
@@ -133,6 +130,7 @@ class _ProfessorSignupForm extends State< ProfessorSignupForm> with SingleTicker
                   SystemChannels.textInput.invokeMethod('TextInput.hide');
                   var token = await NotificationService().getNotificationToken();
                   ProfileProfessor professor = ProfileProfessor(
+                    email: email.trim(),
                     name: name.trim(),
                     surname: surname.trim(),
                     birthDate: selectedDate,
@@ -140,7 +138,7 @@ class _ProfessorSignupForm extends State< ProfessorSignupForm> with SingleTicker
                     token: token,
                   );
                   await AuthService().SignUpWithEmailPassword(
-                      professor, 'professorUsers', email.trim(),
+                      professor, 'professorUsers',
                       password.trim()).then((value) => {if(value == null) Fluttertoast.showToast(
                       msg: 'Email adresa je već iskorištena, pokušajete ponovno!', fontSize: 12, backgroundColor: Colors.grey,)});
                   },
@@ -283,7 +281,7 @@ class CourseSelectModel{
 Future<List<ProfessorSelectModel>> getProfessorModels() async {
 
   List<ProfessorSelectModel> professorModels = <ProfessorSelectModel>[];
-  List<ProfileProfessor> professors = await ProfileService().getProfileProfessors();
+  List<ProfileProfessor> professors = await ProfileService().getAllProfileProfessors();
   professors.forEach((professor) {professorModels.add(ProfessorSelectModel(professor: professor, isSelected: false)); });
 
   return professorModels;

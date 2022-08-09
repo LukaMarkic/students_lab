@@ -83,6 +83,8 @@ dependencies:
   table_calendar: ^3.0.6
   collection: ^1.14.13
   grouped_list: ^5.1.2
+  sticky_and_expandable_list: ^1.0.3
+  dropdown_button2: ^1.7.1
 
 
 dev_dependencies:
@@ -120,6 +122,10 @@ flutter:
     - assets/images/quiz-background.jpg
     - assets/images/homework-background.jpg
     - assets/images/log-in-background.jpg
+    - assets/images/xls-logo.png
+    - assets/images/xlsx-logo.png
+    - assets/images/pptx-logo.png
+    - assets/images/ppt-logo.png
 
 
   #   - images/a_dot_ham.jpeg

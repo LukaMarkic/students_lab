@@ -2,13 +2,18 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:students_lab/shared/sharedMethods.dart';
+import 'package:students_lab/services/database/calendarService.dart';
+import 'package:students_lab/services/database/homeworkService.dart';
+import 'package:students_lab/services/database/quizService.dart';
+import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import '../../../models.dart';
 import '../../../services/database/courseService.dart';
 import '../../../services/notificationService.dart';
+import '../../../shared/methods/navigationMethods.dart';
 import '../../../widgets/alertWindow.dart';
 import '../../homework/homeworkScreen.dart';
 import '../courseItem.dart';
+import 'futureSegmentsBuild.dart';
 
 
 class HomeworkBuild extends StatelessWidget{
@@ -26,9 +31,9 @@ class HomeworkBuild extends StatelessWidget{
 
     List<HomeworkSegmentModel>? models = <HomeworkSegmentModel>[];
     if(segment.homeworkSegmentModels != null){
-      segment.homeworkSegmentModels!.forEach((model) {
+      for (var model in segment.homeworkSegmentModels!) {
         models.add(HomeworkSegmentModel.fromJson(model));
-      });
+      }
     }
 
     return ListView.builder(
@@ -119,10 +124,22 @@ class ProviderHomeworkBuild extends StatelessWidget{
                 ),
 
                 isEditableState ?  IconButton(onPressed: (){
-                  showAlertWindow(context, 'Želite li izbrisati: ' + models![index].title, () async {
+                  showAlertWindow(context, 'Želite li izbrisati: ' + models[index].title, () async {
                     Navigator.of(context).pop();
-                    await CourseService().removeHomeworkModelFromCourseSegment(course.code, segment.code, models![index]);
 
+                    //Remove from segment
+                    await CourseService().removeHomeworkModelFromCourseSegment(course.code, segment.code, models[index]);
+
+                    //Delete homework
+                    HomeworkService().removeHomework(models[index].homeworkID);
+
+                    //Delete grades of all students
+                    await QuizService().deleteActivityMarkOfStudentsEnrolledInCourse(course.code, segment.code, models[index].homeworkID);
+
+                    //Remove event
+                    CalendarService().removeEventForAllClients(models[index].homeworkID);
+
+                    //Go to course page
                     goToPage(context: context, page: FutureSegmentsBuild(course: course, ));
                   },);
                 },

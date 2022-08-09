@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 import 'dart:math';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -6,7 +7,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:students_lab/models.dart';
 import 'package:students_lab/services/database/courseService.dart';
 import 'package:timezone/timezone.dart' as tz;
-import '../shared/sharedMethods.dart';
+import '../shared/methods/ungroupedSharedMethods.dart';
+import 'package:http/http.dart' as http;
 
 
 class NotificationService{
@@ -99,5 +101,40 @@ class NotificationService{
     }
 
   }
+
+
+  sendNotification(String title, String message, String token) async {
+
+    final data = {
+      'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+      'id': '1',
+      'status': 'done',
+      'message': title,
+    };
+    try{
+      http.Response response = await http.post(Uri.parse('https://fcm.googleapis.com/fcm/send'),headers: <String,String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=AAAADNa8Aww:APA91bHsWknGEF1vRFqVFzETQW1S-n_AG7tUdfEg3H6x0luL7uBtAxIcbI4P4rbHqG_R5p76zH-xhgGMtKDeX7KFfnM5kUhzrivuuEgCPO-SC9XTg5x6UAyPb4rIM3edAiJblhYaHruX'
+      },
+          body: jsonEncode(<String,dynamic>{
+            'notification': <String,dynamic> {'title': title,'body': message},
+            'priority': 'high',
+            'data': data,
+            'to': '$token'
+          })
+      );
+
+
+      if(response.statusCode == 200){
+        print("Sent");
+      }else{
+        print("Error");
+      }
+
+    }catch(e){
+      print(e);
+    }
+  }
+
 
 }

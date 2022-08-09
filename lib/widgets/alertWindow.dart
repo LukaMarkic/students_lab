@@ -46,7 +46,6 @@ Future showAlertWindow(BuildContext context, String message, VoidCallback onPres
                           child: const Text('NE'),
                           onPressed: () async {
                             Navigator.of(context).pop();
-
                           }
                       ),
                     ],

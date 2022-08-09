@@ -14,7 +14,7 @@ Widget buildUploadStatus(UploadTask task, String fileName) => StreamBuilder<Task
       final percentage = (progress * 100).toStringAsFixed(2);
       if(progress == 1){
         Fluttertoast.showToast(
-          msg: 'Uspješno preneseno', fontSize: 14, backgroundColor: Colors.lightGreen.shade400,);
+          msg: 'Uspješno preneseno', fontSize: 14,);
         return Container(child: Text(fileName),);
       }
       return Text(

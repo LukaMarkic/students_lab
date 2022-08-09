@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:students_lab/models.dart';
+import 'package:students_lab/services/database/courseService.dart';
 import 'gradeService.dart';
 
 
@@ -45,19 +46,25 @@ class ProfileService{
     CollectionReference collectionReference = FirebaseFirestore.instance.collection('studentUsers');
     var ref = collectionReference.doc(uid);
     ref.update({
-      'enrolledCoursesCodes' : FieldValue.arrayRemove([courseCode]),
-    });
-
+        'enrolledCoursesCodes' : FieldValue.arrayRemove([courseCode]),
+      }
+    );
   }
 
-
-
   Future<ProfileStudent> getProfileDataStudent(String uid) async{
-
     CollectionReference collectionReference = FirebaseFirestore.instance.collection('studentUsers');
-   var documentSnapshot = await collectionReference.doc(uid).get();
-   Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
-     return ProfileStudent.fromJson(data);
+    var documentSnapshot = await collectionReference.doc(uid).get();
+    Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
+    return ProfileStudent.fromJson(data);
+  }
+
+  Future<List<ProfileStudent>> getAllProfileStudents() async{
+
+    var collectionReference =  _db.collection('studentUsers');
+    var snapshot = await collectionReference.get();
+    var data = snapshot.docs.map((s) => s.data());
+    var students = data.map((d) =>ProfileStudent.fromJson(d));
+    return students.toList();
 
   }
 
@@ -72,17 +79,7 @@ class ProfileService{
   }
 
 
-
-
-
-  Future<ProfileProfessor> getProfileProfessorData(String uid) async{
-
-    CollectionReference collectionReference = FirebaseFirestore.instance.collection('professorUsers');
-    var documentSnapshot = await collectionReference.doc(uid).get();
-    Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
-    return ProfileProfessor.fromJson(data);
-
-  }
+  //Admin
 
   Future<ProfileAdmin> getProfileAdminData(String uid) async{
 
@@ -95,6 +92,17 @@ class ProfileService{
 
 
   //Professor
+
+  Future<ProfileProfessor> getProfileProfessorData(String uid) async{
+
+    CollectionReference collectionReference = FirebaseFirestore.instance.collection('professorUsers');
+    var documentSnapshot = await collectionReference.doc(uid).get();
+    Map<String, dynamic> data = documentSnapshot.data()! as Map<String, dynamic>;
+    return ProfileProfessor.fromJson(data);
+
+  }
+
+
   Future<void> assignCourse(String professorID, String courseCode)async {
 
     CollectionReference professorReference = FirebaseFirestore.instance.collection('professorUsers');
@@ -104,7 +112,7 @@ class ProfileService{
     });
   }
 
-  Future<List<ProfileProfessor>> getProfileProfessors() async{
+  Future<List<ProfileProfessor>> getAllProfileProfessors() async{
 
     var collectionReference =  _db.collection('professorUsers');
     var snapshot = await collectionReference.get();
@@ -115,6 +123,10 @@ class ProfileService{
   }
 
 
+
+
+
+
   //Notification
 
   Future<void> setUserToken(String collectionName, String userID , String? token)async {
@@ -123,6 +135,32 @@ class ProfileService{
     },SetOptions(merge: true));
   }
 
+
+
+
+
+
+  //Grade
+
+  Future<ProfileStudent?> getStudentWithBestMark(String courseCode) async {
+
+    double maxGrade = 0;
+    ProfileStudent? studentWithBestMark;
+    var students = await CourseService().getAllStudentEnrolledInCourses(<String>[courseCode]);
+    if(students != null) {
+
+      for (var student in students) {
+        double? grade = await GradeService().getCourseGrade(student.id, courseCode);
+        if (grade != null && grade >= maxGrade)
+          {
+              studentWithBestMark = ProfileStudent(birthDate: DateTime.now());
+              studentWithBestMark = student;
+              maxGrade = grade;
+        }
+      }
+    }
+    return studentWithBestMark;
+  }
 
 
 }
