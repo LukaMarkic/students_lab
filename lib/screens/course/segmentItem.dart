@@ -1,7 +1,6 @@
 
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/services/auth.dart';
 import 'package:students_lab/services/database/courseService.dart';
@@ -22,7 +21,6 @@ import 'builders/homeworkSegmentBuild.dart';
 import 'builders/linksSegmentBuild.dart';
 import 'builders/quizSegmentBuild.dart';
 import 'builders/segmentDocumentBuild.dart';
-import 'courseItem.dart';
 import 'package:path/path.dart' as p;
 
 
@@ -59,7 +57,7 @@ class _SegmentItemState extends State<SegmentItem> {
         color: listColor,
         clipBehavior: Clip.antiAlias,
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -67,7 +65,7 @@ class _SegmentItemState extends State<SegmentItem> {
               Text(widget.segment.title, style: const TextStyle(fontSize: 18, height: 1.5, fontWeight: FontWeight.bold, color: Colors.black87),
                     overflow: TextOverflow.fade,
                     softWrap: false,),
-              widget.segment.title.length > 0 ? Divider(
+              widget.segment.title.isNotEmpty ? const Divider(
                 color: primaryDividerColor,
                 thickness: 1.5,
               ) : Row(),
@@ -78,7 +76,7 @@ class _SegmentItemState extends State<SegmentItem> {
               studentSegmentMark == null ? Container() : Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Divider(height: 1.5, color: primaryDividerColor,),
+                  const Divider(height: 1.5, color: primaryDividerColor,),
                   Text('Uspješnost riješenosti:  ${roundToSecondDecimal(studentSegmentMark! * 100)} %', style: TextStyle(color: Colors.black.withOpacity(0.7), fontSize: 11),)
                 ],
               )
@@ -101,10 +99,10 @@ class ProviderSegmentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      color: Color(0Xffeaecf1),
+      color: listColor,
       clipBehavior: Clip.antiAlias,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -120,7 +118,7 @@ class ProviderSegmentItem extends StatelessWidget {
               overflow: TextOverflow.fade,
               softWrap: false,
             ),
-            segment.title.length > 0 ? Divider(
+            segment.title.isNotEmpty ? const Divider(
               color: primaryDividerColor,
               thickness: 1.5,
             ) : Row(),
@@ -144,7 +142,7 @@ class EditableSegmentItem extends StatefulWidget {
   final Segment segment;
   final Course course;
 
-  EditableSegmentItem({ Key? key, required this.segment, required this.course}) : super(key: key);
+  const EditableSegmentItem({ Key? key, required this.segment, required this.course}) : super(key: key);
 
   @override
   State<EditableSegmentItem> createState() => _EditableSegmentItemState();
@@ -156,10 +154,10 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
-      color: Color(0Xffeaecf1),
+      color: listColor,
       clipBehavior: Clip.antiAlias,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -188,7 +186,7 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                       );
                    },
                   );
-                }, icon: Icon(Icons.highlight_remove, color: Colors.black87), tooltip: 'Izbriši segment',),
+                }, icon: const Icon(Icons.highlight_remove, color: Colors.black87), tooltip: 'Izbriši segment',),
               ],
             ),
             widget.segment.title.isNotEmpty ? const Divider(
@@ -291,7 +289,7 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                             ),
                           );
                         },
-                        icon: Icon(Icons.cancel_presentation,size: 22,),
+                        icon: const Icon(Icons.cancel_presentation,size: 22,),
                         tooltip: 'Izađi',
                       ),
                     ],
@@ -299,13 +297,12 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children:[
-                      task != null ? buildUploadStatus(task!, fileName) : Container(child:
-                      Column(
+                      task != null ? buildUploadStatus(task!, fileName) : Column(
                         children: [
                           Container(
                             child: file != null ?  Text(fileName,
                               softWrap: false,
-                              overflow: TextOverflow.fade,) : Text('Dokument nije odabran.') ,
+                              overflow: TextOverflow.fade,) : const Text('Dokument nije odabran.') ,
                           ),
                           task == null && file != null ? RoundedInputField(
                             icon: Icons.edit,
@@ -318,10 +315,7 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                           ) : Container(),
                         ],
                       ),
-                      ),
                     ],
-
-
                   ),
                   actions: <Widget>[
                    Row(
@@ -399,7 +393,7 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                             ),
                           );
                         },
-                        icon: Icon(Icons.cancel_presentation,size: 22,),
+                        icon: const Icon(Icons.cancel_presentation,size: 22,),
                         tooltip: 'Izađi',
                       ),
                     ],
@@ -407,7 +401,6 @@ class _EditableSegmentItemState extends State<EditableSegmentItem> {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children:[
-
                         RoundedInputField(
                             icon: Icons.link,
                             hintText: "Unesite poveznicu",

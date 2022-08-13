@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../error.dart';
 import '../../../loading.dart';
@@ -8,11 +7,11 @@ import '../../../services/database/courseService.dart';
 import '../courseScreen/courseScreen.dart';
 
 
-
 class FutureSegmentsBuild extends StatelessWidget{
-  Course course;
 
-  FutureSegmentsBuild({required this.course,});
+  final Course course;
+
+  const FutureSegmentsBuild({Key? key, required this.course,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class FutureSegmentsBuild extends StatelessWidget{
           }
           else {
             if(snapshot.data == null){
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             else{
               List<Segment>? segments = snapshot.data;

@@ -44,7 +44,7 @@ class _ProfessorSignupForm extends State< ProfessorSignupForm> with SingleTicker
     return Scaffold(
       backgroundColor: Color(0Xff1163ba),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Registracija",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -169,7 +169,7 @@ class _ProfessorSignupForm extends State< ProfessorSignupForm> with SingleTicker
             content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children:[
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height*0.6,
                     width: MediaQuery.of(context).size.width*0.9,
                     child:  ListView.builder(
@@ -185,13 +185,9 @@ class _ProfessorSignupForm extends State< ProfessorSignupForm> with SingleTicker
                                 }
                             ),
                   ),
-
                 ],
-
-
                 ),
             actions: <Widget>[
-
               ElevatedButton(
                 child: const Text('Zatvori'),
                 onPressed: () {
@@ -199,7 +195,9 @@ class _ProfessorSignupForm extends State< ProfessorSignupForm> with SingleTicker
                 },
               ),
             ],
-          );}),
+          );
+        }
+      ),
     );
   }
 

@@ -1,6 +1,4 @@
 
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/models.dart';
 
@@ -61,10 +59,10 @@ const TextStyle textStyleColorBlack = TextStyle(color: Colors.black);
 
 ButtonStyle buttonStepperStyleContinue = ButtonStyle(
 backgroundColor: MaterialStateProperty.all<Color>(stepperColor),
-padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 12, vertical: 5)),
+padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 5)),
 );
 
 ButtonStyle buttonStepperStyleBack = ButtonStyle(
   backgroundColor: MaterialStateProperty.all<Color>(stepperColor.withOpacity(0.75)),
-  padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 12, vertical: 5)),
+  padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 5)),
 );

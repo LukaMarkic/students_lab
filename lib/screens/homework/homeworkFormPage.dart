@@ -159,8 +159,8 @@ class _HomeworkFormState extends State<HomeworkForm> {
                       CourseService().addHomeworkModelToCourseSegment(widget.courseCode, widget.segmentCode, homeworkModel);
 
                       //Add event to professor and all enrolledStudents
-                      Event event = Event(title: title, description: description, day: deadline, courseCode: widget.courseCode);
-                      CalendarService().addEventToUser('professorUsers', AuthService().user!.uid, event);
+                      Event event = Event(id: homeworkID, title: title, description: description, day: deadline, courseCode: widget.courseCode);
+                      CalendarService().addEventToUser(professorCollection, AuthService().user!.uid, event, homeworkID);
                       CalendarService().setEventToAllEnrolledStudents(widget.courseCode, event);
 
                       //Go to course page

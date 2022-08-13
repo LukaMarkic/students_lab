@@ -1,10 +1,8 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/constants.dart';
 import '../../models.dart';
 import '../../shared/methods/navigationMethods.dart';
-import '../../shared/methods/ungroupedSharedMethods.dart';
 import 'builders/futureSegmentsBuild.dart';
 
 

@@ -34,7 +34,7 @@ class RoundedDoubleInputField extends StatelessWidget {
             color: buttonColor,
           ),
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.black45),
+          hintStyle: const TextStyle(color: Colors.black45),
           border: InputBorder.none,
         ),
       ),

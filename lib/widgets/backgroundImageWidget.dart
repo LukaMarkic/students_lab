@@ -1,6 +1,5 @@
 
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -12,13 +11,13 @@ class BackgroundImageWidget extends StatelessWidget{
   final double colorOpacity;
   final EdgeInsets padding;
 
-  BackgroundImageWidget({
+  BackgroundImageWidget({Key? key,
     required this.child,
     required this.imagePath,
     this.color = Colors.black,
     this.colorOpacity = 0.8,
     this.padding = const EdgeInsets.only(left: 8, right: 8),
-  });
+  }) : super(key: key);
 
 
   @override

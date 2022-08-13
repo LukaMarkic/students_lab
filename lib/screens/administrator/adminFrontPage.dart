@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:students_lab/constants.dart';
@@ -29,7 +28,7 @@ class _AdminFrontPageState extends State<AdminFrontPage> {
 
   Future init() async {
     var token = await NotificationService().getNotificationToken();
-    ProfileService().setUserToken('adminUsers', AuthService().user!.uid, token);
+    ProfileService().setUserToken(adminCollection, AuthService().user!.uid, token);
   }
 
   @override
@@ -94,7 +93,7 @@ class _AdminFrontPageState extends State<AdminFrontPage> {
               Container(
                 width: sizeWidth,
                 height: sizeHeight * 0.075,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color(0Xffd0eaf5),
                     border: Border.symmetric( horizontal: BorderSide(width: 1, color: Colors.black))),
                 child: TextButton(
@@ -135,7 +134,7 @@ class _AdminFrontPageState extends State<AdminFrontPage> {
                   ),
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0Xffd0eaf5)),
+                          MaterialStateProperty.all<Color>(const Color(0Xffd0eaf5)),
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.black)),
                 ),

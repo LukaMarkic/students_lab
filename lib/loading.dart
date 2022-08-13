@@ -11,7 +11,7 @@ class Loader extends StatelessWidget {
     return SingleChildScrollView(child:  SizedBox(
       width: size.width * 0.48,
       height: size.width * 0.48,
-      child: CircularProgressIndicator(strokeWidth: 10, color: Colors.blueAccent,),
+      child: const CircularProgressIndicator(strokeWidth: 10, color: Colors.blueAccent,),
     ),);
   }
 }
@@ -26,7 +26,7 @@ class LoadingScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+          children: const <Widget>[
             Text('Molimo pričekajte\nZahvaljujemo se na Vašem strpljenju',
               style: TextStyle(
                 fontSize: 20,

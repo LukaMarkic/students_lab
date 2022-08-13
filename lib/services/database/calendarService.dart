@@ -13,14 +13,17 @@ class CalendarService {
 
 
 
-  Future<String?> addEventToUser(String collectionName, String userID, Event event)async {
+  Future<String?> addEventToUser(String collectionName, String userID, Event event, String? id)async {
     try{
+      var ref = _db.collection(collectionName).doc(userID).collection('events').doc(id);
+      if(id == null) {
+        ref = _db.collection(collectionName).doc(userID).collection('events').doc();
+        event.id = ref.id;
+      }
+        Map<String, dynamic> uploadedData = event.toJson();
+        ref.set(uploadedData);
+        return ref.id;
 
-      var ref = _db.collection(collectionName).doc(userID).collection('events').doc();
-      event.id = ref.id;
-      Map<String, dynamic> uploadedData = event.toJson();
-      ref.set(uploadedData);
-      return ref.id;
     }
     on FirebaseException catch(e){
       print(e);
@@ -54,7 +57,7 @@ class CalendarService {
     List<ProfileStudent>? students = await CourseService().getAllStudentEnrolledInCourses([courseCodes]);
     if(students != null){
       for(var student in students){
-        addEventToUser('studentUsers', student.id, event);
+        addEventToUser('studentUsers', student.id, event, event.id);
       }
     }
   }

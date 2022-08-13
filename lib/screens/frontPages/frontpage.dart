@@ -15,7 +15,7 @@ import '../administrator/adminFrontPage.dart';
 
 class FrontPage extends StatelessWidget {
 
-  FrontPage({Key? key,});
+  const FrontPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +30,16 @@ class FrontPage extends StatelessWidget {
             );
           } else {
             if (snapshot.data == UserType.student){
-              return FutureStudent();
+              return const FutureStudent();
             }
             else if(snapshot.data == UserType.admin) {
-              return AdminFrontPage();
+              return const AdminFrontPage();
             }else{
-              return FutureProfessor();
+              return const FutureProfessor();
             }
           }
         }
-        );
+     );
   }
 }
 
@@ -49,11 +49,9 @@ class FrontPage extends StatelessWidget {
 
 
 
-
-
-
-
 class FutureProfessor extends StatelessWidget{
+
+  const FutureProfessor({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +67,7 @@ class FutureProfessor extends StatelessWidget{
           }
           else {
             if(snapshot.data == null){
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             else{
               ProfileProfessor professor = snapshot.data;
@@ -117,7 +115,7 @@ class FutureProfessor extends StatelessWidget{
 
 class FutureStudent extends StatefulWidget{
 
-  FutureStudent();
+  const FutureStudent({Key? key}) : super(key: key);
 
   @override
   State<FutureStudent> createState() => _FutureStudentState();

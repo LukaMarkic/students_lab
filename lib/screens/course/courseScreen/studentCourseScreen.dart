@@ -73,7 +73,7 @@ class ClientSegmentBuild extends StatelessWidget{
   List<Segment>? segments;
   final Course course;
   List<Quiz>? quizzes;
-  ClientSegmentBuild({Key? key, this.segments, required this.course, this.quizzes});
+  ClientSegmentBuild({Key? key, this.segments, required this.course, this.quizzes}) : super(key: key);
 
 
   @override

@@ -130,7 +130,7 @@ class ProfileService{
   //Notification
 
   Future<void> setUserToken(String collectionName, String userID , String? token)async {
-    var ref = _db.collection(collectionName).doc(userID).set({
+    _db.collection(collectionName).doc(userID).set({
       'token' : token,
     },SetOptions(merge: true));
   }

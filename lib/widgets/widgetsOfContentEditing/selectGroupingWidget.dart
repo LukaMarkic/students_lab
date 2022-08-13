@@ -12,13 +12,13 @@ class SelectGroupingParameter extends StatelessWidget{
   final Color backgroundColor;
   final Color textColor;
 
-  SelectGroupingParameter({
+  SelectGroupingParameter({Key? key,
     this.groupParameter = '',
     required this.changeGrouping,
     this.groupParameters = const [],
     this.backgroundColor = Colors.white,
     this.textColor = Colors.black,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

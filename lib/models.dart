@@ -1,9 +1,6 @@
 
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-
 import 'constants.dart';
-
 part 'models.g.dart';
 
 
@@ -410,7 +407,7 @@ class Homework{
     this.description = '',
     this.documentURL,
     required this.deadline,
-  }
+   }
   );
 
 @override

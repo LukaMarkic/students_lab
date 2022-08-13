@@ -34,7 +34,7 @@ class _RoundedHiddenFieldState extends State<RoundedHiddenField> {
         cursorColor: buttonColor,
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: Colors.black45),
+          hintStyle: const TextStyle(color: Colors.black45),
           icon: Icon (widget.icon, color: buttonColor,),
           suffixIcon: IconButton(
             icon: const Icon(

@@ -1,19 +1,14 @@
 
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/screens/studentDirectory/studentDirectory.dart';
 import 'package:students_lab/services/database/courseService.dart';
-
 import '../../constants.dart';
 import '../../models.dart';
 import '../../shared/methods/groupingMethods.dart';
 import '../../shared/methods/navigationMethods.dart';
-import '../../shared/methods/ungroupedSharedMethods.dart';
 import '../../theme.dart';
 import '../../widgets/widgetsOfContentEditing/sortWidget.dart';
 import '../../widgets/containers/dividerWidget.dart';
-import '../../widgets/containers/roundedContainer.dart';
 import '../../widgets/widgetsOfContentEditing/searchWidget.dart';
 import '../../widgets/widgetsOfContentEditing/selectGroupingWidget.dart';
 
@@ -24,9 +19,9 @@ class FutureStudentDirectory extends StatefulWidget{
   bool isSearchShown;
   bool isSortShown;
   bool isGroupedActive;
-  FutureStudentDirectory({required this.professor, required this.students, this.isSearchShown = false,
+  FutureStudentDirectory({Key? key, required this.professor, required this.students, this.isSearchShown = false,
     this.isSortShown = false, this.isGroupedActive = false
-  });
+  }) : super(key: key);
 
   @override
   State<FutureStudentDirectory> createState() => _FutureStudentDirectoryState();
@@ -88,14 +83,14 @@ class _FutureStudentDirectoryState extends State<FutureStudentDirectory> {
 
     return Expanded(child:
     Container(
-      padding: EdgeInsets.symmetric(horizontal: 2, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
       child: ListView.builder(
           shrinkWrap: true,
           itemCount: directoryGroupedModels.length,
           itemBuilder: (_, indexOne) {
             return
               ExpansionPanelList(
-                animationDuration: Duration(milliseconds: 800),
+                animationDuration: const Duration(milliseconds: 800),
                 children: [
                   ExpansionPanel(
                     backgroundColor: Colors.white,
@@ -106,15 +101,15 @@ class _FutureStudentDirectoryState extends State<FutureStudentDirectory> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${directoryGroupedModels[indexOne].groupingByElement}', style: TextStyle(color: Colors.black87, fontSize: 18,
+                                Text('${directoryGroupedModels[indexOne].groupingByElement}', style: const TextStyle(color: Colors.black87, fontSize: 18,
                                     fontWeight: FontWeight.bold), textAlign: TextAlign.left),
-                                DividerWrapper(padding: EdgeInsets.only(top: 5),),
+                                DividerWrapper(padding: const EdgeInsets.only(top: 5),),
                               ],
                             ),
                       );
                     },
                     body: Container(
-                      padding: EdgeInsets.only(top: 16, bottom: 10),
+                      padding: const EdgeInsets.only(top: 16, bottom: 10),
                       color: Colors.white,
                       child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -126,15 +121,15 @@ class _FutureStudentDirectoryState extends State<FutureStudentDirectory> {
                               color: directoryListColor,
                               child: ListTile(
                                 dense: true,
-                                leading: Icon(Icons.account_box_outlined, size: 34,),
-                                title: Text('${directoryGroupedModels[indexOne].students[indexTwo].name} ${directoryGroupedModels[indexOne].students[indexTwo].surname}', style:TextStyle(color: Colors.black87, fontSize: 16),),
+                                leading: const Icon(Icons.account_box_outlined, size: 34,),
+                                title: Text('${directoryGroupedModels[indexOne].students[indexTwo].name} ${directoryGroupedModels[indexOne].students[indexTwo].surname}', style:const TextStyle(color: Colors.black87, fontSize: 16),),
                                 subtitle: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text('${directoryGroupedModels[indexOne].students[indexTwo].birthDate.day}.${directoryGroupedModels[indexOne].students[indexTwo].birthDate.month}.${directoryGroupedModels[indexOne].students[indexTwo].birthDate.year}. ',
-                                      style: TextStyle(color: Colors.black54, fontSize: 12),),
+                                      style: const TextStyle(color: Colors.black54, fontSize: 12),),
                                     Text(' ${directoryGroupedModels[indexOne].students[indexTwo].godinaStudija}. god. stud.',
-                                      style: TextStyle(color: Colors.black54, fontSize: 12),),
+                                      style: const TextStyle(color: Colors.black54, fontSize: 12),),
                                   ],),
                                 onTap: (){
                                   goToPage(context: context, page: FutureStudentDirectoryPage(student: directoryGroupedModels[indexOne].students[indexTwo], professorCourseCodes: widget.professor.assignedCoursesCodes ?? []));
@@ -241,7 +236,7 @@ class _FutureStudentDirectoryState extends State<FutureStudentDirectory> {
     return Expanded(
         child:
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -251,15 +246,15 @@ class _FutureStudentDirectoryState extends State<FutureStudentDirectory> {
                   Card(
                     color: directoryListColor,
                     child: ListTile(
-                      leading: Icon(Icons.account_box_outlined, size: 34,),
-                      title: Text('${students[index].name} ${students[index].surname}', style:TextStyle(color: Colors.black87, fontSize: 16),),
+                      leading: const Icon(Icons.account_box_outlined, size: 34,),
+                      title: Text('${students[index].name} ${students[index].surname}', style:const TextStyle(color: Colors.black87, fontSize: 16),),
                         subtitle: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('${students[index].birthDate.day}.${students[index].birthDate.month}.${students[index].birthDate.year}. ',
-                              style: TextStyle(color: Colors.black54, fontSize: 12),),
+                              style: const TextStyle(color: Colors.black54, fontSize: 12),),
                             Text(' ${students[index].godinaStudija}. god. stud.',
-                              style: TextStyle(color: Colors.black54, fontSize: 12),),
+                              style: const TextStyle(color: Colors.black54, fontSize: 12),),
                           ],
                         ),
                         onTap: (){
@@ -325,7 +320,7 @@ class _FutureStudentDirectoryState extends State<FutureStudentDirectory> {
 
 
   Widget buildSort(){
-    return SortWidget(parameter: sortParameter,  list: <String>['imenu', 'prezimenu', 'godini studija' , 'datumu rođenja'], onChanged: (sortingParameter) {
+    return SortWidget(parameter: sortParameter,  list: const <String>['imenu', 'prezimenu', 'godini studija' , 'datumu rođenja'], onChanged: (sortingParameter) {
       setState((){
         sortParameter = sortingParameter;
       });
@@ -339,7 +334,7 @@ class _FutureStudentDirectoryState extends State<FutureStudentDirectory> {
       style: ElevatedButton.styleFrom(
         primary: Colors.transparent,
         shadowColor: Colors.transparent,
-      ),child: isAscending ? Icon(Icons.arrow_downward, color: Colors.black87,) : Icon(Icons.arrow_upward, color: Colors.black87,), onPressed: (){
+      ),child: isAscending ? const Icon(Icons.arrow_downward, color: Colors.black87,) : const Icon(Icons.arrow_upward, color: Colors.black87,), onPressed: (){
       setState((){
         isAscending = !isAscending;
       });

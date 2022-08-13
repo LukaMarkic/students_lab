@@ -1,7 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:internationalization/internationalization.dart';
-import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import 'package:students_lab/widgets/containers/textFieldWrapper.dart';
 import '../../constants.dart';
 import '../../shared/methods/stringManipulationMethods.dart';
@@ -32,7 +30,7 @@ class RoundedDateField extends StatelessWidget {
         children: [
           Icon(icon, color: buttonColor,),
           ConstrainedBox(
-            constraints: new BoxConstraints(
+            constraints: const BoxConstraints(
               maxWidth: 140.0,
             ),
             child: Text(
@@ -48,7 +46,7 @@ class RoundedDateField extends StatelessWidget {
             ),
             child: IconButton(
               onPressed: press,
-              icon: Icon(Icons.today,),
+              icon: const Icon(Icons.today,),
               tooltip: 'Odaberi datum!',
             ),
           ),

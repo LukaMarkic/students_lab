@@ -11,7 +11,7 @@ var appTheme = ThemeData(
   ),
   scaffoldBackgroundColor: primaryThemeColor,
   backgroundColor: Colors.white,
-  appBarTheme: AppBarTheme(backgroundColor: Colors.lightBlueAccent,),
+  appBarTheme: const AppBarTheme(backgroundColor: Colors.lightBlueAccent,),
   brightness: Brightness.dark,
   textTheme: const TextTheme(
     bodyText1: TextStyle(fontSize: 18),

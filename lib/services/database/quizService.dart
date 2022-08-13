@@ -107,7 +107,9 @@ class QuizService{
 //Provjera jesu li najmamnje dva odgovora
   bool checkIfTwoQuestionAnswers(List<Question> questions){
     var allQuestionAnswerValid = true;
-    questions.forEach((element) => allQuestionAnswerValid = (allQuestionAnswerValid && (element.answers.length >= 2)));
+    for (var element in questions) {
+      allQuestionAnswerValid = (allQuestionAnswerValid && (element.answers.length >= 2));
+    }
     return allQuestionAnswerValid;
   }
 

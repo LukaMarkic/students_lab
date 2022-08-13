@@ -1,7 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../constants.dart';
 
 
 class SortWidget extends StatefulWidget {
@@ -47,10 +45,10 @@ class _SortWidgetState extends State<SortWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white10,
           ),child:
-                SelectWidget(title: 'Sortiraj prema',child: DropdownButton<String>(
+                SelectWidget(title: 'Sortiraj prema ',child: DropdownButton<String>(
                   underline: Container(),
                   iconEnabledColor: Colors.black,
                   dropdownColor: Colors.white,
@@ -71,8 +69,8 @@ class _SortWidgetState extends State<SortWidget> {
 
             Container(
               height: 32,
-              margin: EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(border:  Border(
+              margin: const EdgeInsets.symmetric(vertical: 5),
+              decoration: const BoxDecoration(border:  Border(
                 left: BorderSide(
                   color: Colors.black,
                   width: 0.5,
@@ -92,12 +90,12 @@ class SelectWidget extends StatelessWidget{
   final String title;
   final child;
 
-  SelectWidget({this.title = '', this.child});
+  const SelectWidget({Key? key, this.title = '', this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white10,
        ),
       child: Row(
@@ -107,16 +105,9 @@ class SelectWidget extends StatelessWidget{
           Text(
             title,
             softWrap: true,
-            style: TextStyle(fontSize: 16, color: Colors.black45),textAlign: TextAlign.center,),
+            style: const TextStyle(fontSize: 16, color: Colors.black45),textAlign: TextAlign.center,),
           Container(
-              height: 32,
-              margin: EdgeInsets.only(left: 5),
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius:  BorderRadius.circular(5),
-                border: Border.all(color: Colors.black26),
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               alignment: Alignment.center,
               child: child,
           ),

@@ -12,6 +12,7 @@ import 'createProfessorsAccount.dart';
 
 class AssignCourseToProfessor extends StatefulWidget {
   const  AssignCourseToProfessor({ Key? key }) : super(key: key);
+
   @override
   _AssignCourseToProfessor createState() => _AssignCourseToProfessor();
 }
@@ -31,9 +32,9 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
         .of(context)
         .size;
     return Scaffold(
-      backgroundColor: Color(0Xff1163ba),
+      backgroundColor: const Color(0Xff1163ba),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Registracija",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -49,7 +50,6 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),),
               SizedBox(height: size.height * 0.03),
 
-
               RoundedButton(
                 text: "Odaberite predavača",
                 press: () async {
@@ -59,7 +59,6 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                   await showProfessorsList();
                 },
               ),
-
               RoundedButton(
                 text: "Dodajte kolegije",
                 press: () async {
@@ -69,12 +68,6 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                   await showCoursesList();
                 },
               ),
-
-
-
-
-
-
               RoundedButton(
                 text: "Dodaj kolegije",
                 press: () async {
@@ -86,25 +79,20 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                     });
 
                   });
-
                   Fluttertoast.showToast(
                     msg: 'Kolegiji dodjeljenji!', fontSize: 12, backgroundColor: Colors.grey,);
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (BuildContext context) => AdminFrontPage(),
+                      builder: (BuildContext context) => const AdminFrontPage(),
                     ),
                   );
-
                 },
                 color: Colors.lightGreen,
               ),
-
             ],
           ),
         ),
       ),
-
-
     );
   }
 
@@ -120,15 +108,9 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.6,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.9,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        width: MediaQuery.of(context).size.width * 0.9,
                         child: ListView.builder(
                             shrinkWrap: true,
                             itemCount: professorModels?.length ?? 0,
@@ -146,13 +128,9 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                             }
                         ),
                       ),
-
                     ],
-
-
                   ),
                   actions: <Widget>[
-
                     ElevatedButton(
                       child: const Text('Zatvori'),
                       onPressed: () {
@@ -161,24 +139,24 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                     ),
                   ],
                 );
-              }),
+              }
+       ),
     );
   }
 
 
-    Widget ProfessorModelItem(String name, String birthDate, bool isSelected,
-        int index, dynamic setState) {
+    Widget ProfessorModelItem(String name, String birthDate, bool isSelected, int index, dynamic setState) {
       return ListTile(
         leading: CircleAvatar(
           backgroundColor: Colors.green[700],
-          child: Icon(
+          child: const Icon(
             Icons.account_box,
             color: Colors.white,
           ),
         ),
         title: Text(
           name,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w500,
           ),
           softWrap: false,
@@ -190,28 +168,23 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
           Icons.check_circle,
           color: Colors.green[700],
         )
-            : Icon(
+            : const Icon(
           Icons.check_circle_outline,
           color: Colors.grey,
         ),
         onTap: () {
           setState(() {
             professorModels![index].isSelected = !professorModels![index].isSelected;
-            if (professorModels![index].isSelected == true) {
-              selectedProfessorID?.add(professorModels![index].professor.id);
-            } else if (professorModels![index].isSelected == false) {
-              selectedProfessorID
-                  ?.removeWhere((element) => element == professorModels![index].professor.id);
+              if (professorModels![index].isSelected == true) {
+                selectedProfessorID?.add(professorModels![index].professor.id);
+              } else if (professorModels![index].isSelected == false) {
+                selectedProfessorID?.removeWhere((element) => element == professorModels![index].professor.id);
+              }
             }
-          }
           );
-
         },
       );
     }
-
-
-
 
 
 
@@ -229,7 +202,7 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children:[
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height*0.6,
                         width: MediaQuery.of(context).size.width*0.9,
                         child:  ListView.builder(
@@ -245,13 +218,9 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                             }
                         ),
                       ),
-
                     ],
-
-
                   ),
                   actions: <Widget>[
-
                     ElevatedButton(
                       child: const Text('Zatvori'),
                       onPressed: () {
@@ -259,7 +228,9 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
                       },
                     ),
                   ],
-                );}),
+                );
+              }
+        ),
     );
   }
 
@@ -268,14 +239,14 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: Colors.green[700],
-        child: Icon(
+        child: const Icon(
           Icons.school,
           color: Colors.white,
         ),
       ),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.w500,
         ),
         softWrap: false,
@@ -287,7 +258,7 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
         Icons.check_circle,
         color: Colors.green[700],
       )
-          : Icon(
+          : const Icon(
         Icons.check_circle_outline,
         color: Colors.grey,
       ),
@@ -302,7 +273,6 @@ class _AssignCourseToProfessor extends State<AssignCourseToProfessor> with Singl
           }
         }
         );
-
       },
     );
   }

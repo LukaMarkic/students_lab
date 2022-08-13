@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/models.dart';
 import 'package:students_lab/services/database/calendarService.dart';
-import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import 'package:students_lab/theme.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../services/database/courseService.dart';
@@ -119,7 +117,7 @@ class _TableCalendarScreenState extends State<TableCalendarScreen> {
                             },
                             title: Text( event.title,),
                             subtitle: Text( event.description,),
-                            trailing: IconButton(icon: Icon(Icons.highlight_remove_outlined,
+                            trailing: IconButton(icon: const Icon(Icons.highlight_remove_outlined,
                                color: Colors.black,
                               size: 28,
                               ), onPressed: (){
@@ -144,7 +142,7 @@ class _TableCalendarScreenState extends State<TableCalendarScreen> {
 
 
           floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => EventEditingPage()));
@@ -166,20 +164,20 @@ Widget EventEditingPage() {
           builder: (context) {
             return Scaffold(
               appBar: AppBar(
-                leading: CloseButton(),
+                leading: const CloseButton(),
                 actions: SaveFormButton(),
               ),
               body: SingleChildScrollView(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       BuildTitle(),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       BuildDescription(),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                     ],
                   ),
                 ),
@@ -195,7 +193,7 @@ Widget EventEditingPage() {
     return [
       ElevatedButton.icon(onPressed: (){
         SaveForm();
-      }, icon: Icon(Icons.done), label: const Text('Spremi'),
+      }, icon: const Icon(Icons.done), label: const Text('Spremi'),
         style: ElevatedButton.styleFrom(
           primary: Colors.transparent,
           shadowColor: Colors.transparent,
@@ -209,7 +207,7 @@ Widget EventEditingPage() {
   Widget BuildTitle(){
 
     return TextFormField(
-        style: TextStyle(fontSize: 22),
+        style: const TextStyle(fontSize: 22),
         decoration: const InputDecoration(
             border: UnderlineInputBorder(),
             hintText: 'Unesite naziv'
@@ -226,7 +224,7 @@ Widget EventEditingPage() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: TextFormField(
-        style: TextStyle(fontSize: 18),
+        style: const TextStyle(fontSize: 18),
         decoration: const InputDecoration(
             icon: Icon(Icons.description),
             border: UnderlineInputBorder(),
@@ -252,7 +250,7 @@ Widget EventEditingPage() {
       final event = Event(
         title: titleController.text, description: descriptionController.text, day: selectedDay,
       );
-      CalendarService().addEventToUser(widget.collectionName, widget.userID, event);
+      CalendarService().addEventToUser(widget.collectionName, widget.userID, event, null);
       if (widget.selectedEvents?[selectedDay] != null) {
         widget.selectedEvents?[selectedDay]?.add(
           event,

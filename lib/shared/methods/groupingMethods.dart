@@ -28,8 +28,6 @@ List<DirectoryGroupedModel> groupStudentsByYear(List<ProfileStudent> students) {
 List<DirectoryGroupedModel> groupStudentsByCourses(List<ProfileStudent> students, List<Course> courses) {
 
   List<DirectoryGroupedModel> directoryGroupedStudents = [];
-  List groupedByElements = [];
-
 
   for(var course in courses){
     List<ProfileStudent> directoryStudents = [];

@@ -1,9 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:students_lab/services/database/profileService.dart';
-import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import 'package:students_lab/services/database/storageServices.dart';
 import '../services/auth.dart';
 import '../shared/methods/fileMethods.dart';
@@ -86,12 +84,12 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: Icon(Icons.camera),
-            title: Text('Kamera'),
+            leading: const Icon(Icons.camera),
+            title: const Text('Kamera'),
             onTap: () async {
               Navigator.pop(context);
               var image = await pickImage(ImageSource.camera,);
-              var imageURL = await storageService.uploadFileAndReturnURL(image, '${userID}/photos/profile/currentProfile');
+              var imageURL = await storageService.uploadFileAndReturnURL(image, '$userID/photos/profile/currentProfile');
               widget.imageURL = imageURL;
               setState(() {
               });
@@ -99,12 +97,12 @@ class _ProfilePhotoWidgetState extends State<ProfilePhotoWidget> {
               },
           ),
           ListTile(
-            leading: Icon(Icons.image),
-            title: Text('Otvori galeriju'),
+            leading: const Icon(Icons.image),
+            title: const Text('Otvori galeriju'),
             onTap: () async {
               Navigator.pop(context);
               var image  = await pickImage(ImageSource.gallery);
-              var imageURL = await storageService.uploadFileAndReturnURL(image, '${userID}/photos/profile/currentProfile');
+              var imageURL = await storageService.uploadFileAndReturnURL(image, '$userID/photos/profile/currentProfile');
               widget.imageURL = imageURL;
               setState(() {
               });
@@ -128,7 +126,7 @@ class ProfilePhotoOval extends StatelessWidget{
   String? imageURL;
   final double width;
   final double height;
-  ProfilePhotoOval({this.imageURL, this.width = 140, this.height = 140});
+  ProfilePhotoOval({Key? key, this.imageURL, this.width = 140, this.height = 140}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

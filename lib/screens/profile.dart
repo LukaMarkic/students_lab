@@ -1,6 +1,5 @@
 
 import 'dart:core';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -19,22 +18,18 @@ import '../error.dart';
 import '../loading.dart';
 import '../models.dart';
 import '../services/auth.dart';
-import '../services/database/courseService.dart';
 import '../services/database/profileService.dart';
 import '../shared/methods/activityMarkResponseMethods.dart';
 import '../shared/methods/navigationMethods.dart';
 import '../shared/methods/profileUserMethods.dart';
-import '../theme.dart';
-import '../widgets/widgetsOfContentEditing/cancelSortIcon.dart';
 import '../widgets/buttons/squaredButton.dart';
-import 'home.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 
 class ProfileScreen extends StatelessWidget {
 
-  ProfileScreen({Key? key,
-  });
+  const ProfileScreen({Key? key,}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -49,12 +44,12 @@ class ProfileScreen extends StatelessWidget {
           }
           else {
             if (snapshot.data == UserType.student){
-              return StudentProfileScreen();
+              return const StudentProfileScreen();
             }
             else if(snapshot.data == UserType.admin) {
-              return AdminProfileScreen();
+              return const AdminProfileScreen();
             }else{
-              return FutureProfessorProfileScreen();
+              return const FutureProfessorProfileScreen();
             }
           }
         }
@@ -67,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
 
 
 class StudentProfileScreen extends StatefulWidget {
-  StudentProfileScreen({Key? key,
+  const StudentProfileScreen({Key? key,
   }) : super(key: key);
   @override
   State<StudentProfileScreen> createState() => _StudentProfileScreenState();
@@ -135,14 +130,14 @@ class StudentProfilePage extends StatelessWidget{
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(automaticallyImplyLeading: false,
-        title: Text('Korisnik'), backgroundColor: Colors.lightBlue,
+        title: const Text('Korisnik'), backgroundColor: Colors.lightBlue,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 5),
               decoration: const BoxDecoration(
                 color: primaryThemeColor,
               ),
@@ -174,7 +169,7 @@ class StudentProfilePage extends StatelessWidget{
               clipBehavior: Clip.antiAlias,
               elevation: 4,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                 child:
                 Column(
                   children: [
@@ -182,19 +177,19 @@ class StudentProfilePage extends StatelessWidget{
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         CircularPercentIndicator(
-                          footer: Text('Vaša uspješnost', style: TextStyle(color: Colors.black),),
+                          footer: const Text('Vaša uspješnost', style: TextStyle(color: Colors.black),),
                           radius: 60.0,
                           lineWidth: 8.0,
                           percent: student.collectiveGrade ?? 0,
-                          center: new Text('${roundToSecondDecimal((student.collectiveGrade ?? 0) * 100)} %', style: TextStyle(color: Colors.black),),
+                          center: Text('${roundToSecondDecimal((student.collectiveGrade ?? 0) * 100)} %', style: const TextStyle(color: Colors.black),),
                           progressColor: getResultColor(student.collectiveGrade ?? 0),
                         ),
                         CircularPercentIndicator(
-                          footer: Text('Prosječni uspjeh', style: TextStyle(color: Colors.black),),
+                          footer: const Text('Prosječni uspjeh', style: TextStyle(color: Colors.black),),
                           radius: 60.0,
                           lineWidth: 8.0,
                           percent: gradeEnrolledStudents ?? 0,
-                          center: new Text('${roundToSecondDecimal((gradeEnrolledStudents ?? 0) * 100)} %', style: TextStyle(color: Colors.black),),
+                          center: Text('${roundToSecondDecimal((gradeEnrolledStudents ?? 0) * 100)} %', style: const TextStyle(color: Colors.black),),
                           progressColor: getResultColor(gradeEnrolledStudents ?? 0),
                         ),
                       ],
@@ -208,10 +203,10 @@ class StudentProfilePage extends StatelessWidget{
                 ),
               ),
             ),
-            SizedBox(height: 50,),
+            const SizedBox(height: 50,),
             SquaredButton(textColor: Colors.black, text: 'Odjavi se', color: primaryThemeColor.withOpacity(0.8), press: () {signOut(context);
             },),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
           ],
         ),
       ),
@@ -266,7 +261,7 @@ class _FutureProfessorProfileScreenState extends State<FutureProfessorProfileScr
 class ProfessorProfileScreen extends StatefulWidget{
 
   ProfileProfessor professor;
-  ProfessorProfileScreen({required this.professor});
+  ProfessorProfileScreen({Key? key, required this.professor}) : super(key: key);
 
   @override
   State<ProfessorProfileScreen> createState() => _ProfessorProfileScreenState();
@@ -303,7 +298,7 @@ class _ProfessorProfileScreenState extends State<ProfessorProfileScreen> {
         title: const Text('Profesor'), backgroundColor: Colors.lightBlue,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             Container(
@@ -322,7 +317,7 @@ class _ProfessorProfileScreenState extends State<ProfessorProfileScreen> {
               elevation: 4,
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
                 child:
                 Column(
                   children: [
@@ -338,23 +333,23 @@ class _ProfessorProfileScreenState extends State<ProfessorProfileScreen> {
                         itemBuilder: (_, index) {
                           return Card(
                             color: listColor,
-                            margin: EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
+                            margin: const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 8,),
+                                const SizedBox(height: 8,),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                   child: Text(courseAchievementModels[index].title, style: const TextStyle( fontSize: 16,
                                       fontWeight: FontWeight.bold, color: Colors.black87),),
                                 ),
-                                DividerWrapper(padding: EdgeInsets.only(bottom: 8, left: 8, right: 8)),
+                                DividerWrapper(padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8)),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     CircularPercentIndicator(
                                       footer:  ConstrainedBox(
-                                        constraints: new BoxConstraints(
+                                        constraints: const BoxConstraints(
                                           maxWidth: 120,
                                         ),
                                         child: const Padding(padding: EdgeInsets.only(top: 4),
@@ -365,16 +360,16 @@ class _ProfessorProfileScreenState extends State<ProfessorProfileScreen> {
                                       radius: 60.0,
                                       lineWidth: 8.0,
                                       percent: courseAchievementModels[index].averageGrade,
-                                      center: Text('${roundToSecondDecimal((courseAchievementModels[index].averageGrade) * 100)} %', style: TextStyle(color: Colors.black),),
+                                      center: Text('${roundToSecondDecimal((courseAchievementModels[index].averageGrade) * 100)} %', style: const TextStyle(color: Colors.black),),
                                       progressColor: getResultColor(courseAchievementModels[index].averageGrade),
                                     ),
                                     CircularPercentIndicator(
                                       footer:  ConstrainedBox(
-                                        constraints: new BoxConstraints(
+                                        constraints: const BoxConstraints(
                                           maxWidth: 120.0,
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 4,),
+                                          padding: const EdgeInsets.only(top: 4,),
                                           child: Column(
                                             children: [
                                               const Text('Najbolji uspjeh',
@@ -396,18 +391,18 @@ class _ProfessorProfileScreenState extends State<ProfessorProfileScreen> {
                                       radius: 60.0,
                                       lineWidth: 8.0,
                                       percent: courseAchievementModels[index].bestGrade,
-                                      center: Text('${roundToSecondDecimal((courseAchievementModels[index].bestGrade) * 100)} %', style: TextStyle(color: Colors.black),),
+                                      center: Text('${roundToSecondDecimal((courseAchievementModels[index].bestGrade) * 100)} %', style: const TextStyle(color: Colors.black),),
                                       progressColor: getResultColor(courseAchievementModels[index].bestGrade),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8,),
+                                const SizedBox(height: 8,),
                               ],
                             ),
                           );
                         }
                     ) : Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       height: 60,
                       width: 50,
                       child: const
@@ -460,15 +455,15 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
             return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(automaticallyImplyLeading: false,
-                title: Text('Admin'), backgroundColor: Colors.lightBlue,
+                title: const Text('Admin'), backgroundColor: Colors.lightBlue,
               ),
               body: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      decoration: const BoxDecoration(
                         color: primaryThemeColor,
                       ),
                       child: ProfilePhotoWidget(imageURL: profileUser.imgURL, collectionName: adminCollection,),
@@ -476,7 +471,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                     ProfileInfo(profile: profileUser,),
                     RoundedButton(text: 'Odjavi se', press: (){
                       signOut(context);
-                    }, color: Color(0Xff90f09b),),
+                    }, color: const Color(0Xff90f09b),),
                   ],
                 ),
               ),
@@ -548,10 +543,10 @@ class ProfileNameInfo extends StatelessWidget{
   ProfileUser profileUser;
   String? email;
 
-  ProfileNameInfo({
+  ProfileNameInfo({Key? key,
     required this.profileUser,
     required this.email,
-});
+}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

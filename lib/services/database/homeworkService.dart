@@ -74,6 +74,7 @@ class HomeworkService{
     if(doc.exists){
       return SubmittedHomework.fromJson(doc.data() as Map<String, dynamic>);
     }
+    return null;
 
   }
 

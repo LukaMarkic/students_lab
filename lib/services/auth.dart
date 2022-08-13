@@ -15,6 +15,7 @@ class AuthService {
           email: email, password: password);
       return result.user?.uid;
     } on FirebaseAuthException catch (e) {
+      print(e);
       return null;
     }
   }
@@ -26,7 +27,8 @@ class AuthService {
   email: email, password: password);
   return result.user?.uid;
   } on FirebaseAuthException catch (e) {
-return null;
+    print(e);
+    return null;
   }
 }
 
@@ -43,6 +45,7 @@ return null;
       await service.addProfileData(collectionName, profileUser);
       return usr.uid;
     } on FirebaseAuthException catch (e) {
+      print(e);
       return null;
     }
   }

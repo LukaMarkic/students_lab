@@ -1,6 +1,4 @@
 
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/screens/course/courseScreen/providerCourseScreen.dart';
 import 'package:students_lab/screens/frontPages/frontpage.dart';
@@ -24,7 +22,7 @@ class CourseScreen extends StatelessWidget {
   
   final Course course;
   List<Segment>? segments;
-  CourseScreen({Key? key,required this.course, this.segments});
+  CourseScreen({Key? key, required this.course, this.segments}) : super(key: key);
 
 
   @override
@@ -93,36 +91,35 @@ Widget CourseCoverTheme(Course course, Size size, double? courseGrade,List<Profi
              ),
            ),
          ),
-
        ],
      ),
      ExpansionTile(
        textColor: Colors.black,
        backgroundColor: listColor,
-       title: Text('Detalji kolegija...', style: TextStyle(fontSize: 17),),
+       title: const Text('Detalji kolegija...', style: TextStyle(fontSize: 17),),
        children: <Widget>[
            Container(
-             padding: EdgeInsets.symmetric(horizontal: 18),
+             padding: const EdgeInsets.symmetric(horizontal: 18),
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 SizedBox(height: 5,),
+                 const SizedBox(height: 5,),
                  courseGrade != null ? Row(children: [
                    const Text('Uspješnost: ', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 15)),
                    Text('${roundToSecondDecimal(courseGrade * 100)}%', style: TextStyle(color: getResultColor(courseGrade), fontSize: 14),),
                  ],) : Container(),
-                 SizedBox(height: 5,),
+                 const SizedBox(height: 5,),
                  Row(children: [
                    const Text('Semestar: ', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 15)),
-                   Text('${course.semester}.', style: TextStyle(color: Colors.black38, fontSize: 14),),
+                   Text('${course.semester}.', style: const TextStyle(color: Colors.black38, fontSize: 14),),
                  ],),
-                 SizedBox(height: 5,),
+                 const SizedBox(height: 5,),
                  Row(children: [
                    const Text('ECTS: ', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 15)),
-                   Text('${course.ECTS}', style: TextStyle(color: Colors.black38, fontSize: 14.5),),
+                   Text('${course.ECTS}', style: const TextStyle(color: Colors.black38, fontSize: 14.5),),
                  ],),
-                 DividerWrapper(margin: EdgeInsets.only(top: 2, bottom: 5),),
-                 Text('Pregled predavača', textAlign: TextAlign.start, style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 16),),
+                 DividerWrapper(margin: const EdgeInsets.only(top: 2, bottom: 5),),
+                 const Text('Pregled predavača', textAlign: TextAlign.start, style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 16),),
 
                  ListView.builder(
                      physics: const NeverScrollableScrollPhysics(),
@@ -130,8 +127,8 @@ Widget CourseCoverTheme(Course course, Size size, double? courseGrade,List<Profi
                      itemCount: assignedProfessors.length,
                      itemBuilder: (_, index) {
                        return ListTile(
-                         leading: Icon(Icons.account_circle_outlined, color: Colors.blueGrey, size: 36,),
-                         title: Text('${assignedProfessors[index].name} ${assignedProfessors[index].surname}', style: TextStyle(color: Colors.black54, fontSize: 15.5)),
+                         leading: const Icon(Icons.account_circle_outlined, color: Colors.blueGrey, size: 36,),
+                         title: Text('${assignedProfessors[index].name} ${assignedProfessors[index].surname}', style: const TextStyle(color: Colors.black54, fontSize: 15.5)),
                          subtitle:
                                Tooltip(
                                  message: 'Pošalji elektronsku poštu.',
@@ -179,13 +176,13 @@ Future<ElevatedButton> FutureElevatedButtonLabelEnrolment(BuildContext context, 
           await profileService.leaveCourse(uid, courseCode);
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => FrontPage()),
+            MaterialPageRoute(builder: (context) => const FrontPage()),
                 (Route<dynamic> route) => false,
           );
         });
-      }, icon: Icon(Icons.remove), label: const Text('Napusti'),
+      }, icon: const Icon(Icons.remove), label: const Text('Napusti'),
         style: ElevatedButton.styleFrom(
-          textStyle: TextStyle(fontSize: 12),
+          textStyle: const TextStyle(fontSize: 12),
           primary: Colors.transparent,
           shadowColor: Colors.transparent,
         ),
@@ -196,14 +193,14 @@ Future<ElevatedButton> FutureElevatedButtonLabelEnrolment(BuildContext context, 
           await profileService.enrollInCourse(uid, courseCode);
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => FrontPage()),
+            MaterialPageRoute(builder: (context) => const FrontPage()),
                 (Route<dynamic> route) => false,
             );
           }
         );
-      }, icon: Icon(Icons.add), label: const Text('Upiši se',),
+      }, icon: const Icon(Icons.add), label: const Text('Upiši se',),
         style: ElevatedButton.styleFrom(
-          textStyle: TextStyle(fontSize: 12),
+          textStyle: const TextStyle(fontSize: 12),
           primary: Colors.transparent,
           shadowColor: Colors.transparent,
         ),

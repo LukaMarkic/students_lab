@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +20,7 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: size.height * 0.1),
-            Text(
+            const Text(
               "Dobro došli u Students Lab", textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Colors.black87),
 
@@ -37,13 +36,13 @@ class LoginScreen extends StatelessWidget {
           ),
             TextButton(onPressed: (){
               launch('https://www.ferit.unios.hr');
-            }, child: Text('Fakultet elektrotehnike, računarstva i informacijskih tehnologija Osijek (FERIT Osijek)', textAlign: TextAlign.center, style: TextStyle(color: Colors.black45, fontSize: 16, ),),
+            }, child: const Text('Fakultet elektrotehnike, računarstva i informacijskih tehnologija Osijek (FERIT Osijek)', textAlign: TextAlign.center, style: const TextStyle(color: Colors.black45, fontSize: 16, ),),
             ),
             SizedBox(height: size.height * 0.05),
-            Container(
+            SizedBox(
               width: size.width* 0.94,
               child: Column(
-                children: [
+                children: const [
                   Text(
                     "Mobilna aplikacija za poticanje aktivnog sudjelovanja studenata u nastavi",
                     style: TextStyle(color: Colors.black54, fontSize: 18, ),
@@ -55,30 +54,30 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.05),
 
         Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
+          margin: const EdgeInsets.symmetric(vertical: 10),
           width: size.width * 0.8,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(25),
             child:  ElevatedButton(
-              child: Text(
-                "Prijavi se",
-                style: TextStyle(fontSize: 18 ),
-              ),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return LoginForm();
+                      return const LoginForm();
                     },
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
                   primary: buttonColor,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  textStyle: TextStyle(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  textStyle: const TextStyle(
                       color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+              child: const Text(
+                "Prijavi se",
+                style: TextStyle(fontSize: 18 ),
+              ),
             ),
           ),
         ),
@@ -89,12 +88,12 @@ class LoginScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return AdminLoginForm();
+                      return const AdminLoginForm();
                     },
                   ),
                 );
               },
-              child: Text("Nastavi kao administrator"),
+              child: const Text("Nastavi kao administrator"),
             ),
           ],
         ),

@@ -38,7 +38,7 @@ Widget BottomWidget(BuildContext context, int selectedIndex, String collectionNa
         case 1:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FrontPage()),
+            MaterialPageRoute(builder: (context) => const FrontPage()),
           );
           break;
         case 2:

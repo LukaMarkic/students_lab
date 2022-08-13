@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,8 +50,8 @@ class _AdminLoginForm extends State<AdminLoginForm> with SingleTickerProviderSta
                 SizedBox(height: size.height * 0.01),
 
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 5),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Column(
                     children: const [
                     Text('Obrazac prijave', textAlign: TextAlign.center, style: TextStyle(fontSize: 34,fontWeight: FontWeight.bold, color: Color(0Xfff7fafa)),),
@@ -133,7 +131,7 @@ class _AdminLoginForm extends State<AdminLoginForm> with SingleTickerProviderSta
       }else {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => AdminFrontPage()),
+          MaterialPageRoute(builder: (context) => const AdminFrontPage()),
               (Route<dynamic> route) => false,
         );
       }

@@ -1,25 +1,23 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../models.dart';
 import '../../../services/database/courseService.dart';
 import '../../../widgets/alertWindow.dart';
-import '../courseItem.dart';
 import 'futureSegmentsBuild.dart';
 
 
 class LinkBuild extends StatelessWidget{
 
-  Segment segment;
-  Course course;
-  bool isEditableState;
+  final Segment segment;
+  final Course course;
+  final bool isEditableState;
 
-  LinkBuild({
+  const LinkBuild({Key? key,
     required this.segment,
     required this.course,
     this.isEditableState = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +31,16 @@ class LinkBuild extends StatelessWidget{
             dense: true,
             textColor: Colors.black87,
             horizontalTitleGap: 4,
-            leading: Icon(Icons.link_rounded, color: Colors.green,),
-            title: Text(links[index], style: TextStyle(fontSize: 16, height: 2, color: Colors.lightBlue),
+            leading: const Icon(Icons.link_rounded, color: Colors.green,),
+            title: Text(links[index], style: const TextStyle(fontSize: 16, height: 2, color: Colors.lightBlue),
               softWrap: false,
-              overflow: TextOverflow.ellipsis,),
+              overflow: TextOverflow.ellipsis,
+              ),
             onTap: (){
               launch(links[index]);
             },
             trailing: isEditableState ? IconButton(onPressed: (){
-              showAlertWindow(context, 'Želite li izbrisati: ' + links[index], () async {
+              showAlertWindow(context, 'Želite li izbrisati: ${links[index]}', () async {
                 Navigator.of(context).pop();
                 await CourseService().removeLinkFromCourseSegment(course.code, segment.code, links[index]);
                 Navigator.pushAndRemoveUntil(
@@ -51,7 +50,7 @@ class LinkBuild extends StatelessWidget{
                 );
               },);
             },
-              icon: Icon(Icons.highlight_remove, color: Colors.lightBlueAccent,),
+              icon: const Icon(Icons.highlight_remove, color: Colors.lightBlueAccent,),
               tooltip: 'Ukloni link',
             ) : Row(mainAxisSize: MainAxisSize.min,),
           );

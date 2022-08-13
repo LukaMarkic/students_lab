@@ -4,7 +4,6 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:students_lab/screens/homework/submittedHomeworks.dart';
@@ -34,7 +33,7 @@ class FutureHomeworkBuild extends StatelessWidget{
   String homeworkID;
   bool isProvider;
   ActivityMark? activityMark;
-  FutureHomeworkBuild({required this.homeworkID, required this.isProvider, this.activityMark});
+  FutureHomeworkBuild({Key? key, required this.homeworkID, required this.isProvider, this.activityMark}) : super(key: key);
 
 
 
@@ -52,7 +51,7 @@ class FutureHomeworkBuild extends StatelessWidget{
           }
           else {
             if(snapshot.data == null){
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             else{
               Homework homework = snapshot.data;
@@ -103,7 +102,7 @@ class HomeworkPreviewPage extends StatelessWidget {
 
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/homework-background.jpg"),
             fit: BoxFit.cover,
@@ -113,24 +112,24 @@ class HomeworkPreviewPage extends StatelessWidget {
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 25,horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 10),
             color: Colors.black.withOpacity(0.7),
             child:
 
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(homework.title, style: TextStyle(color: Colors.white70, fontSize: 38, fontWeight: FontWeight.bold), ),
+                Text(homework.title, style: const TextStyle(color: Colors.white70, fontSize: 38, fontWeight: FontWeight.bold), ),
                 const SizedBox(height: 10,),
                 const Divider(height: 1,color: primaryDividerColor,),
                 const SizedBox(height: 20,),
-                Expanded( child: Column( children: [Text(homework.description, style: TextStyle(color: Colors.white, fontSize: 18),),
+                Expanded( child: Column( children: [Text(homework.description, style: const TextStyle(color: Colors.white, fontSize: 18),),
                   homework.documentURL != null ? ListTile(
 
                   textColor: Colors.white,
                   horizontalTitleGap: 4,
                   leading: const Icon(Icons.assignment, color: Colors.white70, size: 22,),
-                  title: Text('Domaća zadaća ', style: TextStyle(fontSize: 16, height: 2),
+                  title: const Text('Domaća zadaća ', style: TextStyle(fontSize: 16, height: 2),
                     softWrap: false,
                     overflow: TextOverflow.ellipsis,),
                   onTap: (){
@@ -162,7 +161,7 @@ class FutureSubmittedHomework extends StatelessWidget {
 
   Homework homework;
 
-  FutureSubmittedHomework({required this.homework,});
+  FutureSubmittedHomework({Key? key, required this.homework,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +240,7 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
           Container(
             width: constraints.maxWidth,
             height: constraints.maxHeight,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
           image: DecorationImage(
           image: AssetImage("assets/images/homework-background.jpg"),
             fit: BoxFit.cover,
@@ -254,17 +253,17 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
           child: Container(
             width: constraints.maxWidth,
             height: constraints.maxHeight,
-            padding: EdgeInsets.symmetric(vertical: 25,horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 10),
             color: Colors.black.withOpacity(0.8),
           child:
     SingleChildScrollView(
       child: Column(
               children: [
-                Text(widget.homework.title, style: TextStyle(color: Colors.white70, fontSize: 38, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+                Text(widget.homework.title, style: const TextStyle(color: Colors.white70, fontSize: 38, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
                 const SizedBox(height: 10,),
                 const Divider(height: 1,color: primaryDividerColor,),
                 const SizedBox(height: 20,),
-                Text(widget.homework.description, style: TextStyle(color: Colors.white, fontSize: 18),),
+                Text(widget.homework.description, style: const TextStyle(color: Colors.white, fontSize: 18),),
                 const SizedBox(height: 10,),
                 const Divider(height: 0.5,color: primaryDividerColor,),
                 widget.homework.documentURL != null ? ListTile(
@@ -281,22 +280,21 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
                 
                 
                 const SizedBox(height: 20,),
-                widget.isSubmitted ? Container(child:
-                Column(children: [
-                  Text('Zadaća predana', style: TextStyle(color: Colors.lightGreen, fontSize: 22),),
+                widget.isSubmitted ? Column(children: [
+                  const Text('Zadaća predana', style: TextStyle(color: Colors.lightGreen, fontSize: 22),),
                   Container(
-                    margin: EdgeInsets.all(5),
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10,),
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10,),
                     color: Colors.white.withOpacity(0.1),
                   child: widget.grade != null ? Text('${getResultTitle(widget.grade!)} Riješeno s uspijehom od: ${roundToSecondDecimal(widget.grade! * 100)} %', style: TextStyle(color: getResultColor(widget.grade!), fontSize: 14),) :
-                  Text('Nije ocijenjeno', style: TextStyle(color: Colors.white, fontSize: 14),),),
+                  const Text('Nije ocijenjeno', style: TextStyle(color: Colors.white, fontSize: 14),),),
                   widget.submittedHomework != null ?
                   ListTile(
                     dense: true,
                     textColor: Colors.black87,
                     horizontalTitleGap: 4,
                     leading: Image.asset('assets/images/${getExtensionFromFirebaseURL(widget.submittedHomework!.documentURL!)}-logo.png', height: 28),
-                    title: Text('Vaša predana zadaća', style: const TextStyle(color: Colors.white, fontSize: 16, height: 2),
+                    title: const Text('Vaša predana zadaća', style: TextStyle(color: Colors.white, fontSize: 16, height: 2),
                       softWrap: false,
                       overflow: TextOverflow.ellipsis,),
                     onTap: (){
@@ -305,8 +303,7 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
                       }
                       },
                   ) : Container(),
-                ],),
-                ) : DateTime.now().isAfter(widget.homework.deadline) ? Container(child: Text('Žao nam je.\nRok za predaju zadaće (${formatter.format(widget.homework.deadline.toLocal()).toString() + ' sati'}) je istekao.'),) :
+                ],) : DateTime.now().isAfter(widget.homework.deadline) ? Text('Žao nam je.\nRok za predaju zadaće (${'${formatter.format(widget.homework.deadline.toLocal())} sati'}) je istekao.') :
                 
                 Column(
                   children: [
@@ -331,9 +328,9 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
 
                           var filePath = result.files.single.path!;
                           fileName = result.files.single.name;
-                          String directoryPath = 'files/homeworks/${widget.homework.id}/submittedHomework/${studentID}';
+                          String directoryPath = 'files/homeworks/${widget.homework.id}/submittedHomework/$studentID';
                           var file = File(filePath);
-                          task = await FirebaseStorageService().uploadFile(file, "${directoryPath}/homework_${fileName}");
+                          task = await FirebaseStorageService().uploadFile(file, "$directoryPath/homework_$fileName");
                           setState(() {});
                           var fileUrl = await (await task)?.ref.getDownloadURL();
                           documentURL = fileUrl.toString();
@@ -345,9 +342,9 @@ class _HomeworkClientPageState extends State<HomeworkClientPage> {
                     ),
                     task != null ? buildUploadStatus(task!, fileName)  : Container(),
                     const SizedBox(height: 30,),
-                    Text('Krajnji rok predaje:', style: TextStyle(color: Colors.white,
+                    const Text('Krajnji rok predaje:', style: TextStyle(color: Colors.white,
                         fontWeight: FontWeight.bold, fontSize: 20),),
-                    Text('${formatter.format(widget.homework.deadline.toLocal()).toString() + ' sati'}', style: TextStyle(color: Colors.red[400],
+                    Text('${formatter.format(widget.homework.deadline.toLocal())} sati', style: TextStyle(color: Colors.red[400],
                         fontWeight: FontWeight.bold, fontSize: 20),),
                     const SizedBox(height: 5,),
                     const SizedBox(height: 12,),

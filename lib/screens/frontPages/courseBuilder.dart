@@ -1,20 +1,13 @@
 
-
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/widgets/containers/dividerWidget.dart';
-
 import '../../constants.dart';
 import '../../models.dart';
 import '../../shared/methods/groupingMethods.dart';
-import '../../shared/methods/ungroupedSharedMethods.dart';
 import '../../theme.dart';
 import '../../widgets/widgetsOfContentEditing/sortWidget.dart';
-import '../../widgets/widgetsOfContentEditing/cancelSortIcon.dart';
 import '../../widgets/widgetsOfContentEditing/searchWidget.dart';
-import '../../widgets/widgetsOfContentEditing/selectGroupingWidget.dart';
 import '../course/courseItem.dart';
 
 class CoursesBuilder extends StatefulWidget{
@@ -23,7 +16,7 @@ class CoursesBuilder extends StatefulWidget{
   bool isSearchShown;
   bool isSortShown;
   bool isGroupedActive;
-  CoursesBuilder({this.courses = const [], this.isSearchShown = false, this.isSortShown = false, this.isGroupedActive = true});
+  CoursesBuilder({Key? key, this.courses = const [], this.isSearchShown = false, this.isSortShown = false, this.isGroupedActive = true}) : super(key: key);
 
   @override
   State<CoursesBuilder> createState() => _CoursesBuilderState();
@@ -49,11 +42,10 @@ class _CoursesBuilderState extends State<CoursesBuilder> {
   }
 
   Future init() async {
-
     setState(() {
-      this.allCourses = widget.courses;
-      this.courses = allCourses;
-      this.courseGroupedModels = groupCoursesBySemester(allCourses);});
+      allCourses = widget.courses;
+      courses = allCourses;
+      courseGroupedModels = groupCoursesBySemester(allCourses);});
     sortGroupedCourses(sortParameter, isAscending);
   }
 
@@ -90,59 +82,60 @@ class _CoursesBuilderState extends State<CoursesBuilder> {
           shrinkWrap: true,
           itemCount: courseGroupedModels.length,
           itemBuilder: (_, index) {
-            return Container(
-              child:
-              ExpansionPanelList(
-                animationDuration: Duration(milliseconds: 800),
-                children: [
-                  ExpansionPanel(
-                    backgroundColor: primaryThemeColor,
-                    headerBuilder: (context, isExpanded) {
-                      return ListTile(
-                        title: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${courseGroupedModels[index].groupingByElement}', style: TextStyle(color: Colors.black87, fontSize: 18,
-                                fontWeight: FontWeight.bold), textAlign: TextAlign.left,),
-                            DividerWrapper(padding: EdgeInsets.only(top: 5),),
-                          ],
-                        ),
-                      );
-                    },
-                    body: Container(
-                      padding: EdgeInsets.only(top: 0, bottom: 32),
-                      child: Expanded(
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8.0),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1,
-                            childAspectRatio: 2.0,
-                            mainAxisSpacing: 2.0,
-                            crossAxisSpacing: 10.0,
-                          ),
-                          itemCount: courseGroupedModels[index].courses.length,
-                          itemBuilder: (context, index2) {
-                            final course = courseGroupedModels[index].courses[index2];
-                            return CourseItem(course: course);
-                          },),
+            return ExpansionPanelList(
+              animationDuration: const Duration(milliseconds: 800),
+              children: [
+                ExpansionPanel(
+                  backgroundColor: primaryThemeColor,
+                  headerBuilder: (context, isExpanded) {
+                    return ListTile(
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${courseGroupedModels[index].groupingByElement}', style: const TextStyle(color: Colors.black87, fontSize: 18,
+                              fontWeight: FontWeight.bold), textAlign: TextAlign.left,),
+                          DividerWrapper(padding: EdgeInsets.only(top: 5),),
+                        ],
                       ),
+                    );
+                  },
+                  body: Container(
+                    padding: const EdgeInsets.only(bottom: 32),
+                    child: Row(
+                        children: [
+                          Expanded(
+                            child: GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8.0),
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 1,
+                                childAspectRatio: 2.0,
+                                mainAxisSpacing: 2.0,
+                                crossAxisSpacing: 10.0,
+                              ),
+                              itemCount: courseGroupedModels[index].courses.length,
+                              itemBuilder: (context, index2) {
+                                final course = courseGroupedModels[index].courses[index2];
+                                return CourseItem(course: course);
+                              },),
+                          ),
+                        ]
                     ),
-                    isExpanded: courseGroupedModels[index].isExtended,
-                    canTapOnHeader: true,
                   ),
+                  isExpanded: courseGroupedModels[index].isExtended,
+                  canTapOnHeader: true,
+                ),
 
-                ],
-                dividerColor: Colors.black,
-                expansionCallback: (panelIndex, isExpanded) {
-                  courseGroupedModels[index].isExtended = !courseGroupedModels[index].isExtended;
-                  setState(() {
-                  });
-                },
+              ],
+              dividerColor: Colors.black,
+              expansionCallback: (panelIndex, isExpanded) {
+                courseGroupedModels[index].isExtended = !courseGroupedModels[index].isExtended;
+                setState(() {
+                });
+              },
 
-              ),
             );
           }
       ),
@@ -150,9 +143,10 @@ class _CoursesBuilderState extends State<CoursesBuilder> {
     );
   }
 
+
+  //Grouped
+
   void searchGroupedCourses(String query) {
-
-
     final courses = allCourses.where((course) {
       final titleLower = course.title.toLowerCase();
       final codeLower = course.code.toLowerCase();
@@ -194,7 +188,7 @@ class _CoursesBuilderState extends State<CoursesBuilder> {
 
       setState(() {
         int index = courseGroupedModels.indexOf(courseModel);
-        courseGroupedModels[index]..courses = courses;
+        courseGroupedModels[index].courses = courses;
       });
     }
   }

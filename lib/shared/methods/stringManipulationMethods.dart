@@ -18,8 +18,7 @@ String getTimeDifference(DateTime firstDate, DateTime secondDate){
   int hours = timeDifference.inHours - timeDifference.inDays * 24;
   int minutes = timeDifference.inMinutes - timeDifference.inHours * 60;
   int seconds = timeDifference.inSeconds - timeDifference.inMinutes * 60;
-  return days.toString() + (days == 1 ? ' dan ' : ' dana ') + hours.toString() + (hours == 1 ? ' sat ' : hours <= 4 ? ' sata ' : ' sati ' ) +
-      minutes.toString() + ' min ' + seconds.toString() + (seconds == 1 ? ' sekunda ' : seconds <= 4 ? ' sekunde ' : ' sekundi ' );
+  return '$days${days == 1 ? ' dan ' : ' dana '}$hours${hours == 1 ? ' sat ' : hours <= 4 ? ' sata ' : ' sati '}$minutes min $seconds${seconds == 1 ? ' sekunda ' : seconds <= 4 ? ' sekunde ' : ' sekundi '}';
 }
 
 

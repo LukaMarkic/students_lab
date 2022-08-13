@@ -12,13 +12,13 @@ class DividerWrapper extends StatelessWidget{
   double height;
   double? thickness;
 
-  DividerWrapper({
+  DividerWrapper({Key? key,
     this.dividerColor = primaryDividerColor,
     this.padding = EdgeInsets.zero,
     this.margin = EdgeInsets.zero,
     this.height = 2.5,
     this.thickness
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

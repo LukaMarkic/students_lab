@@ -23,9 +23,9 @@ class RoundedSelectYear extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.school, color: buttonColor,),
+          const Icon(Icons.school, color: buttonColor,),
           ConstrainedBox(
-            constraints: new BoxConstraints(
+            constraints: const BoxConstraints(
               maxWidth: 140.0,
             ),
             child: Text(

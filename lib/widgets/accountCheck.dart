@@ -13,13 +13,13 @@ class DoesntHaveAccountWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
+        const Text(
           "Nemate račun? ",
           style: TextStyle(color: keyPrimaryColor),
         ),
         GestureDetector(
           onTap: press,
-          child: Text(
+          child: const Text(
            "Stvorite račun",
             style: TextStyle(
               color: keyPrimaryColor,

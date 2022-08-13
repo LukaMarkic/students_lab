@@ -1,11 +1,5 @@
 
-
-
-
-
 import 'package:flutter/material.dart';
-import 'package:students_lab/services/database/quizService.dart';
-import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import '../../../models.dart';
 import '../../../services/auth.dart';
 import '../../../services/database/courseService.dart';
@@ -14,25 +8,25 @@ import '../../../services/notificationService.dart';
 import '../../../shared/methods/navigationMethods.dart';
 import '../../../widgets/alertWindow.dart';
 import '../../quiz/quizPreview.dart';
-import '../courseItem.dart';
 import 'futureSegmentsBuild.dart';
 
 class QuizBuild extends StatelessWidget{
 
-  Segment segment;
-  String courseCode;
-  QuizBuild({
+  final Segment segment;
+  final String courseCode;
+
+  const QuizBuild({Key? key,
     required this.segment,
     required this.courseCode,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<QuizSegmentModel>? models = <QuizSegmentModel>[];
     if(segment.quizSegmentModels != null){
-      segment.quizSegmentModels!.forEach((model) {
+      for (var model in segment.quizSegmentModels!) {
         models.add(QuizSegmentModel.fromJson(model));
-      });
+      }
     }
 
     return ListView.builder(
@@ -44,8 +38,8 @@ class QuizBuild extends StatelessWidget{
             dense: true,
             textColor: Colors.black87,
             horizontalTitleGap: 4,
-            leading: Icon(Icons.quiz_outlined, color: Colors.blueGrey,),
-            title: Text(models[index].title, style: TextStyle(fontSize: 16, height: 2, color: Colors.black54),
+            leading: const Icon(Icons.quiz_outlined, color: Colors.blueGrey,),
+            title: Text(models[index].title, style: const TextStyle(fontSize: 16, height: 2, color: Colors.black54),
               softWrap: false,
               overflow: TextOverflow.fade,),
             onTap: () async {
@@ -66,27 +60,27 @@ class QuizBuild extends StatelessWidget{
 class ProviderQuizBuild extends StatelessWidget{
 
 
-  Course course;
-  Segment segment;
-  bool isEditableState;
+  final Course course;
+  final Segment segment;
+  final bool isEditableState;
 
 
-  ProviderQuizBuild({
+  const ProviderQuizBuild({Key? key,
 
     required this.course,
     required this.segment,
     this.isEditableState = false,
 
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     List<QuizSegmentModel>? models = <QuizSegmentModel>[];
     if(segment.quizSegmentModels != null){
-      segment.quizSegmentModels!.forEach((model) {
+      for (var model in segment.quizSegmentModels!) {
         models.add(QuizSegmentModel.fromJson(model));
-      });
+      }
     }
 
     return ListView.builder(
@@ -98,10 +92,10 @@ class ProviderQuizBuild extends StatelessWidget{
             dense: true,
             textColor: Colors.black87,
             horizontalTitleGap: 4,
-            leading: Icon(Icons.quiz_outlined, color: Colors.blueGrey,),
+            leading: const Icon(Icons.quiz_outlined, color: Colors.blueGrey,),
             title: Text(models[index].title, style: TextStyle(fontSize: 16, height: 2, color: models[index].isVisible ? Colors.black54 : Colors.grey),
-              softWrap: false,
-              overflow: TextOverflow.fade,),
+              softWrap: true,
+              ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -113,30 +107,23 @@ class ProviderQuizBuild extends StatelessWidget{
                   await CourseService().updateQuizModels(course.code, segment.code, models);
                   goToPage(context: context, page: FutureSegmentsBuild(course: course,));
                 },
-                  icon: models[index].isVisible ? Icon(Icons.visibility, color: Colors.green,) : Icon(Icons.visibility_off, color: Colors.blueGrey,),
+                  icon: models[index].isVisible ? const Icon(Icons.visibility, color: Colors.green,) : const Icon(Icons.visibility_off, color: Colors.blueGrey,),
                   tooltip: 'Učini vidljivog',
                 ),
 
                 isEditableState ?  IconButton(
                   onPressed: (){
-                    QuizService quizService = QuizService();
-                    showAlertWindow(context, 'Želite li izbrisati: ' + models[index].title, () async {
+                    showAlertWindow(context, 'Želite li izbrisati: ${models[index].title}', () async {
                       Navigator.of(context).pop();
 
                       //Remove model
                       await CourseService().removeQuizModelFromCourseSegment(course.code, segment.code, models[index]);
 
-                      //Delete quiz with questions
-                      await quizService.removeQuiz(models[index].quizID);
-
-                      //Delete grades of all students
-                      await quizService.deleteActivityMarkOfStudentsEnrolledInCourse(course.code, segment.code, models[index].quizID);
-
                       goToPage(context: context, page: FutureSegmentsBuild(course: course));
                     },
                   );
                 },
-                  icon: Icon(Icons.highlight_remove, color: Colors.lightBlueAccent,),
+                  icon: const Icon(Icons.highlight_remove, color: Colors.lightBlueAccent,),
                   tooltip: 'Ukloni kviz',
                 ) : Column(mainAxisSize: MainAxisSize.min,),
               ],),

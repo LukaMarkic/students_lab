@@ -20,9 +20,8 @@ class _CreateSegmentForm extends State<CreateSegmentForm> with SingleTickerProvi
   String courseCode = '000XXX';
   String title = '';
   String segmentCode = '0_XX';
-  List<String> documentURLs = <String>[];
   late Segment segment;
-  CourseService _courseService = CourseService();
+  final CourseService _courseService = CourseService();
 
 
   @override
@@ -33,7 +32,7 @@ class _CreateSegmentForm extends State<CreateSegmentForm> with SingleTickerProvi
     return Scaffold(
       backgroundColor: adminColorTheme,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Obrazac - Stvori kolegij",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -76,12 +75,9 @@ class _CreateSegmentForm extends State<CreateSegmentForm> with SingleTickerProvi
                 },
               ),
 
-
               RoundedButton(
                 text: "Stvori segment",
                 press: () async {
-                  documentURLs.add('https://firebasestorage.googleapis.com/v0/b/students-lab-lm.appspot.com/o/203PRO%2Fphotos%2Fcover%2FcurrentCover?alt=media&token=39d2079d-f68f-4bdb-917c-8ad47b3966f3');
-                  documentURLs.add('https://firebasestorage.googleapis.com/v0/b/students-lab-lm.appspot.com/o/503OAU%2Fphotos%2Fcover%2FcurrentCover?alt=media&token=3c480ec8-09ad-481c-9a45-87b1bc90efc8');
                   segment = Segment(title: title, code: segmentCode);
                   _courseService.addSegmentToCourse(courseCode, segment);
                 },
@@ -96,5 +92,4 @@ class _CreateSegmentForm extends State<CreateSegmentForm> with SingleTickerProvi
       ),
     );
   }
-
 }

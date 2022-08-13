@@ -45,7 +45,7 @@ class _DropdownOptionsButtonState extends State<DropdownOptionsButton> {
                   child: buildItem(item),
                 ),
           ),
-          DropdownMenuItem<Divider>(enabled: false, child: Divider()),
+          const DropdownMenuItem<Divider>(enabled: false, child: Divider()),
           ...secondItems.map(
                 (item) =>
                 DropdownMenuItem<DropdownItem>(
@@ -77,7 +77,7 @@ class _DropdownOptionsButtonState extends State<DropdownOptionsButton> {
         ),
 
         ConstrainedBox(
-          constraints: new BoxConstraints(
+          constraints: const BoxConstraints(
             maxWidth: 110.0,
           ),
           child: Text(

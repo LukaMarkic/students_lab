@@ -1,18 +1,13 @@
 
-
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
 import '../../constants.dart';
 import '../../models.dart';
 import '../../services/auth.dart';
-import '../../services/database/courseService.dart';
 import '../../services/database/profileService.dart';
 import '../../services/notificationService.dart';
 import '../../shared/bottomBar.dart';
 import '../../shared/methods/navigationMethods.dart';
-import '../../shared/methods/ungroupedSharedMethods.dart';
 import '../../widgets/widgetsOfContentEditing/cancelSortIcon.dart';
 import '../../widgets/buttons/dropdownOptionsButton.dart';
 import 'courseBuilder.dart';
@@ -79,22 +74,22 @@ class _StudentFrontPageState extends State<StudentFrontPage> with SingleTickerPr
       backgroundColor: primaryThemeColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Početna"),
+        title: const Text("Početna"),
         actions: [
           DropdownOptionsButton(menuItems: firstItems,
             onChange: onChange,
           ),
-          SizedBox(width: 10,),
+          const SizedBox(width: 10,),
         ],
         backgroundColor: Colors.lightBlueAccent,
         bottom: TabBar(
           unselectedLabelColor: Colors.white60,
           labelColor: Colors.white,
-          labelStyle: TextStyle(fontWeight: FontWeight.bold),
-          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
           indicatorColor: Colors.white,
           controller: _tabController,
-          tabs: [
+          tabs: const [
             Tab(
               text: "Moji kolegiji",
             ),

@@ -8,6 +8,7 @@ import 'package:students_lab/services/database/profileService.dart';
 import 'package:students_lab/services/database/quizService.dart';
 import 'package:students_lab/services/database/storageServices.dart';
 import '../../constants.dart';
+import 'calendarService.dart';
 import 'homeworkService.dart';
 
 
@@ -280,14 +281,19 @@ class CourseService{
 
     Future<void> removeQuizModelFromCourseSegment(String courseCode, String segmentCode, QuizSegmentModel quizModel)async {
 
+      //Remove quiz with questions
       QuizService().removeQuiz(quizModel.quizID);
+
+      //Remove model
       Map<String, dynamic> data = quizModel.toJson();
       var ref = collectionReference.doc(courseCode).collection('segments').doc(segmentCode);
       ref.update({
         'quizSegmentModels': FieldValue.arrayRemove([data]),
       });
+
+      //Remove quiz mark
       var studentIDs = await GradeService().getAllStudentIDsWithSpecificActivityMark(courseCode, segmentCode, quizModel.quizID);
-      if(studentIDs.length > 0){
+      if(studentIDs.isNotEmpty){
         for(var studentID in studentIDs){
           GradeService().deleteActivityMark(studentID, courseCode, segmentCode, quizModel.quizID);
         }
@@ -320,18 +326,26 @@ class CourseService{
 
     Future<void> removeHomeworkModelFromCourseSegment(String courseCode, String segmentCode, HomeworkSegmentModel homeworkSegmentModel)async {
 
+      //Remove homework
       HomeworkService().removeHomework(homeworkSegmentModel.homeworkID);
+
+      //Remove model from segment
       Map<String, dynamic> data = homeworkSegmentModel.toJson();
       var ref = collectionReference.doc(courseCode).collection('segments').doc(segmentCode);
       ref.update({
         'homeworkSegmentModels': FieldValue.arrayRemove([data]),
       });
+
+      //Remove homework mark
       var studentIDs = await GradeService().getAllStudentIDsWithSpecificActivityMark(courseCode, segmentCode, homeworkSegmentModel.homeworkID);
-      if(studentIDs.length > 0){
+      if(studentIDs.isNotEmpty){
         for(var studentID in studentIDs){
           GradeService().deleteActivityMark(studentID, courseCode, segmentCode, homeworkSegmentModel.homeworkID);
         }
       }
+
+      //Remove event
+      CalendarService().removeEventForAllClients(homeworkSegmentModel.homeworkID);
     }
 
     Future<void> updateHomeworkModels(String courseCode, String segmentCode, List<HomeworkSegmentModel> homeworkModels)async {

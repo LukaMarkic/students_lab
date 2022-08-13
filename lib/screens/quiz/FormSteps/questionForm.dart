@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:students_lab/screens/quiz/FormSteps/quizFormSteps.dart';
 import 'package:students_lab/widgets/buttons/addButtonWidget.dart';
-
 import '../../../models.dart';
-import '../../../shared/methods/ungroupedSharedMethods.dart';
+
 
 
 class QuestionForm extends StatefulWidget {
@@ -39,7 +37,7 @@ class _QuestionFormState extends State<QuestionForm> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 6),
       child: Material(
       clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.circular(8),
@@ -48,7 +46,7 @@ class _QuestionFormState extends State<QuestionForm> {
         child: Form(
           key: widget.formKey,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.all(Radius.circular(12)),
 
@@ -62,7 +60,7 @@ class _QuestionFormState extends State<QuestionForm> {
                   children: [
                     Text(
                       "Pitanje ${widget.index}",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: Colors.amber
@@ -76,7 +74,7 @@ class _QuestionFormState extends State<QuestionForm> {
                               setState(() {
                                 widget.question.questionField = "";
                                 widget._titleController.clear();
-                                widget._answerControllers.forEach((element) {element.clear();});
+                                for (var element in widget._answerControllers) {element.clear();}
                                 widget.question.answers = [Answer().toJson(), Answer().toJson()];
                               });
                             },
@@ -88,7 +86,7 @@ class _QuestionFormState extends State<QuestionForm> {
                             onPressed: () {
                              widget.onRemove();
                             },
-                            child: Text(
+                            child: const Text(
                               "Ukloni",
                               style: TextStyle(color: Colors.blue),
                             )),
@@ -102,17 +100,17 @@ class _QuestionFormState extends State<QuestionForm> {
                   // initialValue: widget.contactModel.name,
                   onChanged: (value) => widget.question.questionField = value,
                   onSaved: (value) => widget.question.questionField = value!,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.symmetric(horizontal: 12),
                     border: OutlineInputBorder(),
                     hintText: "Unesite pitanje",
                     labelText: "Pitanje",
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
-                Padding(padding: EdgeInsets.only(top: 2),
+                Padding(padding: const EdgeInsets.only(top: 2),
                   child:  ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -172,7 +170,7 @@ class _QuestionFormState extends State<QuestionForm> {
                               temp.isRight = true;
                               widget.question.answers[_correctIndex] = temp.toJson();
                             });
-                          }, icon: Icon(
+                          }, icon: const Icon(
                             Icons.check_circle_outline,
                             color: Colors.grey,
                           ),)

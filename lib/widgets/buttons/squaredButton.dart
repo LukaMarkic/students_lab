@@ -1,6 +1,4 @@
 
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 
@@ -31,12 +29,12 @@ class SquaredButton extends StatelessWidget {
       width: MediaQuery.of(context).size.width * widthRatio,
       margin: margin,
       child: ElevatedButton(onPressed: press,
-        child: Text(text, style: TextStyle(color: textColor),),
         style: ElevatedButton.styleFrom(
             primary: color,
             padding: EdgeInsets.symmetric(horizontal: paddingHorizontal, vertical: paddingVertical),
             textStyle: TextStyle(
                 color: textColor, fontSize: 14, fontWeight: FontWeight.w500)),
+        child: Text(text, style: TextStyle(color: textColor),),
       ),
     );
   }

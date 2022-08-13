@@ -1,12 +1,7 @@
 
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:students_lab/screens/profile.dart';
-import 'package:students_lab/services/database/courseService.dart';
-import 'package:students_lab/services/database/gradeService.dart';
 import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import 'package:students_lab/widgets/containers/dividerWidget.dart';
 import 'package:students_lab/widgets/profilePhoto.dart';
@@ -18,17 +13,14 @@ import '../../shared/methods/stringManipulationMethods.dart';
 import '../../theme.dart';
 
 
-
-
-
 class FutureStudentDirectoryPage extends StatefulWidget{
 
   ProfileStudent student;
   List<String> professorCourseCodes;
-  FutureStudentDirectoryPage({
+  FutureStudentDirectoryPage({Key? key,
     required this.student,
     this.professorCourseCodes = const [],
-  });
+  }) : super(key: key);
 
   @override
   State<FutureStudentDirectoryPage> createState() => _FutureStudentDirectoryPageState();
@@ -50,9 +42,7 @@ class _FutureStudentDirectoryPageState extends State<FutureStudentDirectoryPage>
             );
           }
           else {
-
             List<CourseStudentDirectoryModel> courseStudentModels = snapshot.data;
-
             return StudentDirectoryPage(student: widget.student, courseStudentModels: courseStudentModels,);
           }
         }
@@ -93,20 +83,20 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 5),
+                          padding: const EdgeInsets.symmetric(vertical: 5),
                           child: Row(
                             children: [
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               ProfilePhotoOval(imageURL: widget.student.imgURL, width: 80, height: 80,),
                               Container(
-                                padding: EdgeInsets.only(left: 5),
+                                padding: const EdgeInsets.only(left: 5),
                                 child: ProfileNameInfo(profileUser: widget.student, email: widget.student.email,),),
                             ],
                           ),
                         ),
-                        Padding(padding: EdgeInsets.symmetric(horizontal: 10),child: Divider(height: 5, color: primaryDividerColor,),),
+                        const Padding(padding: EdgeInsets.symmetric(horizontal: 10),child: Divider(height: 5, color: primaryDividerColor,),),
                         Container(
-                          padding: EdgeInsets.only(left: 10, top: 10, bottom: 5),
+                          padding: const EdgeInsets.only(left: 10, top: 10, bottom: 5),
                           child: IntrinsicHeight(child:
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -115,7 +105,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                                 Icons.today, color: Color(0Xff0286bf),
                                 size: 28,),
                               const SizedBox(width: 10),
-                              Text('${getTimeFormat(widget.student.birthDate)}',
+                              Text(getTimeFormat(widget.student.birthDate),
                                 style: GoogleFonts.oswald( textStyle: const TextStyle(
                                   fontSize: 18.0, color: Colors.black54,),
                                 ),
@@ -140,7 +130,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -150,18 +140,18 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                           child: Column(
                             children: [
                               Container(
-                                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(widget.courseStudentModels[indexOne].title, style: const TextStyle( fontSize: 16,
                                         fontWeight: FontWeight.bold, color: Colors.black87),),
-                                    Text( '${roundToSecondDecimal(widget.courseStudentModels[indexOne].courseGrade ?? 0.0)*100} %',style: TextStyle(color: Colors.black54)),
+                                    Text( '${roundToSecondDecimal(widget.courseStudentModels[indexOne].courseGrade ?? 0.0)*100} %',style: const TextStyle(color: Colors.black54)),
                                   ],
                                 ),
                               ),
-                              DividerWrapper(padding: EdgeInsets.symmetric(horizontal: 10),),
-                              SizedBox(height: 5,),
+                              DividerWrapper(padding: const EdgeInsets.symmetric(horizontal: 10),),
+                              const SizedBox(height: 5,),
                               ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
@@ -169,7 +159,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                                   itemBuilder: (_, indexTwo) {
                                     return
                                       ExpansionPanelList(
-                                        animationDuration: Duration(milliseconds: 800),
+                                        animationDuration: const Duration(milliseconds: 800),
                                         children: [
                                           ExpansionPanel(
                                             headerBuilder: (context, isExpanded) {
@@ -179,24 +169,29 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Text('${widget.courseStudentModels[indexOne].segmentModels[indexTwo].title}', style: TextStyle(color: Colors.black87, fontSize: 15),),
-                                                        Text('${roundToSecondDecimal(widget.courseStudentModels[indexOne].segmentModels[indexTwo].segmentMark ?? 0.0)*100} %',style: TextStyle(color: Colors.black54, fontSize: 12), ),
+                                                        ConstrainedBox(
+                                                          constraints: const BoxConstraints(
+                                                            maxWidth: 140.0,
+                                                          ),
+                                                          child: Text(widget.courseStudentModels[indexOne].segmentModels[indexTwo].title, style: const TextStyle(color: Colors.black87), softWrap: true,),
+                                                        ),
+                                                        Text('${roundToSecondDecimal(widget.courseStudentModels[indexOne].segmentModels[indexTwo].segmentMark ?? 0.0)*100}%',style: const TextStyle(color: Colors.black54, fontSize: 12), ),
                                                       ],
                                                     ),
-                                                    DividerWrapper(padding: EdgeInsets.only(top: 5,),),
+                                                    DividerWrapper(padding: const EdgeInsets.only(top: 5,),),
                                                   ],
                                                 ),
                                               );
                                             },
                                             body: Container(
-                                              padding: EdgeInsets.only(top: 12, bottom: 10),
+                                              padding: const EdgeInsets.only(top: 12, bottom: 10),
                                               child: ListView.builder(
                                                   physics: const NeverScrollableScrollPhysics(),
                                                   shrinkWrap: true,
                                                   itemCount: widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels.length,
                                                   itemBuilder: (_, indexThree) {
                                                     return Card(
-                                                      margin: EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
+                                                      margin: const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
                                                       child: ListTile(
                                                         dense: true,
                                                         leading: Icon(widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].activityType == ActivityType.homework ? Icons.assessment : Icons.quiz_outlined, size: 24),
@@ -205,17 +200,23 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                                                             Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
-                                                                Text('${widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].title}', style: TextStyle(color: Colors.black87),),
+                                                                ConstrainedBox(
+                                                                  constraints: const BoxConstraints(
+                                                                    maxWidth: 140.0,
+                                                                  ),
+                                                                  child: Text(widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].title, style: const TextStyle(color: Colors.black87), softWrap: true,),
+                                                                ),
+
 
                                                                 widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].activityType == ActivityType.homework ?
                                                                   widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].isSubmitted ?
                                                                    widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].mark != null ?
-                                                                    Text('${ roundToSecondDecimal(widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].mark ?? 0.0)*100} %', style: TextStyle(color: Colors.black54))
-                                                                    : Text('Nije ocjenjeno', style: TextStyle(color: Colors.lightBlue),) : Text('Nije predano', style: TextStyle(color: Colors.red),) :
+                                                                    Text('${ roundToSecondDecimal(widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].mark ?? 0.0)*100}%', style: const TextStyle(color: Colors.black54), softWrap: true,)
+                                                                    : const Text('Nije ocjenjeno', style: TextStyle(color: Colors.lightBlue),) : const Text('Nije predano', style: TextStyle(color: Colors.red),) :
                                                                 widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].isSubmitted ?
-                                                                Text('${ roundToSecondDecimal(widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].mark ?? 0.0)*100} %', style: TextStyle(color: Colors.black54))
+                                                                Text('${ roundToSecondDecimal(widget.courseStudentModels[indexOne].segmentModels[indexTwo].activityModels[indexThree].mark ?? 0.0)*100}%', style: const TextStyle(color: Colors.black54))
                                                                      :
-                                                                Text('Nije odrađeno', style: TextStyle(color: Colors.red)),
+                                                                const Text('Nije odrađeno', style: TextStyle(color: Colors.red)),
                                                               ],
                                                             ),
                                                           ],
@@ -240,7 +241,7 @@ class _StudentDirectoryPageState extends State<StudentDirectoryPage> {
                         );
                       }
                   ),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                 ],
               ),
             ),

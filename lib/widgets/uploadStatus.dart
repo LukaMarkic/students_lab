@@ -15,11 +15,11 @@ Widget buildUploadStatus(UploadTask task, String fileName) => StreamBuilder<Task
       if(progress == 1){
         Fluttertoast.showToast(
           msg: 'Uspješno preneseno', fontSize: 14,);
-        return Container(child: Text(fileName),);
+        return Text(fileName);
       }
       return Text(
         '$percentage %',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       );
     } else {
       return Container();

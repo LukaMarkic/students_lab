@@ -44,18 +44,18 @@ class _QuizScreenState extends State<QuizScreen> {
   void initState() {
     super.initState();
     _controller = PageController(initialPage: 0);
-    _stopwatch = new Stopwatch()..start();
+    _stopwatch = Stopwatch()..start();
     widget.questions.sort((a, b) => a.index.compareTo(b.index));
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    Timer _timer;
+    Timer timer;
     return Scaffold(
       body:
       Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
         image: DecorationImage(
         image: AssetImage("assets/images/quiz-background.jpg"),
         fit: BoxFit.cover,
@@ -76,7 +76,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 _stopwatch = Stopwatch()..start();
               });
             },
-            physics: new NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               List<Answer> answers = widget.questions[index].answers.map((d) => Answer.fromJson(d)).toList();
               return Column(
@@ -85,7 +85,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
 
                   Container(
-                    margin: EdgeInsets.only(left: 2, right: 6),
+                    margin: const EdgeInsets.only(left: 2, right: 6),
                     width: double.infinity,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,7 +131,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   ),
                       ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           shrinkWrap: true,
                           itemCount: answers.length,
                           itemBuilder: (_, answerIndex) {
@@ -143,7 +143,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               child: RawMaterialButton(
                                 shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(16.0),
-                                              side: BorderSide(color: Colors.black54)
+                                              side: const BorderSide(color: Colors.black54)
                                           ),
                                 fillColor: btnPressed ? (idx == answerIndex) ? (answers[answerIndex].isRight) ? Colors.green : Colors.red : Colors.white : Colors.white,
                                 onPressed: !answered  ? () {
@@ -155,12 +155,12 @@ class _QuizScreenState extends State<QuizScreen> {
                                     btnPressed = true;
                                     answered = true;
                                   });
-                                  _timer = new Timer(const Duration(milliseconds: 100), () {
+                                  timer = Timer(const Duration(milliseconds: 100), () {
                                     Pressed();
                                   });
                                 } : null,
                                 child: Text(answers[answerIndex].answer,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 16.0,
                                     )),
@@ -192,7 +192,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     } else {
       _controller!.nextPage(
-          duration: Duration(milliseconds: 50),
+          duration: const Duration(milliseconds: 50),
           curve: Curves.bounceIn);
 
       setState(() {
@@ -222,7 +222,7 @@ class StartPage extends StatelessWidget {
         
       ),
       body: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
           image: AssetImage("assets/images/quiz-background.jpg"),
           fit: BoxFit.cover,
@@ -232,18 +232,18 @@ class StartPage extends StatelessWidget {
       BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 25,horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 25,horizontal: 10),
           color: Colors.black.withOpacity(0.7),
           child:
 
       Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-                  Text(quiz.title, style: TextStyle(color: Colors.white70, fontSize: 38, fontWeight: FontWeight.bold), ),
+                  Text(quiz.title, style: const TextStyle(color: Colors.white70, fontSize: 38, fontWeight: FontWeight.bold), ),
                   const SizedBox(height: 10,),
                   const Divider(height: 1,color: primaryDividerColor,),
                   const SizedBox(height: 20,),
-                  Expanded( child: Text(quiz.description + "\n\nKviz ima: ${questions.length} ${questions.length == 1 ? 'pitanje' : 'pitanja'}.", style: TextStyle(color: Colors.white, fontSize: 18),)),
+                  Expanded( child: Text("${quiz.description}\n\nKviz ima: ${questions.length} ${questions.length == 1 ? 'pitanje' : 'pitanja'}.", style: const TextStyle(color: Colors.white, fontSize: 18),)),
                   Text('Trajanje: ${quiz.duration} sekundi', style: TextStyle(color: Colors.grey[100]),),
                   const SizedBox(height: 5,),
                   activityMark == null ? RoundedButton(text: 'Započnite provjeru', press: (){
@@ -253,10 +253,10 @@ class StartPage extends StatelessWidget {
                           builder: (context) => QuizScreen(quiz: quiz, questions: questions)),
                           (Route<dynamic> route) => false,
                     );
-                  }) : Container(margin: EdgeInsets.only(top: 25, bottom: 15),
+                  }) : Container(margin: const EdgeInsets.only(top: 25, bottom: 15),
                     child: Column(
                       children: [
-                        Text(getResultTitle(activityMark!.mark!), style: TextStyle(fontSize: 22),),
+                        Text(getResultTitle(activityMark!.mark!), style: const TextStyle(fontSize: 22),),
                         Text('Riješeno s uspijehom od: ${roundToSecondDecimal(activityMark!.mark! *100)} %',
                           style: TextStyle(color: getResultColor(activityMark!.mark!), fontSize: 18),
                         ),
@@ -293,10 +293,10 @@ class ResultPage extends StatelessWidget {
             backgroundColor: Colors.lightBlue.withOpacity(0.3),
             leading: IconButton(onPressed: (){
               goToCoursePage(context);
-            }, icon: Icon(Icons.arrow_back),),
+            }, icon: const Icon(Icons.arrow_back),),
           ),
           body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/quiz-background.jpg"),
                 fit: BoxFit.cover,
@@ -313,24 +313,20 @@ class ResultPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     getResultFeedback(),
-                    SizedBox(
+                    const SizedBox(
                       height: 100.0,
                     ),
-                    Container(
-                      width: 230,
-                      height: 55,
-                      child: TextButton(
+                    TextButton(
+                        onPressed: (){
+                          goToCoursePage(context);
+                        },
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white10)),
                         child: const Text('Vrati se na početnu',
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,),),
-                        onPressed: (){
-                          goToCoursePage(context);
-                        },
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white10)),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -354,21 +350,21 @@ class ResultPage extends StatelessWidget {
         child: Text(
           getResultTitle(achievedScore/(maxScore/1.0)),
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 40.0,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 45.0,
       ),
-      Text(
+      const Text(
         "Vaš rezultat je: ",
         style: TextStyle(color: Colors.white, fontSize: 34.0),
       ),
-      SizedBox(
+      const SizedBox(
         height: 20.0,
       ),
       Text(

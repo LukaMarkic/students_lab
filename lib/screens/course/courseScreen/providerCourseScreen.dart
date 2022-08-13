@@ -3,7 +3,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../models.dart';
 import '../../../services/database/courseService.dart';
 import '../../../shared/methods/navigationMethods.dart';
-import '../../../shared/methods/ungroupedSharedMethods.dart';
 import '../../../widgets/inputs/roundedInput.dart';
 import '../../../widgets/buttons/scalableButton.dart';
 import '../../frontPages/frontpage.dart';
@@ -43,13 +42,14 @@ class _ProviderCourseScreenState extends State<ProviderCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon:Icon(Icons.arrow_back_outlined), onPressed: () { goToPage(context: context, page: FrontPage()); },
+          icon: const Icon(Icons.arrow_back_outlined),
+          onPressed: () {
+            goToPage(context: context, page: const FrontPage());
+          },
         ),
         backgroundColor: Color(widget.course.color).withOpacity(0.9),
         actions: [
@@ -78,7 +78,7 @@ class _ProviderCourseScreenState extends State<ProviderCourseScreen> {
         _isEditableState = !_isEditableState;
       });
     },
-      icon: _isEditableState ? Icon(Icons.cancel) : Icon(Icons.edit),
+      icon: _isEditableState ? const Icon(Icons.cancel) : const Icon(Icons.edit),
       tooltip: _isEditableState ? 'Izađi' : 'Uredi',
     );
   }
@@ -102,7 +102,7 @@ class _ProviderCourseScreenState extends State<ProviderCourseScreen> {
                     onPressed: () async {
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(Icons.cancel_presentation,size: 22,),
+                    icon: const Icon(Icons.cancel_presentation,size: 22,),
                     tooltip: 'Izađi',
                   ),
                 ],
@@ -154,8 +154,8 @@ class _ProviderCourseScreenState extends State<ProviderCourseScreen> {
 class ProvidersSegmentBuild extends StatelessWidget{
   List<Segment>? segments;
   final Course course;
-  bool isEditableState;
-  ProvidersSegmentBuild({Key? key, this.segments, required this.course, this.isEditableState = false});
+  final bool isEditableState;
+  ProvidersSegmentBuild({Key? key, this.segments, required this.course, this.isEditableState = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

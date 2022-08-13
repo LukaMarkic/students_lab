@@ -49,13 +49,13 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
      Step(
        state: _index <= 1 ? StepState.editing : StepState.complete,
        isActive: _index >= 1,
-      title: Text('Pitanja'),
+      title: const Text('Pitanja'),
       content: questionForms()
     ),
      Step(
        state: _index <= 2 ? StepState.editing : StepState.complete,
        isActive: _index >= 2,
-      title: Text('Potvrda'),
+      title: const Text('Potvrda'),
       content: QuizPreviewScreen(quiz: quiz, questions: QuizService().getQuestionsFromQuestionForm(questions),) ,
     ),
   ];
@@ -68,23 +68,21 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
       WillPopScope(
         onWillPop: exitAlert,
         child: Scaffold(
-        appBar: AppBar(title: Text('Kviz obrazac'),),
+        appBar: AppBar(title: const Text('Kviz obrazac'),),
         body:
         BackgroundImageWidget(imagePath: 'assets/images/quiz-background.jpg',
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Stepper(
             controlsBuilder: (BuildContext context, ControlsDetails details){
-              return Container(
-                child: Row(
-                  children: [
-                    TextButton(onPressed: details.onStepContinue, child: Text(_index < 2 ? 'Nastavi' : 'Predaj', style: TextStyle(color: Colors.black),),
-                      style: buttonStepperStyleContinue,
-                    ),
-                    Container(width: 15,),
-                    _index > 0 ? TextButton(onPressed: details.onStepCancel, child: Text('Nazad', style: TextStyle(color: Colors.black)),
-                      style: buttonStepperStyleBack,) : Text(''),
-                  ],
-                ),
+              return Row(
+                children: [
+                  TextButton(onPressed: details.onStepContinue,
+                    style: buttonStepperStyleContinue, child: Text(_index < 2 ? 'Nastavi' : 'Predaj', style: const TextStyle(color: Colors.black),),
+                  ),
+                  Container(width: 15,),
+                  _index > 0 ? TextButton(onPressed: details.onStepCancel,
+                    style: buttonStepperStyleBack, child: const Text('Nazad', style: TextStyle(color: Colors.black)),) : const Text(''),
+                ],
               );
             },
       type: StepperType.horizontal,
@@ -182,49 +180,47 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
 
     var size = MediaQuery.of(context).size;
     return SingleChildScrollView( child:
-    Container(
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            SizedBox(height: 20,),
-            RoundedInputField(
-              validatorMessage: 'Potrijebno unijeti naziv kviza',
-              borderRadius: 5,
-              icon: Icons.title,
-              hintText: "Unesite naziv kviza",
-              onChanged: (value) {
-                setState(
-                        () => quiz.title = value
-                );
-              },
-            ),
-            SizedBox(height: 10,),
-            RoundedInputField(
-              validatorMessage: 'Potrijebno unijeti opis kviza',
-              borderRadius: 5,
-              color: Colors.white,
-              icon: Icons.description,
-              hintText: "Unesite opis kviza",
-              onChanged: (value) {
-                setState(
-                        () => quiz.description = value
-                );
-              },
-            ),
-            SizedBox(height: 5,),
-            RoundedDoubleInputField(
-              icon: Icons.timelapse_outlined,
-              hintText: "Unesite trajanje kviza [sekunde]",
-              onChanged: (value) {
-                setState(
-                        () => quiz.duration = int.parse(value)
-                );
-              },
-            ),
-            SizedBox(height: size.height * 0.1,),
-          ],),),
-    ),
+    Form(
+      key: formKey,
+      child: Column(
+        children: [
+          const SizedBox(height: 20,),
+          RoundedInputField(
+            validatorMessage: 'Potrijebno unijeti naziv kviza',
+            borderRadius: 5,
+            icon: Icons.title,
+            hintText: "Unesite naziv kviza",
+            onChanged: (value) {
+              setState(
+                      () => quiz.title = value
+              );
+            },
+          ),
+          const SizedBox(height: 10,),
+          RoundedInputField(
+            validatorMessage: 'Potrijebno unijeti opis kviza',
+            borderRadius: 5,
+            color: Colors.white,
+            icon: Icons.description,
+            hintText: "Unesite opis kviza",
+            onChanged: (value) {
+              setState(
+                      () => quiz.description = value
+              );
+            },
+          ),
+          const SizedBox(height: 5,),
+          RoundedDoubleInputField(
+            icon: Icons.timelapse_outlined,
+            hintText: "Unesite trajanje kviza [sekunde]",
+            onChanged: (value) {
+              setState(
+                      () => quiz.duration = int.parse(value)
+              );
+            },
+          ),
+          SizedBox(height: size.height * 0.1,),
+        ],),),
     );
   }
 
@@ -240,7 +236,7 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
     Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 12),
+          margin: const EdgeInsets.only(bottom: 12),
           child: questions.length <= 0 ?
           Center(
             child:
@@ -251,13 +247,13 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
                 shadowColor: Colors.white,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Text('Potrebno dodati pitanje', style: TextStyle( color: Colors.amber, fontWeight: FontWeight.bold),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: const Text('Potrebno dodati pitanje', style: TextStyle( color: Colors.amber, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,),),
                 ),
               )
               : ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: questions.length,
             itemBuilder: (_, i) {
@@ -268,15 +264,15 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
           ),
         ),
         AddButton(message: 'Dodaj pitanje', onPress: onAddForm,buttonColor: Colors.greenAccent, contentColor: Colors.black87,),
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
       ],),
     );
   }
 
-  void onDelete(Question _question) {
+  void onDelete(Question question) {
     setState(() {
       int index = questions
-          .indexWhere((element) => element.question.id == _question.id);
+          .indexWhere((element) => element.question.id == question.id);
       if (questions.isNotEmpty) {
         questions.removeAt(index);
       }
@@ -288,11 +284,11 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
     setState(() {
       var rand = getRandomString(8);
       List<Map<String, dynamic>> answers = <Map<String, dynamic>>[Answer().toJson(), Answer().toJson()];
-      var _question = Question(id: rand, index: questions.length, answers: answers);
+      var question = Question(id: rand, index: questions.length, answers: answers);
       questions.add(QuestionForm(
         index: questions.length,
-        question: _question,
-        onRemove: () => onDelete(_question),
+        question: question,
+        onRemove: () => onDelete(question),
       ));
     });
   }
@@ -300,7 +296,9 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
 
   bool isAllQuestionFormsValidated(){
     var allValid = true;
-    questions.forEach((element) => allValid = (allValid && element.isValidated()));
+    for (var element in questions) {
+      allValid = (allValid && element.isValidated());
+    }
     return allValid;
   }
 
@@ -329,8 +327,8 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
                 Navigator.pop(context, false);
 
               },
-              child: const Text('Ne', style: TextStyle(color: Colors.black)),
               style: buttonStepperStyleBack,
+              child: const Text('Ne', style: TextStyle(color: Colors.black)),
             ),
           ],
         );

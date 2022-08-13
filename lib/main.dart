@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
               ],
               locale: const Locale('hr'),
               debugShowCheckedModeBanner: false,
-              home: HomeScreen(),
+              home: const HomeScreen(),
               theme: appTheme,
           );
         }

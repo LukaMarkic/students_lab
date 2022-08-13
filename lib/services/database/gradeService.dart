@@ -158,12 +158,12 @@ class GradeService {
       return null;
     } else {
       int length = 0;
-      activityMarks.forEach((activityMark) {
+      for (var activityMark in activityMarks) {
         if(activityMark.mark != null){
           sum += activityMark.mark!;
           length++;
         }
-      });
+      }
       if(length == 0){
         return null;
       }else{
@@ -192,7 +192,7 @@ class GradeService {
           sum += segmentMark.mark!;
           length++;
         }
-      };
+      }
       if(length == 0){
         return null;
       }else{

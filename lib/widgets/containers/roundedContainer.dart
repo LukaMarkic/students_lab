@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RoundedContainer extends StatelessWidget{
@@ -14,7 +13,7 @@ class RoundedContainer extends StatelessWidget{
   double borderWidth;
   Alignment? alignment;
 
-  RoundedContainer({
+  RoundedContainer({Key? key,
     this.backgroundColor = Colors.white,
     this.margin = EdgeInsets.zero,
     this.padding = const EdgeInsets.symmetric( horizontal: 10, vertical: 15),
@@ -24,7 +23,7 @@ class RoundedContainer extends StatelessWidget{
     this.borderColor = Colors.black,
     this.borderWidth = 0,
     this.alignment,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

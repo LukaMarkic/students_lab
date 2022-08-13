@@ -1,7 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:students_lab/screens/frontPages/frontpage.dart';
 import 'package:students_lab/screens/quiz/quizScreen.dart';
 import 'package:students_lab/widgets/containers/roundedContainer.dart';
 import '../../constants.dart';
@@ -13,13 +11,12 @@ import '../../services/database/quizService.dart';
 
 class QuizPreviewScreen extends StatefulWidget {
 
-
   Quiz? quiz;
   List<Question>? questions;
-  QuizPreviewScreen({
+  QuizPreviewScreen({Key? key,
     this.quiz,
     this.questions,
-  });
+  }) : super(key: key);
   @override
   _QuizPreviewScreenState createState() => _QuizPreviewScreenState();
 }
@@ -42,74 +39,72 @@ class _QuizPreviewScreenState extends State<QuizPreviewScreen> {
               child: Center(
                 child: Column(
                   children: [
-                    Text('${widget.quiz?.title}', style: TextStyle(color: Colors.black,fontSize: 22),),
-                    Text('${widget.quiz?.description}', style: TextStyle(color: Colors.black87,fontSize: 12),),
-                    Text('${widget.quiz?.duration} sekundi', style: TextStyle(color: Colors.black54,fontSize: 11),),
+                    Text('${widget.quiz?.title}', style: const TextStyle(color: Colors.black,fontSize: 22),),
+                    Text('${widget.quiz?.description}', style: const TextStyle(color: Colors.black87,fontSize: 12),),
+                    Text('${widget.quiz?.duration} sekundi', style: const TextStyle(color: Colors.black54,fontSize: 11),),
                   ],
                 ),
               ),
             ),
 
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
 
-            Container(
-              child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: widget.questions?.length ?? 0,
-              itemBuilder: (_, questionIndex) {
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 15),
-                  elevation: 5,
-                  color: Colors.white,
-                  clipBehavior: Clip.antiAlias,
-                  child:  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${questionIndex + 1 }.  ${widget.questions![questionIndex].questionField}', style: TextStyle(color: Colors.black87, fontSize: 16),),
-                        const Divider(
-                          color: primaryDividerColor,
-                          thickness: 1.5,
-                        ),
-                        ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            shrinkWrap: true,
-                            itemCount: widget.questions?[questionIndex].answers.length ?? 0,
-                            itemBuilder: (_, answerIndex) {
-                              var option = Answer.fromJson(widget.questions![questionIndex].answers[answerIndex]);
-                              return Container(
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(width: 1, color: Colors.black12,),
-                                    left: BorderSide(width: 0.5, color: Colors.black12),
-                                    right: BorderSide(width: 0.5, color: Colors.black12),
-                                    top: BorderSide(width: 0.5, color: Colors.black12,),
-                                  ),
+            ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: widget.questions?.length ?? 0,
+            itemBuilder: (_, questionIndex) {
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 15),
+                elevation: 5,
+                color: Colors.white,
+                clipBehavior: Clip.antiAlias,
+                child:  Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${questionIndex + 1 }.  ${widget.questions![questionIndex].questionField}', style: const TextStyle(color: Colors.black87, fontSize: 16),),
+                      const Divider(
+                        color: primaryDividerColor,
+                        thickness: 1.5,
+                      ),
+                      ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          shrinkWrap: true,
+                          itemCount: widget.questions?[questionIndex].answers.length ?? 0,
+                          itemBuilder: (_, answerIndex) {
+                            var option = Answer.fromJson(widget.questions![questionIndex].answers[answerIndex]);
+                            return Container(
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(width: 1, color: Colors.black12,),
+                                  left: BorderSide(width: 0.5, color: Colors.black12),
+                                  right: BorderSide(width: 0.5, color: Colors.black12),
+                                  top: BorderSide(width: 0.5, color: Colors.black12,),
+                                ),
 
+                              ),
+                              child: ListTile(
+                                title: Text(option.answer, style: const TextStyle(color: Colors.black54, fontSize: 14),),
+                                trailing: option.isRight ?  Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green[700],
+                                ) : const Icon(
+                                  Icons.cancel_outlined,
+                                  color: Colors.red,
                                 ),
-                                child: ListTile(
-                                  title: Text(option.answer, style: const TextStyle(color: Colors.black54, fontSize: 14),),
-                                  trailing: option.isRight ?  Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green[700],
-                                  ) : Icon(
-                                    Icons.cancel_outlined,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                              );
-                            }
-                        ),
-                      ],
-                    ),
+                              ),
+                            );
+                          }
+                      ),
+                    ],
                   ),
-                );
+                ),
+              );
             }
           ),
-            ),
           ],
         ),
     );
@@ -123,7 +118,7 @@ class FutureQuizBuild extends StatelessWidget{
   String quizID;
   bool isProvider;
   ActivityMark? activityMark;
-  FutureQuizBuild({required this.quizID, required this.isProvider, this.activityMark});
+  FutureQuizBuild({Key? key, required this.quizID, required this.isProvider, this.activityMark}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +134,7 @@ class FutureQuizBuild extends StatelessWidget{
           }
           else {
             if(snapshot.data == null){
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             else{
               var quiz = snapshot.data;
@@ -155,7 +150,7 @@ class FutureQuizBuild extends StatelessWidget{
                     }
                     else {
                       if(snapshot.data == null){
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                       else{
                         List<Question> questions = snapshot.data;

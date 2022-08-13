@@ -19,7 +19,7 @@ Future showAlertWindow(BuildContext context, String message, VoidCallback onPres
                       onPressed: () async {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(Icons.cancel_presentation,size: 22, color: Colors.white,),
+                      icon: const Icon(Icons.cancel_presentation,size: 22, color: Colors.white,),
                       tooltip: 'Izađi',
                     ),
                   ],
@@ -27,10 +27,8 @@ Future showAlertWindow(BuildContext context, String message, VoidCallback onPres
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children:[
-                    Container(
-                      child: Text(message, softWrap: false,
-                        overflow: TextOverflow.fade, style: TextStyle(color: Colors.white),) ,
-                    ),
+                    Text(message, softWrap: false,
+                      overflow: TextOverflow.fade, style: const TextStyle(color: Colors.white),),
 
                   ],
                 ),
@@ -39,8 +37,8 @@ Future showAlertWindow(BuildContext context, String message, VoidCallback onPres
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
-                        child: const Text('DA'),
                         onPressed: onPress,
+                        child: const Text('DA'),
                       ),
                       ElevatedButton(
                           child: const Text('NE'),

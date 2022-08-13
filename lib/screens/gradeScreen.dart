@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import 'package:students_lab/widgets/containers/dividerWidget.dart';
@@ -13,11 +12,9 @@ import '../widgets/containers/roundedContainer.dart';
 
 class GradeStatisticPage extends StatefulWidget{
 
-
   List<CourseGradeSegment> courseGradeSegments;
 
-
-  GradeStatisticPage({required this.courseGradeSegments,});
+  GradeStatisticPage({Key? key, required this.courseGradeSegments,}) : super(key: key);
 
   @override
   State<GradeStatisticPage> createState() => _GradeStatisticPageState();
@@ -32,7 +29,7 @@ class _GradeStatisticPageState extends State<GradeStatisticPage> {
     return Scaffold(
       backgroundColor: primaryThemeColor,
       appBar: AppBar(
-        title: Text('Statistički pregled uspješnosti'),
+        title: const Text('Statistički pregled uspješnosti'),
         elevation: 0.0,
         backgroundColor: Colors.blueAccent,
 
@@ -42,59 +39,59 @@ class _GradeStatisticPageState extends State<GradeStatisticPage> {
         Column(
           children: [
 
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             RoundedContainer(
               child: Center(
                 child: Column(
-                  children: [
+                  children: const [
                     Text('Pregled statistike i uspjeha riješenosti', style: TextStyle(color: Colors.black,fontSize: 18),),
                   ],
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Container(
               color: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    Text('Kolegij',style: TextStyle(color: Colors.black, fontSize: 16),),
+                    const Text('Kolegij',style: TextStyle(color: Colors.black, fontSize: 16),),
                     Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: const [
                         Text('Vaša usješnost', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 14),),
                         Text('/(Prosjek)', style: TextStyle(color: Colors.black54, fontSize: 14),),
                       ],
                     ),
                   ],),
-                  DividerWrapper(padding: EdgeInsets.symmetric(vertical: 5),),
+                  DividerWrapper(padding: const EdgeInsets.symmetric(vertical: 5),),
                   ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: widget.courseGradeSegments.length,
                       itemBuilder: (_, courseIndex) {
                         return Card(
-                          margin: EdgeInsets.symmetric(vertical: 5),
+                          margin: const EdgeInsets.symmetric(vertical: 5),
                           elevation: 5,
                           color: Colors.white,
                           clipBehavior: Clip.antiAlias,
                           child:  Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('${widget.courseGradeSegments[courseIndex].title}', style: TextStyle(color: Colors.black, fontSize: 16),),
+                                    Text(widget.courseGradeSegments[courseIndex].title, style: const TextStyle(color: Colors.black, fontSize: 16),),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text('${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].courseGrade! * 100)}', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 14),),
-                                        Text('/(${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].averageCourseGrade! * 100)}).', style: TextStyle(color: Colors.black54, fontSize: 14),),
+                                        Text('${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].courseGrade! * 100)}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 14),),
+                                        Text('/(${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].averageCourseGrade! * 100)}).', style: const TextStyle(color: Colors.black54, fontSize: 14),),
                                       ],
                                     ),
                                   ],),
@@ -104,7 +101,7 @@ class _GradeStatisticPageState extends State<GradeStatisticPage> {
                                 ),
                                 ListView.builder(
                                     physics: const NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.symmetric(horizontal: 5),
+                                    padding: const EdgeInsets.symmetric(horizontal: 5),
                                     shrinkWrap: true,
                                     itemCount: widget.courseGradeSegments[courseIndex].segmentMarkTiles.length,
                                     itemBuilder: (_, markIndex) {
@@ -119,12 +116,12 @@ class _GradeStatisticPageState extends State<GradeStatisticPage> {
 
                                           ),
                                           child: ListTile(
-                                            title: Text(widget.courseGradeSegments[courseIndex].segmentMarkTiles[markIndex].title, style: TextStyle(color: Colors.black54, fontSize: 14),),
+                                            title: Text(widget.courseGradeSegments[courseIndex].segmentMarkTiles[markIndex].title, style: const TextStyle(color: Colors.black54, fontSize: 14),),
                                             trailing:  Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Text('${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].segmentMarkTiles[markIndex].segmentMark ?? 0 * 100)}', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 14),),
-                                                Text('/(${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].segmentMarkTiles[markIndex].averageSegmentMark ?? 0 * 100)}).', style: TextStyle(color: Colors.black54, fontSize: 14),),
+                                                Text('${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].segmentMarkTiles[markIndex].segmentMark ?? 0 * 100)}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 14),),
+                                                Text('/(${roundToSecondDecimal(widget.courseGradeSegments[courseIndex].segmentMarkTiles[markIndex].averageSegmentMark ?? 0 * 100)}).', style: const TextStyle(color: Colors.black54, fontSize: 14),),
                                               ],
                                             ),
                                           )
@@ -155,7 +152,7 @@ class FutureGradeStatisticBuild extends StatelessWidget{
 
   List<String> courseCodes;
 
-  FutureGradeStatisticBuild({required this.courseCodes});
+  FutureGradeStatisticBuild({Key? key, required this.courseCodes}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +168,7 @@ class FutureGradeStatisticBuild extends StatelessWidget{
           }
           else {
             if(snapshot.data == null){
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
             else{
               var courseGradeSegments = snapshot.data;

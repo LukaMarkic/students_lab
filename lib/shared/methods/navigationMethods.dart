@@ -20,7 +20,7 @@ void goToPageWithLastPop({context, page}){
   Navigator.of(context).pop();
   Navigator.pushAndRemoveUntil(
     context,
-    MaterialPageRoute(builder: (context) => FrontPage()),
+    MaterialPageRoute(builder: (context) => const FrontPage()),
     ModalRoute.withName('/'),
   );
   Navigator.of(context).push(

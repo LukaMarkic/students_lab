@@ -1,30 +1,24 @@
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:students_lab/services/database/calendarService.dart';
-import 'package:students_lab/services/database/homeworkService.dart';
-import 'package:students_lab/services/database/quizService.dart';
-import 'package:students_lab/shared/methods/ungroupedSharedMethods.dart';
 import '../../../models.dart';
 import '../../../services/database/courseService.dart';
 import '../../../services/notificationService.dart';
 import '../../../shared/methods/navigationMethods.dart';
 import '../../../widgets/alertWindow.dart';
 import '../../homework/homeworkScreen.dart';
-import '../courseItem.dart';
 import 'futureSegmentsBuild.dart';
 
 
 class HomeworkBuild extends StatelessWidget{
 
-  Course course;
-  Segment segment;
+  final Course course;
+  final Segment segment;
 
-  HomeworkBuild({
+  const HomeworkBuild({Key? key,
     required this.course,
     required this.segment,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +39,7 @@ class HomeworkBuild extends StatelessWidget{
             dense: true,
             textColor: Colors.black87,
             horizontalTitleGap: 4,
-            leading: Icon(Icons.assignment, color: Colors.blueGrey,),
+            leading: const Icon(Icons.assignment, color: Colors.blueGrey,),
             title: Text(models[index].title, style: TextStyle(fontSize: 16, height: 2, color: models[index].isVisible ? Colors.black54 : Colors.grey),
               softWrap: false,
               overflow: TextOverflow.fade,),
@@ -71,27 +65,25 @@ class HomeworkBuild extends StatelessWidget{
 class ProviderHomeworkBuild extends StatelessWidget{
 
 
-  Course course;
-  Segment segment;
-  bool isEditableState;
+  final Course course;
+  final Segment segment;
+  final bool isEditableState;
 
-
-  ProviderHomeworkBuild({
-
+  const ProviderHomeworkBuild({Key? key,
     required this.course,
     required this.segment,
     this.isEditableState = false,
 
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     List<HomeworkSegmentModel>? models = <HomeworkSegmentModel>[];
     if(segment.homeworkSegmentModels != null){
-      segment.homeworkSegmentModels!.forEach((model) {
+      for (var model in segment.homeworkSegmentModels!) {
         models.add(HomeworkSegmentModel.fromJson(model));
-      });
+      }
     }
 
     return ListView.builder(
@@ -103,10 +95,10 @@ class ProviderHomeworkBuild extends StatelessWidget{
             dense: true,
             textColor: Colors.black87,
             horizontalTitleGap: 4,
-            leading: Icon(Icons.assignment, color: Colors.blueGrey,),
+            leading: const Icon(Icons.assignment, color: Colors.blueGrey,),
             title: Text(models[index].title, style: TextStyle(fontSize: 16, height: 2, color: models[index].isVisible ? Colors.black54 : Colors.grey),
-              softWrap: false,
-              overflow: TextOverflow.fade,),
+              softWrap: true,
+              ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -119,31 +111,22 @@ class ProviderHomeworkBuild extends StatelessWidget{
 
                   goToPage(context: context, page: FutureSegmentsBuild(course: course, ));
                 },
-                  icon: models[index].isVisible ? Icon(Icons.visibility, color: Colors.green,) : Icon(Icons.visibility_off, color: Colors.blueGrey,),
-                  tooltip: 'Učini vidljivog',
+                  icon: models[index].isVisible ? const Icon(Icons.visibility, color: Colors.green,) : const Icon(Icons.visibility_off, color: Colors.blueGrey,),
+                  tooltip: !models[index].isVisible ? 'Učini vidljivog' : 'Sakrij',
                 ),
 
                 isEditableState ?  IconButton(onPressed: (){
-                  showAlertWindow(context, 'Želite li izbrisati: ' + models[index].title, () async {
+                  showAlertWindow(context, 'Želite li izbrisati: ${models[index].title}', () async {
                     Navigator.of(context).pop();
 
                     //Remove from segment
                     await CourseService().removeHomeworkModelFromCourseSegment(course.code, segment.code, models[index]);
 
-                    //Delete homework
-                    HomeworkService().removeHomework(models[index].homeworkID);
-
-                    //Delete grades of all students
-                    await QuizService().deleteActivityMarkOfStudentsEnrolledInCourse(course.code, segment.code, models[index].homeworkID);
-
-                    //Remove event
-                    CalendarService().removeEventForAllClients(models[index].homeworkID);
-
                     //Go to course page
                     goToPage(context: context, page: FutureSegmentsBuild(course: course, ));
                   },);
                 },
-                  icon: Icon(Icons.highlight_remove, color: Colors.lightBlueAccent,),
+                  icon: const Icon(Icons.highlight_remove, color: Colors.lightBlueAccent,),
                   tooltip: 'Ukloni zadaću',
                 ) : Column(mainAxisSize: MainAxisSize.min,),
               ],),
