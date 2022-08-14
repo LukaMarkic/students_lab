@@ -137,7 +137,6 @@ class _QuizScreenState extends State<QuizScreen> {
                             width: double.infinity,
                             height: size.height*0.07,
                             margin: const EdgeInsets.only( top: 10.0),
-
                             child: RawMaterialButton(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
                               shape: RoundedRectangleBorder(
