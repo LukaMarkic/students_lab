@@ -141,6 +141,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               margin: const EdgeInsets.only( top: 10.0),
 
                               child: RawMaterialButton(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
                                 shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(16.0),
                                               side: const BorderSide(color: Colors.black54)
@@ -192,7 +193,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     } else {
       _controller!.nextPage(
-          duration: const Duration(milliseconds: 50),
+          duration: const Duration(milliseconds: 100),
           curve: Curves.bounceIn);
 
       setState(() {
@@ -321,7 +322,7 @@ class ResultPage extends StatelessWidget {
                           goToCoursePage(context);
                         },
                         style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white10)),
-                        child: const Text('Vrati se na početnu',
+                        child: const Text('Vrati se na kolegij',
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
