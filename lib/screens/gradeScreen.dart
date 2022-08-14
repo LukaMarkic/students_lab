@@ -179,5 +179,4 @@ class FutureGradeStatisticBuild extends StatelessWidget{
         }
     );
   }
-
 }
