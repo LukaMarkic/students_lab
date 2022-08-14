@@ -312,7 +312,7 @@ class _QuizFormStepsState extends State<QuizFormSteps> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Želite li napustiti obrazac?'),
+          title: const Text('Želite li napustiti obrazac?', textAlign: TextAlign.center,),
           actionsAlignment: MainAxisAlignment.spaceAround,
           actions: [
             TextButton(
