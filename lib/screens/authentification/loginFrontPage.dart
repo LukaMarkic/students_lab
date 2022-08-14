@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: Colors.white.withOpacity(0.95),
-          title: const Text('Želite li napustiti aplikaciju?', style: TextStyle(color: Colors.black),),
+          title: const Text('Želite li napustiti aplikaciju?', style: TextStyle(color: Colors.black), textAlign: TextAlign.center,),
           actionsAlignment: MainAxisAlignment.spaceAround,
           actions: [
             TextButton(
