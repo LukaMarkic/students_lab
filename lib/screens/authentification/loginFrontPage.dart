@@ -45,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 launch('https://www.ferit.unios.hr');
               }, child: const Text('Fakultet elektrotehnike, računarstva i informacijskih tehnologija Osijek (FERIT Osijek)', textAlign: TextAlign.center, style: const TextStyle(color: Colors.black45, fontSize: 16, ),),
               ),
+
               SizedBox(height: size.height * 0.05),
               SizedBox(
                 width: size.width* 0.94,
