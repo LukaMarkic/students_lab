@@ -66,3 +66,13 @@ ButtonStyle buttonStepperStyleBack = ButtonStyle(
   backgroundColor: MaterialStateProperty.all<Color>(stepperColor.withOpacity(0.75)),
   padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 5)),
 );
+
+ButtonStyle buttonExitStyle = ButtonStyle(
+  backgroundColor: MaterialStateProperty.all<Color>(buttonColor),
+  padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 5)),
+);
+
+ButtonStyle buttonNotExitStyle = ButtonStyle(
+  backgroundColor: MaterialStateProperty.all<Color>(buttonColor.withOpacity(0.9)),
+  padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12, vertical: 5)),
+);

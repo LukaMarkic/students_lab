@@ -34,8 +34,9 @@ void goToPageWithLastPop({context, page}){
 
 void signOut(BuildContext context){
   AuthService().signOut();
-  Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => HomeScreen()));
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => const HomeScreen()),
+        (Route<dynamic> route) => false,
+  );
 }
