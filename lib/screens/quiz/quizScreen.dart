@@ -51,7 +51,7 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    Timer timer;
+
     return Scaffold(
       body:
       Container(
@@ -79,99 +79,97 @@ class _QuizScreenState extends State<QuizScreen> {
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               List<Answer> answers = widget.questions[index].answers.map((d) => Answer.fromJson(d)).toList();
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-
-                  Container(
-                    margin: const EdgeInsets.only(left: 2, right: 6),
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${index + 1}/${widget.questions.length}", textAlign: TextAlign.start,
-                          style: GoogleFonts.oswald(textStyle: TextStyle(fontSize: size.height*0.045, color: Colors.white60,),
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 2, right: 6),
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${index + 1}/${widget.questions.length}", textAlign: TextAlign.start,
+                            style: GoogleFonts.oswald(textStyle: TextStyle(fontSize: size.height*0.045, color: Colors.white60,),
+                            ),
                           ),
-                        ),
-                        Container(
-                          height: size.height*0.1,
-                          width: size.height*0.1,
-                          child: CountDownProgressIndicator(
-                            controller: timeController,
-                            valueColor: Colors.redAccent,
-                            strokeWidth: 6,
-                            backgroundColor: Colors.blueGrey,
-                            initialPosition: _passedTime,
-                            duration: widget.quiz.duration,
-                            onComplete: () => Pressed(),
-                            timeTextStyle: TextStyle( fontSize: size.height*0.022, color: Colors.white,),
+                          SizedBox(
+                            height: size.height*0.1,
+                            width: size.height*0.1,
+                            child: CountDownProgressIndicator(
+                              controller: timeController,
+                              valueColor: Colors.redAccent,
+                              strokeWidth: 6,
+                              backgroundColor: Colors.blueGrey,
+                              initialPosition: _passedTime,
+                              duration: widget.quiz.duration,
+                              onComplete: () => Pressed(),
+                              timeTextStyle: TextStyle( fontSize: size.height*0.022, color: Colors.white,),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const Divider( color: Colors.white, thickness: 2.5,),
-                  const SizedBox( height: 10.0,),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      "${widget.questions[index].questionField}",
-                      style: GoogleFonts.oswald(textStyle: const TextStyle(
-                        fontSize: 24.0,
-                        color: Colors.white,
-                      ),
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height*0.15,
-                  ),
-                      ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          shrinkWrap: true,
-                          itemCount: answers.length,
-                          itemBuilder: (_, answerIndex) {
-                            return Container(
-                              width: double.infinity,
-                              height: size.height*0.07,
-                              margin: const EdgeInsets.only( top: 10.0),
 
-                              child: RawMaterialButton(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(16.0),
-                                              side: const BorderSide(color: Colors.black54)
-                                          ),
-                                fillColor: btnPressed ? (idx == answerIndex) ? (answers[answerIndex].isRight) ? Colors.green : Colors.red : Colors.white : Colors.white,
-                                onPressed: !answered  ? () {
-                                  if (answers[answerIndex].isRight) {
-                                    score++;
-                                  }
-                                  idx = answerIndex;
-                                  setState(() {
-                                    btnPressed = true;
-                                    answered = true;
-                                  });
-                                  timer = Timer(const Duration(milliseconds: 100), () {
-                                    Pressed();
-                                  });
-                                } : null,
-                                child: Text(answers[answerIndex].answer,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16.0,
-                                    )),
+                    const Divider( color: Colors.white, thickness: 2.5,),
+                    const SizedBox( height: 10.0,),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        widget.questions[index].questionField,
+                        style: GoogleFonts.oswald(textStyle: const TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.white,
+                        ),
+                        ),
+                      ),
+                    ),
+                    SizedBox( height: size.height*0.15,),
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        shrinkWrap: true,
+                        itemCount: answers.length,
+                        itemBuilder: (_, answerIndex) {
+                          return Container(
+                            width: double.infinity,
+                            height: size.height*0.07,
+                            margin: const EdgeInsets.only( top: 10.0),
+
+                            child: RawMaterialButton(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  side: const BorderSide(color: Colors.black54)
                               ),
-                            );
-                          }
-                      ),
-
-
-                ],
+                              fillColor: btnPressed ? (idx == answerIndex) ? (answers[answerIndex].isRight) ? Colors.green : Colors.red : Colors.white : Colors.white,
+                              onPressed: !answered  ? () {
+                                if (answers[answerIndex].isRight) {
+                                  score++;
+                                }
+                                idx = answerIndex;
+                                setState(() {
+                                  btnPressed = true;
+                                  answered = true;
+                                });
+                                Timer(const Duration(milliseconds: 100), () {
+                                  Pressed();
+                                });
+                              } : null,
+                              child: Text(answers[answerIndex].answer,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                  )),
+                            ),
+                          );
+                        }
+                    ),
+                    const SizedBox( height: 10.0,),
+                  ],
+                ),
               );
             },
             itemCount: widget.questions.length,
