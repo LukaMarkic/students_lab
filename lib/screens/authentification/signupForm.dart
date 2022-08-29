@@ -126,7 +126,7 @@ class _SignupForm extends State<SignupForm> with SingleTickerProviderStateMixin
                       press: () async {
                         setValidateYear();
                         setValidateDate();
-                        if(validate()){
+                        if(validate() && (godinaStudija != null) && (selectedDate != null)){
                           SystemChannels.textInput.invokeMethod('TextInput.hide');
                           var token = await NotificationService().getNotificationToken();
                           ProfileStudent student = ProfileStudent(email: email.trim(), name: name.trim(), surname: surname.trim(), godinaStudija: godinaStudija ?? 1, birthDate: selectedDate ?? defaultTime, token: token);
