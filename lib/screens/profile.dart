@@ -577,7 +577,7 @@ class ProfileNameInfo extends StatelessWidget{
               size: 30,),
             const SizedBox(width: 10),
             Tooltip(
-              message: 'Pošalji elektronsku poštu.',
+              message: 'Pošalji elektroničku poštu.',
               child:
               InkWell(
                 onTap:  ()  {
