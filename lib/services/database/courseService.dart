@@ -66,15 +66,18 @@ class CourseService{
       if(AuthService().user != null){
         String uid = AuthService().user!.uid;
         var codes = await getStudentEnrolledCourseCodes(uid);
-        var ref = _db.collection('courses').where('code',  whereIn: codes);
-        var snapshot = await ref.get();
-        var data = snapshot.docs.map((s) => s.data());
-        var enrolledCourses = data.map((d) => Course.fromJson(d));
-        return enrolledCourses.toList();
+        if(codes.isNotEmpty) {
+          var ref = _db.collection('courses').where('code',  whereIn: codes);
+          var snapshot = await ref.get();
+          var data = snapshot.docs.map((s) => s.data());
+          var enrolledCourses = data.map((d) => Course.fromJson(d));
+          return enrolledCourses.toList();
+        }else{
+          return [];
+        }
       }else{
         return [];
       }
-
     }
 
 
